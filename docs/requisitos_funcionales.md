@@ -1,4 +1,4 @@
-﻿# Requisitos Funcionales
+# Requisitos Funcionales
 
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
 **Versión:** 1.0  
@@ -106,6 +106,20 @@
 **Criterios de Aceptación:**
 - El sistema muestra un mensaje de error sin revelar cuál campo es incorrecto.
 - El usuario puede reintentar el ingreso de sus credenciales.
+
+---
+
+### RF-73 — Gestión y visualización de usuarios
+
+**Descripción:** El sistema deberá permitir al Administrador visualizar la lista de todos los usuarios registrados y restablecer o modificar sus contraseñas. Los empleados no podrán modificar sus propias contraseñas ni las de otros usuarios.  
+**Actor(es):** Administrador  
+**Prioridad:** Alta
+
+**Criterios de Aceptación:**
+- El sistema muestra una tabla con los usuarios registrados (nombre de usuario, rol asignado, estado activo/inactivo y fecha de creación).
+- Solo el Administrador tiene acceso a la vista y acciones de gestión de usuarios.
+- El Administrador puede restablecer la contraseña de cualquier usuario ingresando una nueva clave válida.
+- El sistema no permite que los usuarios con rol Empleado editen contraseñas ni accedan a la administración de cuentas.
 
 ---
 
@@ -455,6 +469,32 @@
 
 ---
 
+### RF-74 — Gestión de catálogos maestros de productos
+
+**Descripción:** El sistema deberá permitir al Administrador gestionar (crear, editar y activar/desactivar) los catálogos maestros de colores, tallas, marcas y categorías. Al registrar o editar un producto en inventario, los usuarios seleccionarán exclusivamente de estas listas predefinidas para evitar errores tipográficos o inconsistencias.  
+**Actor(es):** Administrador  
+**Prioridad:** Alta
+
+**Criterios de Aceptación:**
+- El Administrador gestiona listas independientes para categorías, marcas, colores y tallas con nombre único y estado activo/inactivo.
+- En los formularios de registro y edición de productos, estos atributos se seleccionan de listas desplegables, impidiendo la escritura en texto libre.
+- No se permite eliminar elementos que tengan productos asociados con stock vigente, permitiendo únicamente su desactivación lógica.
+
+---
+
+### RF-75 — Filtros y búsqueda avanzada en inventario
+
+**Descripción:** El sistema deberá proporcionar herramientas de búsqueda y filtros combinables para que el personal consulte y localice productos en el inventario de manera rápida y precisa.  
+**Actor(es):** Administrador, Empleado  
+**Prioridad:** Media
+
+**Criterios de Aceptación:**
+- Permite buscar en tiempo real por nombre, código de barras o código SKU.
+- Permite filtrar simultáneamente por local, categoría, marca, talla, color, rango de precios y estado de stock (disponible, bajo, agotado).
+- Los resultados se actualizan dinámicamente y se incluye una opción para limpiar todos los filtros aplicados.
+
+---
+
 ## Módulo 3 — Registro de Ventas
 
 > Gestiona el proceso de registro de transacciones de venta, incluyendo los productos vendidos, los medios de pago y la sincronización de datos.
@@ -570,6 +610,45 @@
 - Los datos locales se sincronizan automáticamente con la nube al recuperar internet.
 - El sistema muestra el estado actual de la sincronización.
 - No se pierde ningún dato registrado durante el período sin conexión.
+
+---
+
+### RF-76 — Gestión de motivos de anulación de ventas
+
+**Descripción:** El sistema deberá permitir al Administrador gestionar una lista de motivos predefinidos para la anulación de ventas, garantizando que los vendedores seleccionen una causal formal y estandarizada al cancelar una transacción.  
+**Actor(es):** Administrador  
+**Prioridad:** Media
+
+**Criterios de Aceptación:**
+- El Administrador puede crear, editar y desactivar motivos tipificados de anulación (ej. error en digitación, devolución, fallo en medio de pago).
+- Cada motivo cuenta con un nombre descriptivo y estado activo/inactivo.
+- Los motivos inactivos dejan de ofrecerse para nuevas anulaciones pero se conservan en las auditorías históricas.
+
+---
+
+### RF-77 — Anulación de venta con selección de motivo predefinido
+
+**Descripción:** El sistema deberá permitir la anulación controlada de una venta registrada previamente, exigiendo la selección obligatoria de un motivo predefinido por el Administrador. La venta no se eliminará físicamente de la base de datos y su stock se restaurará automáticamente en el inventario del local respectivo.  
+**Actor(es):** Administrador, Empleado  
+**Prioridad:** Alta
+
+**Criterios de Aceptación:**
+- La venta no se elimina de la base de datos; su estado cambia de `COMPLETADA` a `ANULADA`.
+- Para anular es obligatorio seleccionar un motivo de la lista activa (RF-76) y permite agregar una observación complementaria.
+- El sistema ejecuta una transacción atómica que cambia el estado, registra fecha, hora y usuario responsable, y restituye de inmediato el stock al local.
+
+---
+
+### RF-78 — Historial y consulta de ventas
+
+**Descripción:** El sistema deberá permitir consultar el historial completo de ventas realizadas, permitiendo auditar transacciones tanto completadas como anuladas con filtros detallados.  
+**Actor(es):** Administrador, Empleado  
+**Prioridad:** Alta
+
+**Criterios de Aceptación:**
+- Presenta el listado cronológico de ventas con comprobante, fecha/hora, local, vendedor, medio de pago, total y estado.
+- Permite filtrar por rango de fechas, local, vendedor, medio de pago y estado (`COMPLETADA` o `ANULADA`).
+- Permite consultar el detalle de productos de cada venta y, si fue anulada, visualizar el motivo registrado y el responsable.
 
 ---
 
@@ -918,5 +997,18 @@
 **Criterios de Aceptación:**
 - La interfaz es completamente responsive y se adapta a distintos tamaños de pantalla.
 - Las funcionalidades principales del sistema están disponibles y son usables desde dispositivos móviles.
+
+---
+
+### RF-79 — Búsqueda y filtros para clientes en el catálogo digital
+
+**Descripción:** El catálogo digital deberá permitir a los clientes buscar y filtrar prendas mediante múltiples criterios combinados, facilitando encontrar productos y consultar la disponibilidad en cada una de las dos tiendas físicas.  
+**Actor(es):** Cliente  
+**Prioridad:** Alta
+
+**Criterios de Aceptación:**
+- El cliente puede buscar prendas por texto predictivo y filtrar por categoría, color, talla y tienda física.
+- El catálogo muestra con claridad la disponibilidad de stock por local para el producto seleccionado.
+- Las prendas o combinaciones sin stock disponible muestran la etiqueta visual de "Agotado" sin interrumpir la navegación.
 
 ---
