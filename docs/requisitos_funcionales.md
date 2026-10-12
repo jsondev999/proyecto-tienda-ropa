@@ -988,15 +988,16 @@
 
 ---
 
-### RF-72 — Disponible como aplicación móvil
+### RF-72 — Acceso multiplataforma mediante aplicación web responsiva
 
-**Descripción:** El sistema deberá estar optimizado para funcionar correctamente en teléfonos celulares como aplicación móvil.  
+**Descripción:** El sistema se implementará como una aplicación web centralizada y completamente responsiva, accesible desde cualquier navegador estándar en computadoras, laptops, tablets y smartphones, permitiendo a futuro su empaquetado o migración a aplicación de escritorio o app móvil nativa sin rehacer la lógica de negocio.  
 **Actor(es):** Administrador, Empleado, Cliente  
 **Prioridad:** Alta
 
 **Criterios de Aceptación:**
-- La interfaz es completamente responsive y se adapta a distintos tamaños de pantalla.
-- Las funcionalidades principales del sistema están disponibles y son usables desde dispositivos móviles.
+- El sistema opera de manera íntegra desde navegadores modernos sin requerir instalación previa de software en el cliente.
+- La interfaz adapta automáticamente su disposición de elementos, botones y formularios táctiles o de puntero al tamaño de pantalla del dispositivo.
+- La arquitectura desacoplada (Frontend / API Backend) permite reutilizar los servicios si a futuro se empaqueta como app de escritorio o móvil.
 
 ---
 
