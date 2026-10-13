@@ -1,28 +1,13 @@
-# Especificación Textual de Casos de Uso
+# Especificación de Casos de Uso
 
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
 **Versión:** 2.0  
 **Fecha:** 13/10/2026  
-**Documento base:** Guía Metodológica de Requisitos — Primera Fase (Págs. 6 y 8)  
 **Módulos cubiertos:** 5 Módulos del Sistema (CU-01 a CU-15)  
 
 ---
 
-## 📌 1. Estándar de Especificación (Formato Oficial)
-
-Cada caso de uso está documentado siguiendo rigurosamente la estructura metodológica de la cátedra:
-* **Identificador y Nombre:** Código único del caso de uso.
-* **Trazabilidad:** Asociación explícita con las **Necesidades del Negocio (N-XX)** y los **Requisitos Funcionales (RF-XX)**.
-* **Actor Principal y Secundarios:** Roles que interactúan con el caso de uso.
-* **Objetivo / Propósito:** Meta que el actor logra mediante la interacción.
-* **Precondiciones:** Condiciones que deben cumplirse antes de iniciar el caso de uso.
-* **Flujo Principal (Curso Básico):** Secuencia numerada paso a paso de interacción actor-sistema para el escenario de éxito.
-* **Flujos Alternativos:** Caminos alternos, validaciones no superadas o excepciones que alteran el flujo básico.
-* **Postcondición:** Estado en que queda el sistema y los almacenes de datos al finalizar exitosamente.
-
----
-
-## 📋 2. Índice General de Casos de Uso por Módulo
+## 📋 1. Índice General de Casos de Uso por Módulo
 
 | ID | Nombre del Caso de Uso | Actor(es) | Requisitos Vinculados | Necesidad |
 |---|---|---|---|---|
