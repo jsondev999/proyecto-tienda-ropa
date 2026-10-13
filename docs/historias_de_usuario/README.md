@@ -9,6 +9,7 @@ Este directorio contiene las **18 Historias de Usuario (HU)** formales del siste
 ```
 docs/historias_de_usuario/
 ├── README.md                                 ← Índice general y estándar de especificación
+├── matriz_tasks_sprint_backlog.md            ← Desglose de tareas técnicas por Sprint (Tasks de desarrollo)
 ├── EP-01_seguridad_acceso.md                 ← HU-01, HU-02
 ├── EP-02_catalogo_prendas.md                 ← HU-03, HU-04, HU-05
 ├── EP-03_inventario_kardex_compras.md        ← HU-06, HU-07, HU-08
