@@ -241,7 +241,7 @@ Medios de pago aplicados a cada venta (soporta pagos divididos).
 ### 2.14 Tabla: `ajustes_inventario`
 Auditoría y trazabilidad de ajustes manuales de stock efectuados por el Administrador.
 
-| Nombre del Atributo | Tipo de Dato | Claves | Nulabilidad | Descripción y Propósito |
+| Nombre del Atributo | Tipo de Dato |  Claves | Nulabilidad | Descripción y Propósito |
 |---|---|---|---|---|
 | `id` | `BIGINT UNSIGNED AUTO_INCREMENT` | PK | NOT NULL | Identificador único del ajuste de stock. |
 | `local_id` | `BIGINT UNSIGNED` | FK | NOT NULL | Local donde se realizó la corrección física de stock. |
