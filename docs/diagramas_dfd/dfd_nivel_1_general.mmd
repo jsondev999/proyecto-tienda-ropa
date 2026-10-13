@@ -1,0 +1,70 @@
+%% Diagrama de Flujo de Datos - Nivel 1 (Procesos Principales)
+%% Proyecto: Sistema de Gestión — Tienda de Ropa para Varón (v2.0)
+flowchart TB
+    %% Estilos de Nodos
+    classDef entidad fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20,font-weight:bold;
+    classDef entidadAdmin fill:#FFEBEE,stroke:#C62828,stroke-width:2px,color:#B71C1C,font-weight:bold;
+    classDef entidadCliente fill:#FFF8E1,stroke:#F57F17,stroke-width:2px,color:#E65100,font-weight:bold;
+    classDef proceso fill:#E1F5FE,stroke:#0277BD,stroke-width:2px,color:#01579B,font-weight:bold;
+    classDef almacen fill:#EDE7F6,stroke:#512DA8,stroke-width:2px,color:#311B92,font-weight:bold;
+
+    %% Entidades Externas
+    E_ADMIN["Administrador<br/>(Gerente)"]:::entidadAdmin
+    E_VENDEDOR["Vendedor<br/>(Cajero)"]:::entidad
+    E_CLIENTE["Cliente<br/>(Público Web)"]:::entidadCliente
+
+    %% Procesos Nivel 1
+    P1(("1.0<br/>Gestionar<br/>Autenticación<br/>y Usuarios")):::proceso
+    P2(("2.0<br/>Gestionar<br/>Inventario y<br/>Prendas")):::proceso
+    P3(("3.0<br/>Procesar<br/>Ventas y<br/>Tickets")):::proceso
+    P4(("4.0<br/>Generar<br/>Reportes y<br/>Analítica")):::proceso
+    P5(("5.0<br/>Publicar<br/>Catálogo<br/>Digital Web")):::proceso
+
+    %% Almacenes de Datos
+    D1[("D1 | Usuarios y Credenciales")]:::almacen
+    D2[("D2 | Catálogos Maestros (Tallas/Colores/Marcas)")]:::almacen
+    D3[("D3 | Prendas y Stock por Local")]:::almacen
+    D4[("D4 | Registro de Ventas y Tickets")]:::almacen
+    D5[("D5 | Bitácora de Auditoría y Kardex")]:::almacen
+
+    %% Flujos - Proceso 1.0 (Seguridad y Usuarios)
+    E_VENDEDOR -->|"Credenciales de acceso"| P1
+    E_ADMIN -->|"Gestión de cuentas y reseteo de claves"| P1
+    P1 -->|"Confirmación de rol y sesión"| E_VENDEDOR
+    P1 -->|"Confirmación y estado de usuarios"| E_ADMIN
+    P1 -->|"Lectura y validación de usuarios"| D1
+    D1 -->|"Datos de usuario y permisos"| P1
+    P1 -->|"Registro de evento de login/bloqueo"| D5
+
+    %% Flujos - Proceso 2.0 (Inventario y Prendas)
+    E_ADMIN -->|"Atributos de catálogos maestros"| P2
+    E_ADMIN -->|"Alta de prendas y ajustes de stock"| P2
+    E_VENDEDOR -->|"Consulta de existencias físicas"| P2
+    P2 -->|"Alertas de stock bajo por local"| E_ADMIN
+    P2 -->|"Stock disponible por local"| E_VENDEDOR
+    P2 -->|"Registro de marcas, tallas y colores"| D2
+    D2 -->|"Valores maestros normalizados"| P2
+    P2 -->|"Actualización de stock y prendas"| D3
+    D3 -->|"Datos de prendas y umbrales"| P2
+    P2 -->|"Kardex de movimientos y transferencias"| D5
+
+    %% Flujos - Proceso 3.0 (Ventas y Tickets)
+    E_VENDEDOR -->|"Ítems a vender y medio de pago"| P3
+    P3 -->|"Verificación de existencias"| D3
+    D3 -->|"Stock disponible del local"| P3
+    P3 -->|"Descuento automático de stock"| D3
+    P3 -->|"Registro de transacción completada"| D4
+    P3 -->|"Ticket digital emitido (PDF/Impreso)"| E_VENDEDOR
+    P3 -->|"Asiento de venta en auditoría"| D5
+
+    %% Flujos - Proceso 4.0 (Reportes)
+    E_ADMIN -->|"Parámetros y filtros de reporte"| P4
+    D4 -->|"Histórico de ventas y pagos"| P4
+    D3 -->|"Datos de rotación y existencias"| P4
+    P4 -->|"Reportes estadísticos y gráficos"| E_ADMIN
+
+    %% Flujos - Proceso 5.0 (Catálogo Digital)
+    E_CLIENTE -->|"Filtros y búsqueda de prendas"| P5
+    D3 -->|"Prendas activas y stock referencial"| P5
+    P5 -->|"Galería interactiva y fichas de producto"| E_CLIENTE
+    P5 -->|"Disponibilidad física por tienda"| E_CLIENTE

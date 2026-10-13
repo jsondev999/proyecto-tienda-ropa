@@ -1,0 +1,48 @@
+%% Diagrama de Flujo de Datos - Nivel 2 (Descomposición del Proceso 3.0: Procesar Ventas)
+%% Proyecto: Sistema de Gestión — Tienda de Ropa para Varón (v2.0)
+flowchart LR
+    %% Estilos de Nodos
+    classDef entidad fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20,font-weight:bold;
+    classDef proceso fill:#E1F5FE,stroke:#0277BD,stroke-width:2px,color:#01579B,font-weight:bold;
+    classDef almacen fill:#EDE7F6,stroke:#512DA8,stroke-width:2px,color:#311B92,font-weight:bold;
+
+    %% Entidades Externas
+    E_VENDEDOR["Vendedor<br/>(Cajero Mostrador)"]:::entidad
+    E_CLIENTE["Cliente<br/>(Comprador)"]:::entidad
+
+    %% Subprocesos Nivel 2
+    P3_1(("3.1<br/>Validar Prenda<br/>y Stock")):::proceso
+    P3_2(("3.2<br/>Calcular Totales<br/>y Descuentos")):::proceso
+    P3_3(("3.3<br/>Registrar Cobro<br/>y Medio Pago")):::proceso
+    P3_4(("3.4<br/>Actualizar<br/>Inventario")):::proceso
+    P3_5(("3.5<br/>Generar y Emitir<br/>Ticket Digital")):::proceso
+
+    %% Almacenes de Datos que intervienen
+    D3[("D3 | Prendas y Stock por Local")]:::almacen
+    D4[("D4 | Ventas y Tickets Digitales")]:::almacen
+    D5[("D5 | Kardex y Auditoría")]:::almacen
+
+    %% Flujos de Subproceso 3.1: Validar Prenda y Stock
+    E_VENDEDOR -->|"Código SKU y cantidad solicitada"| P3_1
+    D3 -->|"Existencias actuales por local"| P3_1
+    P3_1 -->|"Aviso de stock insuficiente"| E_VENDEDOR
+    P3_1 -->|"Prendas confirmadas y precio unitario"| P3_2
+
+    %% Flujos de Subproceso 3.2: Calcular Totales
+    P3_2 -->|"Resumen de cuenta e importe total"| E_VENDEDOR
+    P3_2 -->|"Importe total exigible"| P3_3
+
+    %% Flujos de Subproceso 3.3: Registrar Cobro
+    E_VENDEDOR -->|"Medio de pago y monto recibido"| P3_3
+    P3_3 -->|"Cambio / vuelto y confirmación de cobro"| E_VENDEDOR
+    P3_3 -->|"Detalle de prendas para descarga"| P3_4
+    P3_3 -->|"Detalle de pago y venta completada"| P3_5
+
+    %% Flujos de Subproceso 3.4: Actualizar Inventario
+    P3_4 -->|"Deducción de existencias en el local"| D3
+    P3_4 -->|"Registro de movimiento de salida"| D5
+
+    %% Flujos de Subproceso 3.5: Generar y Emitir Ticket
+    P3_5 -->|"Almacenamiento de ticket correlativo"| D4
+    P3_5 -->|"Ticket digital impreso o descargado"| E_VENDEDOR
+    P3_5 -->|"Ticket digital vía WhatsApp o correo"| E_CLIENTE

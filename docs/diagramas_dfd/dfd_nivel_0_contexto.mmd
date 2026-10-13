@@ -1,0 +1,41 @@
+%% Diagrama de Flujo de Datos - Nivel 0 (Contexto)
+%% Proyecto: Sistema de Gestión — Tienda de Ropa para Varón (v2.0)
+flowchart LR
+    %% Configuración de Estilo y Nodos
+    classDef entidad fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20,font-weight:bold;
+    classDef entidadAdmin fill:#FFEBEE,stroke:#C62828,stroke-width:2px,color:#B71C1C,font-weight:bold;
+    classDef entidadCliente fill:#FFF8E1,stroke:#F57F17,stroke-width:2px,color:#E65100,font-weight:bold;
+    classDef procesoCentral fill:#E1F5FE,stroke:#0277BD,stroke-width:3px,color:#01579B,font-weight:bold;
+
+    %% Entidades Externas
+    E_VENDEDOR["Vendedor<br/>(Caja / Mostrador)"]:::entidad
+    E_ADMIN["Administrador<br/>(Propietario / Gerente)"]:::entidadAdmin
+    E_CLIENTE["Cliente<br/>(Público Web / Comprador)"]:::entidadCliente
+
+    %% Proceso Central (Nivel 0)
+    P0(("0<br/><br/><b>Sistema Web de Gestión —<br/>Tienda de Ropa para Varón</b><br/>")):::procesoCentral
+
+    %% Flujos de Información - Vendedor
+    E_VENDEDOR -->|"Credenciales de acceso"| P0
+    E_VENDEDOR -->|"Datos de venta y medio de pago"| P0
+    E_VENDEDOR -->|"Consulta de prendas y existencias"| P0
+    P0 -->|"Confirmación de acceso y rol"| E_VENDEDOR
+    P0 -->|"Disponibilidad de stock por local"| E_VENDEDOR
+    P0 -->|"Ticket digital de venta emitido"| E_VENDEDOR
+
+    %% Flujos de Información - Administrador
+    E_ADMIN -->|"Parámetros de catálogos maestros"| P0
+    E_ADMIN -->|"Datos de prendas, precios e imágenes"| P0
+    E_ADMIN -->|"Ajustes de inventario y compras"| P0
+    E_ADMIN -->|"Gestión de usuarios y contraseñas"| P0
+    E_ADMIN -->|"Criterios y filtros de reportes"| P0
+    P0 -->|"Reportes estadísticos y gráficos"| E_ADMIN
+    P0 -->|"Alertas de quiebre de stock crítico"| E_ADMIN
+    P0 -->|"Historial y auditoría de operaciones"| E_ADMIN
+
+    %% Flujos de Información - Cliente
+    E_CLIENTE -->|"Criterios de búsqueda y filtros web"| P0
+    E_CLIENTE -->|"Consulta de prendas y tallas"| P0
+    P0 -->|"Catálogo interactivo con precios"| E_CLIENTE
+    P0 -->|"Disponibilidad referencial por local"| E_CLIENTE
+    P0 -->|"Ubicación y datos de tiendas físicas"| E_CLIENTE

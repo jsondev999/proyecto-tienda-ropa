@@ -73,6 +73,7 @@ El sistema se estructura en **5 módulos principales**:
 - 📄 [Documentación Técnica de Base de Datos (`docs/documentacion_tecnica_bd.md`)](docs/documentacion_tecnica_bd.md) — Diccionario de datos y modelo transaccional MySQL.
 - 🖼️ [Diagramas de Casos de Uso (`docs/diagramas_casos_de_uso/`)](docs/diagramas_casos_de_uso/) — Fuentes PlantUML y diagramas PNG organizados por módulo.
 - 📝 [Especificaciones de Casos de Uso (`docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md`)](docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md) — 15 fichas de casos de uso con flujos, precondiciones, postcondiciones y trazabilidad (CU-01 a CU-15).
+- 🔄 [Diagramas de Flujo de Datos DFD (`docs/diagramas_dfd/documentacion_dfd.md`)](docs/diagramas_dfd/documentacion_dfd.md) — DFD Nivel 0 (Contexto), Nivel 1 (Procesos) y Nivel 2 (Ventas) con código Mermaid y almacenes D1 a D5.
 - 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
 
 ---
@@ -106,6 +107,11 @@ tienda-ropa/
 │   │   ├── codigo_puml/                     # Código fuente PlantUML (.puml)
 │   │   ├── imagenes_png/                    # Diagramas renderizados (.png)
 │   │   └── especificaciones_casos_de_uso.md # Fichas textuales de CU (CU-01 a CU-15)
+│   ├── diagramas_dfd/
+│   │   ├── dfd_nivel_0_contexto.mmd         # DFD Nivel 0 (Contexto en Mermaid)
+│   │   ├── dfd_nivel_1_general.mmd          # DFD Nivel 1 (Procesos principales 1.0 a 5.0)
+│   │   ├── dfd_nivel_2_proceso_ventas.mmd   # DFD Nivel 2 (Subprocesos 3.1 a 3.5)
+│   │   └── documentacion_dfd.md             # Guía completa con diagramas y diccionario D1-D5
 │   ├── legacy_v1.0/                  # Archivo histórico del proyecto anterior
 │   │   ├── README.md                 # Análisis comparativo v1.0 vs v2.0
 │   │   ├── requisitos_funcionales_v1.0.md
