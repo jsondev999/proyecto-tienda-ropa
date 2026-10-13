@@ -302,7 +302,6 @@ A continuación se detallan todas las relaciones de integridad referencial entre
 El siguiente diagrama modela de forma gráfica las 15 tablas transaccionales y sus relaciones de cardinalidad bajo la Tercera Forma Normal (3FN):
 
 ```mermaid
-%%{init: { "theme": "default", "themeVariables": { "darkMode": false } } }%%
 erDiagram
     locales ||--o{ usuarios : "asigna a"
     categorias ||--o{ productos : "clasifica"
