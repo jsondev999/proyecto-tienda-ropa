@@ -2,9 +2,12 @@
 
 > **Proyecto:** SYSELL — Sistema Web de Gestión de Inventario y Ventas  
 > **Equipo:** Pollitos Design  
-> **Institución:** UNJBG  
+> **Institución:** Universidad Nacional Jorge Basadre Grohmann (UNJBG)  
+> **Facultad:** Facultad de Ingeniería (FI)  
+> **Escuela Profesional:** Ingeniería en Informática y Sistemas (ESIS)  
 > **Asignatura:** Ingeniería de Software I — Ciclo VI  
-> **Horizonte del proyecto:** 28 días calendario
+> **Horizonte del proyecto:** 28 días calendario  
+> **Misión Universitaria:** Fomentar la creación y consolidación de una mejor universidad mediante el rigor académico, el desarrollo de soluciones tecnológicas de impacto real para el sector productivo y la adopción de estándares profesionales de ingeniería de software.
 
 ---
 
@@ -28,7 +31,9 @@
 
 ## 1. Propósito del documento
 
-Este **Working Agreement** es el contrato operativo del equipo Pollitos Design para el desarrollo del sistema SYSELL. Establece las reglas de trabajo, los roles, los canales de comunicación, los criterios de calidad y los procedimientos de resolución de conflictos que regirán durante todo el ciclo de vida del proyecto.
+Este **Working Agreement** es el contrato operativo del equipo **Pollitos Design** para el desarrollo del sistema SYSELL. Establece las reglas de trabajo, los roles, los canales de comunicación, los criterios de calidad y los procedimientos de resolución de conflictos que regirán durante todo el ciclo de vida del proyecto.
+
+El equipo asume este proyecto no solo como una entrega académica, sino como una contribución tangible a la construcción de una mejor universidad, demostrando que desde las aulas de la **Escuela Profesional de Ingeniería en Informática y Sistemas (ESIS - UNJBG)** se desarrollan productos de software con arquitectura empresarial, calidad certificada y alto valor social y comercial.
 
 Su cumplimiento es **obligatorio** para todos los integrantes del equipo desde el día de su firma.
 
@@ -36,8 +41,9 @@ Su cumplimiento es **obligatorio** para todos los integrantes del equipo desde e
 
 ## 2. Objetivos del Working Agreement
 
+- **Excelencia Universitaria y Formativa:** Posicionar el proyecto como un modelo de referencia técnica en la universidad, aplicando metodologías formales (RUP) y marcos ágiles (Scrum) con rigor y profesionalismo.
 - **Canales y Gobierno:** Definir los canales oficiales de comunicación e intercambio de artefactos, eliminando la dispersión de acuerdos informales.
-- **Roles e Integración:** Formalizar la estructura organizativa mediante una Matriz RACI que alinee los roles tradicionales de RUP (Analistas, Arquitectos, QA, DBA) con la dinámica de Scrum (Product Owner, Scrum Master, Developers).
+- **Roles e Integración:** Formalizar la estructura organizativa mediante una Matriz RACI optimizada para el equipo de 4 integrantes, alineando los roles de análisis, arquitectura, desarrollo y calidad.
 - **Aseguramiento de Calidad:** Establecer criterios unificados para la **Definition of Ready (DoR)** y **Definition of Done (DoD)**, asegurando que ningún componente sea considerado finalizado sin la debida verificación de calidad y trazabilidad.
 - **Estándares de Código:** Normalizar el flujo de trabajo en el control de versiones (Git), definiendo reglas para la creación de ramas, convención semántica de commits y revisiones obligatorias de código (Code Review).
 - **Gestión de Conflictos:** Proveer un protocolo formal para la detección, reporte y resolución de impedimentos, riesgos y desacuerdos técnicos o funcionales.
@@ -88,30 +94,31 @@ Inspirados en los principios del Manifiesto Ágil, la Guía de Scrum 2020 y las 
 | **I** | Informado |
 | **F** | Facilitador |
 
-### 5.2. Matriz RACI del proyecto
+### 5.2. Matriz RACI del proyecto (Equipo de 4 Integrantes)
 
-| Actividad | Jefe Proy / PM | Product Owner | Scrum Master | Líder Técnico | Analista / QA | Developers |
-|-----------|:-:|:-:|:-:|:-:|:-:|:-:|
-| Definición de Alcance & Prioridades | A | R | C | C | C | I |
-| Levantamiento de Requisitos & Casos de Uso | C | A | C | C | R | C |
-| Diseño de Arquitectura Base & Modelo de Datos | A | I | C | R | C | C |
-| Planificación del Sprint (Sprint Planning) | I | A | F/C | C | C | R |
-| Desarrollo de Software (Frontend/Backend) | I | I | C | A | C | R |
-| Ejecución de Pruebas Unitarias & QA | I | I | I | A | R | R |
-| Code Review & Aprobación de Pull Request | I | I | I | A | C | R |
-| Demostración de Incremento (Sprint Review) | C | A | F | C | R | R |
-| Pruebas de Aceptación de Usuario (UAT) | C | A | I | C | R | I |
-| Despliegue en VPS Institucional & Cierre | A | A | C | R | C | R |
+| Actividad | Johan Mamani (PM / PO) | Giorgini Disalvatore (SM / QA) | Aron Cachicatari (Líder Técnico / Dev) | Luis Condori (UX / Analista) |
+|---|:---:|:---:|:---:|:---:|
+| Definición de Alcance & Prioridades | **A / R** | C | C | C |
+| Levantamiento de Requisitos & Casos de Uso | A | C | C | **R** |
+| Prototipado UI/UX & Flujos Visuales | C | C | C | **R** |
+| Diseño de Arquitectura Base & Modelo de Datos | A | I | **R** | C |
+| Planificación del Sprint (Sprint Planning) | A | **F / C** | R | R |
+| Desarrollo de Software (Clean Arch + CQRS) | I | C | **R** | I |
+| Ejecución de Pruebas Unitarias & Automatizadas | I | **A / R** | R | I |
+| Code Review & Aprobación de Pull Request | I | C | **A / R** | I |
+| Facilitación de Ceremonias Scrum (Daily, Retro) | C | **R / F** | C | C |
+| Demostración de Incremento (Sprint Review) | **A** | F | R | R |
+| Pruebas de Aceptación de Usuario (UAT) | A | **R** | I | C |
+| Despliegue en VPS Institucional & Release Final | **A** | C | **R** | I |
 
-### 5.3. Roles del equipo Pollitos Design
+### 5.3. Roles y Responsabilidades del equipo Pollitos Design
 
-| Rol | Integrante |
-|-----|-----------|
-| **Líder / Jefe de Proyecto** | Johan Mamani |
-| **Diseñador / Analista Funcional** | Luis Condori |
-| **Programador / Developer** | Aron Cachicatari |
-| **Testeador / Analista QA** | Alex Chata |
-| **Analista / Scrum Master** | Pierrette Chávez |
+| Integrante | Rol Principal | Rol Secundario / Especialidad | Responsabilidades Clave |
+|---|---|---|---|
+| **Johan Mamani** | Líder / Jefe de Proyecto | Product Owner (PO) | Gestión del alcance global, priorización del Product Backlog, interlocución con stakeholders, resolución de bloqueos de negocio y aprobación final de entregables. |
+| **Luis Condori** | Diseñador UI/UX | Analista Funcional | Modelado formal de casos de uso, prototipado de interfaces, diseño de interacción y usabilidad del punto de venta (POS) y validación visual. |
+| **Aron Cachicatari** | Líder Técnico | Desarrollador Full-Stack | Diseño e implementación de Clean Architecture + CQRS, desarrollo de API y lógica de negocio, integración con MySQL, DevOps y despliegue en VPS. |
+| **Giorgini Disalvatore** | Analista de Calidad (QA) | Scrum Master (SM) | Aseguramiento de la calidad, diseño y ejecución de planes de prueba (unitarias/E2E), verificación estricta de DoR y DoD, facilitación de ceremonias ágiles y remoción de impedimentos. |
 
 ---
 
@@ -291,13 +298,13 @@ El proyecto cuenta con un horizonte cerrado de **28 días calendario**. Todo cam
 Los abajo firmantes declaran conocer, comprender y aceptar en su totalidad las cláusulas, reglas operativas y compromisos de calidad establecidos en el presente Working Agreement, comprometiéndose a velar por su estricto cumplimiento durante la ejecución del proyecto.
 
 | Nombre y Apellido | Rol en el Proyecto | Conformidad | Fecha |
-|-------------------|--------------------|:-----------:|-------|
-| Johan Mamani | Líder / Jefe de Proyecto | CONFORME | ___/___/2026 |
-| Pierrette Chávez | Scrum Master / Analista | CONFORME | ___/___/2026 |
-| Aron Cachicatari | Developer / Programador | CONFORME | ___/___/2026 |
-| Luis Condori | Diseñador / Analista Funcional | CONFORME | ___/___/2026 |
-| Alex Chata | Analista de Calidad (QA) | CONFORME | ___/___/2026 |
+|---|---|:---:|:---:|
+| **Johan Mamani** | Líder / Jefe de Proyecto & Product Owner | CONFORME | ___/___/2026 |
+| **Luis Condori** | Diseñador UI/UX & Analista Funcional | CONFORME | ___/___/2026 |
+| **Aron Cachicatari** | Desarrollador Full-Stack & Líder Técnico | CONFORME | ___/___/2026 |
+| **Giorgini Disalvatore** | Analista de Calidad (QA) & Scrum Master | CONFORME | ___/___/2026 |
 
 ---
 
-*Pollitos Design — UNJBG 2026*
+*Pollitos Design — Escuela Profesional de Ingeniería en Informática y Sistemas (ESIS)*  
+*Facultad de Ingeniería — Universidad Nacional Jorge Basadre Grohmann (UNJBG) — Tacna, 2026*

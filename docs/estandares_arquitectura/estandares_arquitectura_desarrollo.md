@@ -486,13 +486,12 @@ Cada PR ejecuta automáticamente:
 
 ### 14.8. Roles del equipo
 
-| Rol | Integrante |
-|-----|-----------|
-| **Líder** | Johan Mamani |
-| **Diseñador** | Luis Condori |
-| **Programador** | Aron Cachicatari |
-| **Testeador** | Alex Chata |
-| **Analista** | Pierrette Chávez |
+| Rol | Integrante | Especialidad |
+|---|---|---|
+| **Líder / Product Owner** | Johan Mamani | Gestión del proyecto y requisitos |
+| **Diseñador / Analista Funcional** | Luis Condori | UI/UX y modelado de casos de uso |
+| **Líder Técnico / Programador** | Aron Cachicatari | Clean Architecture, Backend, Frontend y DevOps |
+| **Testeador / QA & Scrum Master** | Giorgini Disalvatore | Aseguramiento de calidad, testing y agilidad |
 
 ---
 

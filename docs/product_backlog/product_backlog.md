@@ -28,8 +28,8 @@ Una historia solo se considera **Terminada** (Done) si:
 1. El código compila sin errores ni warnings críticos en la rama de integración.
 2. Respeta las capas de Clean Architecture (el Dominio no depende de bibliotecas externas ni bases de datos).
 3. Pruebas unitarias ejecutadas con cobertura mínima del 80% en lógica de negocio.
-4. Cumple el 100% de los criterios de aceptación Gherkin verificados por QA (Alex Chata).
-5. Revisión de código (Pull Request) aprobada por el Líder Técnico (Johan Mamani).
+4. Cumple el 100% de los criterios de aceptación Gherkin verificados por QA (Giorgini Disalvatore).
+5. Revisión de código (Pull Request) aprobada por el Líder Técnico (Aron Cachicatari) y validada por el PO (Johan Mamani).
 6. Base de datos actualizada mediante scripts o migraciones versionadas y reproducibles.
 7. Desplegado y verificado en el entorno de pruebas/staging.
 

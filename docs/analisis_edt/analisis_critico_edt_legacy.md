@@ -64,7 +64,7 @@ En el documento fuente se registran los siguientes paquetes:
 
 ### 3.4. Sobrecarga y Ausencia de Especialización de Roles
 * En los 5 paquetes, el responsable único asignado es Johan Mamani (Líder del Proyecto), mientras que Luis Condori y Alex Chata figuran como "Participa / Revisa".
-* Esto genera un cuello de botella artificial y contradice la distribución real del equipo de 5 integrantes definida en el Working Agreement (Johan Mamani como PM, Luis Condori en UX/Análisis, Aron Cachicatari como Desarrollador Full-Stack, Alex Chata en QA/Testing, Pierrette Chávez como Scrum Master).
+* Esto genera un cuello de botella artificial y contradice la distribución real del equipo de 4 integrantes definida en el Working Agreement (Johan Mamani como PM/PO, Luis Condori en UX/Análisis, Aron Cachicatari como Líder Técnico / Desarrollador Full-Stack, Giorgini Disalvatore como Analista QA y Scrum Master).
 
 ### 3.5. Omisiones Críticas del Modelo de Negocio de SYSELL
 Al contrastar la EDT legacy con la especificación de requisitos actual (`docs/requisitos_funcionales.md`) y el modelo relacional (`docs/documentacion_tecnica_bd.md`), se evidencian las siguientes **ausencias graves**:

@@ -53,7 +53,7 @@ A continuación se detalla cada paquete de trabajo, definiendo objetivos, descri
 * **Asignación de Roles:**
   - *Responsable (R):* Aron Cachicatari (Desarrollador Full-Stack)
   - *Aprueba (A):* Johan Mamani (Jefe de Proyecto / Líder Técnico)
-  - *Apoya / Revisa (C/I):* Pierrette Chávez (Scrum Master), Alex Chata (QA)
+  - *Apoya / Revisa (C/I):* Giorgini Disalvatore (QA & Scrum Master)
 * **Criterios de Aceptación (DoD):**
   - Autenticación exitosa genera token JWT con tiempo de expiración configurado.
   - El sistema bloquea el acceso a rutas protegidas cuando el usuario no cuenta con el rol requerido (HTTP 401 / 403).
@@ -109,7 +109,7 @@ A continuación se detalla cada paquete de trabajo, definiendo objetivos, descri
   4. Configurar alertas visuales automáticas cuando el stock sea menor o igual al stock mínimo configurado.
 * **Asignación de Roles:**
   - *Responsable (R):* Aron Cachicatari (Developer)
-  - *QA & Testing (R):* Alex Chata (Analista QA)
+  - *QA & Testing (R):* Giorgini Disalvatore (Analista QA & Scrum Master)
   - *Aprueba (A):* Johan Mamani
 * **Criterios de Aceptación (DoD):**
   - Cada modificación de stock genera una fila inmutable en la tabla de Kardex con tipo, motivo, usuario y fecha.
@@ -138,7 +138,7 @@ A continuación se detalla cada paquete de trabajo, definiendo objetivos, descri
 * **Asignación de Roles:**
   - *Responsable (R):* Aron Cachicatari (Developer)
   - *Diseño UI / UX (C):* Luis Condori
-  - *QA & Validación (R):* Alex Chata
+  - *QA & Validación (R):* Giorgini Disalvatore
   - *Aprueba (A):* Johan Mamani
 * **Criterios de Aceptación (DoD):**
   - Registro de venta completa (hasta emisión de ticket) completado en menos de 5 segundos.
@@ -167,7 +167,7 @@ A continuación se detalla cada paquete de trabajo, definiendo objetivos, descri
   4. Generar reporte consolidado de cierre de turno en formato imprimible.
 * **Asignación de Roles:**
   - *Responsable (R):* Aron Cachicatari
-  - *QA (R):* Alex Chata
+  - *QA (R):* Giorgini Disalvatore
   - *Aprueba (A):* Johan Mamani
 * **Criterios de Aceptación (DoD):**
   - No es posible realizar ninguna venta en el sistema si la caja está cerrada.
@@ -247,9 +247,9 @@ A continuación se detalla cada paquete de trabajo, definiendo objetivos, descri
   3. Realizar pruebas de aceptación con usuarios reales (UAT) siguiendo escenarios de uso cotidianos.
   4. Configurar servidor de producción, base de datos MySQL de producción y certificado SSL.
 * **Asignación de Roles:**
-  - *Responsable QA (R):* Alex Chata
+  - *Responsable QA (R):* Giorgini Disalvatore
   - *Responsable Despliegue (R):* Aron Cachicatari
-  - *Coordinación UAT (F):* Pierrette Chávez
+  - *Coordinación UAT (F):* Giorgini Disalvatore
   - *Aprobación Final (A):* Johan Mamani
 * **Criterios de Aceptación (DoD):**
   - 100% de casos de prueba críticos ejecutados con resultado exitoso.
