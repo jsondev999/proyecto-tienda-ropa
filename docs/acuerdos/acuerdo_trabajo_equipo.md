@@ -111,14 +111,20 @@ Inspirados en los principios del Manifiesto Ágil, la Guía de Scrum 2020 y las 
 | Pruebas de Aceptación de Usuario (UAT) | A | **R** | I | C |
 | Despliegue en VPS Institucional & Release Final | **A** | C | **R** | I |
 
-### 5.3. Roles y Responsabilidades del equipo Pollitos Design
+### 5.3. Roles del equipo Pollitos Design
 
-| Integrante | Rol Principal | Rol Secundario / Especialidad | Responsabilidades Clave |
-|---|---|---|---|
-| **Johan Mamani** | Líder / Jefe de Proyecto | Product Owner (PO) | Gestión del alcance global, priorización del Product Backlog, interlocución con stakeholders, resolución de bloqueos de negocio y aprobación final de entregables. |
-| **Luis Condori** | Diseñador UI/UX | Analista Funcional | Modelado formal de casos de uso, prototipado de interfaces, diseño de interacción y usabilidad del punto de venta (POS) y validación visual. |
-| **Aron Cachicatari** | Líder Técnico | Desarrollador Full-Stack | Diseño e implementación de Clean Architecture + CQRS, desarrollo de API y lógica de negocio, integración con MySQL, DevOps y despliegue en VPS. |
-| **Giorgini Disalvatore** | Analista de Calidad (QA) | Scrum Master (SM) | Aseguramiento de la calidad, diseño y ejecución de planes de prueba (unitarias/E2E), verificación estricta de DoR y DoD, facilitación de ceremonias ágiles y remoción de impedimentos. |
+| Rol | Integrante |
+|-----|-----------|
+| **Líder / Jefe de Proyecto & Product Owner** | Johan Mamani |
+| **Diseñador / Analista Funcional (UI/UX)** | Luis Condori |
+| **Líder Técnico / Developer Full-Stack** | Aron Cachicatari |
+| **Testeador / Analista QA & Scrum Master** | Giorgini Disalvatore |
+
+#### Responsabilidades específicas de los integrantes:
+- **Johan Mamani (Líder / Jefe de Proyecto & PO):** Gestión del alcance global, priorización del Product Backlog, interlocución con stakeholders, resolución de bloqueos de negocio y aprobación final de entregables.
+- **Luis Condori (Diseñador / Analista Funcional):** Modelado formal de casos de uso, prototipado de interfaces, diseño de interacción y usabilidad del punto de venta (POS) y validación visual.
+- **Aron Cachicatari (Líder Técnico & Developer Full-Stack):** Diseño e implementación de Clean Architecture + CQRS, desarrollo de API y lógica de negocio, integración con MySQL, DevOps y despliegue en VPS.
+- **Giorgini Disalvatore (Analista QA & Scrum Master):** Aseguramiento de la calidad, diseño y ejecución de planes de prueba (unitarias/E2E), verificación estricta de DoR y DoD, facilitación de ceremonias ágiles y remoción de impedimentos.
 
 ---
 
