@@ -66,6 +66,7 @@ El sistema se estructura en **5 módulos principales**:
 
 ## 📋 Documentación del Proyecto
 
+- 📄 [Necesidades del Negocio (`docs/necesidades_del_negocio.md`)](docs/necesidades_del_negocio.md) — 10 necesidades de negocio/usuario y árboles de derivación hacia RFs y RNFs (Fase 1).
 - 📄 [Estándares de Arquitectura (`docs/estandares_arquitectura/`)](docs/estandares_arquitectura/estandares_arquitectura_desarrollo.md) — Lineamientos oficiales de Clean Architecture, CQRS, codificación y CI/CD.
 - 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados (Versión 2.0).
 - 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de calidad y rendimiento (Versión 2.0).
@@ -107,6 +108,7 @@ tienda-ropa/
 │   │   ├── README.md                 # Análisis comparativo v1.0 vs v2.0
 │   │   ├── requisitos_funcionales_v1.0.md
 │   │   └── requisitos_no_funcionales_v1.0.md
+│   ├── necesidades_del_negocio.md     # Especificación formal de necesidades (N-01 a N-10)
 │   ├── requisitos_funcionales.md      # Especificación funcional v2.0 (RF-01 a RF-77)
 │   └── requisitos_no_funcionales.md   # Criterios de calidad v2.0
 └── README.md                          # Guía general del proyecto (v2.0)
