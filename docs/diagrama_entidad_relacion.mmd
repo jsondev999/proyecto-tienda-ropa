@@ -1,0 +1,182 @@
+erDiagram
+    %% ========================================================
+    %% DIAGRAMA ENTIDAD-RELACIÓN (ER) - MODELO TRANSACCIONAL 3FN
+    %% Sistema de Gestión — Tienda de Ropa para Varón (v2.0)
+    %% Motor: MySQL 8.0 (InnoDB)
+    %% ========================================================
+
+    locales ||--o{ usuarios : "asigna a"
+    categorias ||--o{ productos : "clasifica"
+    marcas ||--o{ productos : "identifica"
+    productos ||--|{ variantes_producto : "desglosa en"
+    tallas ||--o{ variantes_producto : "define talla de"
+    colores ||--o{ variantes_producto : "define color de"
+    locales ||--|{ inventario : "almacena stock en"
+    variantes_producto ||--|{ inventario : "dispone stock en"
+    locales ||--o{ ventas : "registra en"
+    usuarios ||--o{ ventas : "atiende y emite"
+    ventas ||--|{ detalle_ventas : "contiene items de"
+    variantes_producto ||--o{ detalle_ventas : "se comercializa en"
+    ventas ||--|{ pagos_venta : "se liquida con"
+    metodos_pago ||--o{ pagos_venta : "utilizado en"
+    locales ||--o{ ajustes_inventario : "ocurre en"
+    variantes_producto ||--o{ ajustes_inventario : "modifica cantidad de"
+    usuarios ||--o{ ajustes_inventario : "autorizado por"
+    usuarios ||--o{ reportes_configuracion : "configura y programa"
+
+    locales {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_100 nombre
+        VARCHAR_255 direccion
+        VARCHAR_20 telefono
+        DECIMAL_10_8 latitud
+        DECIMAL_11_8 longitud
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    usuarios {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED local_id FK
+        VARCHAR_150 nombre_completo
+        VARCHAR_50 username
+        VARCHAR_255 password_hash
+        ENUM_ROL rol
+        TINYINT_UNSIGNED intentos_fallidos
+        TINYINT_1 bloqueado
+        TINYINT_1 activo
+        TIMESTAMP ultimo_acceso
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    categorias {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_80 nombre
+        VARCHAR_255 descripcion
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    marcas {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_80 nombre
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    tallas {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_20 nombre
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    colores {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_50 nombre
+        VARCHAR_7 codigo_hex
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    metodos_pago {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_50 nombre
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    productos {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED categoria_id FK
+        BIGINT_UNSIGNED marca_id FK
+        VARCHAR_50 codigo_modelo
+        VARCHAR_150 nombre
+        TEXT descripcion
+        DECIMAL_10_2 precio_compra
+        DECIMAL_10_2 precio_venta
+        VARCHAR_255 imagen_url
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    variantes_producto {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED producto_id FK
+        BIGINT_UNSIGNED talla_id FK
+        BIGINT_UNSIGNED color_id FK
+        VARCHAR_60 sku
+        VARCHAR_60 codigo_barras
+        TINYINT_1 activo
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    inventario {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED local_id FK
+        BIGINT_UNSIGNED variante_id FK
+        INT stock_actual
+        INT stock_minimo
+        TIMESTAMP updated_at
+    }
+
+    ventas {
+        BIGINT_UNSIGNED id PK
+        VARCHAR_30 numero_ticket
+        BIGINT_UNSIGNED local_id FK
+        BIGINT_UNSIGNED usuario_id FK
+        DECIMAL_10_2 subtotal
+        DECIMAL_10_2 total
+        TIMESTAMP fecha_venta
+        TINYINT_1 sincronizado_nube
+        TIMESTAMP created_at
+    }
+
+    detalle_ventas {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED venta_id FK
+        BIGINT_UNSIGNED variante_id FK
+        INT_UNSIGNED cantidad
+        DECIMAL_10_2 precio_unitario
+        DECIMAL_10_2 costo_unitario
+        DECIMAL_10_2 subtotal
+    }
+
+    pagos_venta {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED venta_id FK
+        BIGINT_UNSIGNED metodo_pago_id FK
+        DECIMAL_10_2 monto
+        VARCHAR_100 referencia
+    }
+
+    ajustes_inventario {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED local_id FK
+        BIGINT_UNSIGNED variante_id FK
+        BIGINT_UNSIGNED usuario_id FK
+        ENUM_TIPO tipo_ajuste
+        INT cantidad
+        VARCHAR_255 motivo
+        TIMESTAMP fecha_ajuste
+    }
+
+    reportes_configuracion {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED usuario_id FK
+        VARCHAR_100 nombre_reporte
+        JSON filtros_json
+        ENUM_FREC frecuencia
+        VARCHAR_120 correo_destino
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
