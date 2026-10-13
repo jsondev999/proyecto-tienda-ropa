@@ -620,9 +620,9 @@
 **Prioridad:** Alta
 
 **Criterios de Aceptación:**
-- Presenta el listado cronológico de ventas con comprobante, fecha/hora, local, vendedor, medio de pago y total.
+- Presenta el listado cronológico de ventas con número correlativo de ticket digital, fecha/hora, local, vendedor, medio de pago y total.
 - Permite filtrar por rango de fechas, local comercial, vendedor y medio de pago.
-- Permite consultar el desglose detallado de productos, cantidades y precios de cada venta registrada.
+- Permite consultar el desglose detallado de productos, cantidades y precios de cada venta registrada, junto con su ticket digital generado.
 
 ---
 

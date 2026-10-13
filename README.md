@@ -8,9 +8,9 @@ Sistema integral de gestión de ventas, control de inventario y catálogo digita
 
 El sistema centraliza y optimiza los procesos operativos del negocio, permitiendo:
 - Control preciso de existencias sincronizado entre los dos locales comerciales.
-- Registro ágil de ventas en punto de venta (POS) y emisión de comprobantes.
+- Registro ágil de ventas en punto de venta (POS) y generación de ticket digital.
 - Catálogo web público para que los clientes consulten prendas, tallas, colores y disponibilidad en cada tienda.
-- Consulta e historial completo de transacciones realizadas.
+- Consulta e historial completo de transacciones realizadas con almacenamiento de tickets digitales.
 - Generación de reportes financieros y de inventario para la toma de decisiones.
 
 El proyecto está diseñado como una **aplicación web moderna y responsiva**, garantizando acceso inmediato desde computadoras de escritorio, tablets y teléfonos celulares sin necesidad de instalaciones complejas, con arquitectura desacoplada para admitir futuras versiones en escritorio o aplicación móvil.
@@ -34,6 +34,7 @@ El sistema se estructura en **5 módulos principales**:
 
 3. **💳 Registro y Gestión de Ventas:**
    - Punto de venta rápido compatible con múltiples medios de pago (efectivo, tarjetas, billeteras digitales).
+   - Generación y almacenamiento automático de ticket digital de venta.
    - Historial completo y auditable de transacciones comerciales.
    - Soporte para operación offline temporal y sincronización automática.
 
@@ -64,7 +65,7 @@ La especificación completa del sistema se encuentra documentada en:
 | Rol | Alcance y Responsabilidades |
 |---|---|
 | **Administrador** | Acceso total al sistema, configuración de catálogos maestros, gestión de usuarios, reseteo de credenciales, reportes gerenciales e inventario global. |
-| **Empleado (Vendedor)** | Registro de ventas, consulta de stock por tienda, emisión de comprobantes y búsqueda de productos. |
+| **Empleado (Vendedor)** | Registro de ventas, consulta de stock por tienda, generación de tickets digitales y búsqueda de productos. |
 | **Cliente** | Acceso de solo lectura al catálogo digital público para consultar prendas y disponibilidad por tienda. |
 
 ---
