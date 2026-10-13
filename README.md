@@ -72,6 +72,7 @@ El sistema se estructura en **5 módulos principales**:
 - 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de calidad y rendimiento (Versión 2.0).
 - 📄 [Documentación Técnica de Base de Datos (`docs/documentacion_tecnica_bd.md`)](docs/documentacion_tecnica_bd.md) — Diccionario de datos y modelo transaccional MySQL.
 - 🖼️ [Diagramas de Casos de Uso (`docs/diagramas_casos_de_uso/`)](docs/diagramas_casos_de_uso/) — Fuentes PlantUML y diagramas PNG organizados por módulo.
+- 📝 [Especificaciones de Casos de Uso (`docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md`)](docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md) — 15 fichas de casos de uso con flujos, precondiciones, postcondiciones y trazabilidad (CU-01 a CU-15).
 - 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
 
 ---
@@ -102,8 +103,9 @@ El sistema se estructura en **5 módulos principales**:
 tienda-ropa/
 ├── docs/
 │   ├── diagramas_casos_de_uso/
-│   │   ├── codigo_puml/              # Código fuente PlantUML (.puml)
-│   │   └── imagenes_png/             # Diagramas renderizados (.png)
+│   │   ├── codigo_puml/                     # Código fuente PlantUML (.puml)
+│   │   ├── imagenes_png/                    # Diagramas renderizados (.png)
+│   │   └── especificaciones_casos_de_uso.md # Fichas textuales de CU (CU-01 a CU-15)
 │   ├── legacy_v1.0/                  # Archivo histórico del proyecto anterior
 │   │   ├── README.md                 # Análisis comparativo v1.0 vs v2.0
 │   │   ├── requisitos_funcionales_v1.0.md
