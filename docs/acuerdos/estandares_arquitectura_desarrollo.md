@@ -5,7 +5,7 @@
 > **Proyecto:** SYSELL — Sistema de ventas e inventario para Comercial Machi's  
 > **Equipo:** Pollitos Design  
 > **Fecha de emisión:** 28 de septiembre de 2026  
-> **Asignatura:** Diseño de Sistemas — Ciclo 03  
+> **Asignatura:** Ingeniería de Software I Ciclo - VI
 > **Institución:** UNJBG
 
 ---
