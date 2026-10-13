@@ -1,41 +1,54 @@
-# Sistema de Gestión — Tienda de Ropa para Varón
+# Sistema de Gestión — Tienda de Ropa para Varón (Versión 2.0)
 
 Sistema integral de gestión de ventas, control de inventario y catálogo digital diseñado para una tienda de ropa masculina con dos locales físicos.
 
 ---
 
-## 📌 Descripción del Proyecto
+## 📌 Contexto del Proyecto y Transición a la Versión 2.0
 
-El sistema centraliza y optimiza los procesos operativos del negocio, permitiendo:
-- Control preciso de existencias sincronizado entre los dos locales comerciales.
-- Registro ágil de ventas en punto de venta (POS) y generación de ticket digital.
-- Catálogo web público para que los clientes consulten prendas, tallas, colores y disponibilidad en cada tienda.
-- Consulta e historial completo de transacciones realizadas con almacenamiento de tickets digitales.
-- Generación de reportes financieros y de inventario para la toma de decisiones.
+Este repositorio representa la **Versión 2.0** del proyecto. La versión anterior (**v1.0**) sirvió como un antecedente preliminar, pero presentaba debilidades críticas en su estructuración:
+- Requisitos ambiguos e incompletos que dejaban dudas al programar.
+- Falta de catálogos maestros obligatorios (riesgo de texto libre en colores, tallas y marcas).
+- Confusión entre aplicaciones móviles nativas y sistemas web centralizados.
+- Ausencia de diagramas y modelado formal de casos de uso.
 
-El proyecto está diseñado como una **aplicación web moderna y responsiva**, garantizando acceso inmediato desde computadoras de escritorio, tablets y teléfonos celulares sin necesidad de instalaciones complejas, con arquitectura desacoplada para admitir futuras versiones en escritorio o aplicación móvil.
+Por ello, se tomó la decisión de **refundar el proyecto desde sus cimientos**, formalizando 77 requerimientos funcionales técnicos, 14 no funcionales y modelando toda la interacción en diagramas PlantUML.
+
+> 📁 Para consultar la documentación previa y ver el análisis comparativo detallado, revisa la carpeta: [`docs/legacy_v1.0/`](docs/legacy_v1.0/).
 
 ---
 
-## 🚀 Módulos del Sistema
+## ⚖️ Resumen Comparativo: v1.0 vs. v2.0
+
+| Dimensión | Versión 1.0 (Legado) | Versión 2.0 (Actual) |
+|---|---|---|
+| **Madurez de Requisitos** | 72 requisitos empíricos y breves. | **77 requisitos** exhaustivos con criterios técnicos de aceptación. |
+| **Modelado UML** | Inexistente. | **Diagramas de Casos de Uso completos** (fuentes `.puml` e imágenes `.png`). |
+| **Integridad de Datos** | Atributos abiertos (texto libre). | **Catálogos maestros** gestionados por el Administrador (RF-74). |
+| **Emisión en Ventas** | Confusión con comprobantes tributarios. | **Tickets digitales internos** desligados de SUNAT (RF-76). |
+| **Enfoque Tecnológico** | No delimitado. | **Arquitectura Web Responsiva** desacoplada mediante API REST (RF-72). |
+
+---
+
+## 🚀 Módulos del Sistema (v2.0)
 
 El sistema se estructura en **5 módulos principales**:
 
 1. **🔐 Autenticación y Seguridad:**
-   - Control de acceso basado en roles (**Administrador** y **Empleado**).
-   - Gestión y reseteo de contraseñas por parte del Administrador.
-   - Auditoría de inicios de sesión y cierre automático por inactividad.
+   - Control de acceso basado en roles (**Administrador** y **Vendedor**).
+   - Gestión y reseteo de contraseñas exclusivo del Administrador (RF-73).
+   - Auditoría de inicios de sesión y bloqueo por intentos fallidos.
 
 2. **📦 Gestión de Inventario:**
    - Registro y modificación de prendas con imágenes, tallas, colores, categorías y marcas.
-   - Administración de **catálogos maestros** (listas predefinidas sin texto libre).
+   - Administración de **catálogos maestros** controlados por el Administrador (RF-74).
    - Control de stock independiente por local y alertas automáticas de reposición.
-   - Búsqueda avanzada y filtros dinámicos en tiempo real.
+   - Búsqueda en tiempo real y filtros dinámicos combinables (RF-75).
 
 3. **💳 Registro y Gestión de Ventas:**
    - Punto de venta rápido compatible con múltiples medios de pago (efectivo, tarjetas, billeteras digitales).
-   - Generación y almacenamiento automático de ticket digital de venta.
-   - Historial completo y auditable de transacciones comerciales.
+   - Generación y almacenamiento automático de **ticket digital** de venta.
+   - Historial completo y auditable de transacciones comerciales (RF-76).
    - Soporte para operación offline temporal y sincronización automática.
 
 4. **📊 Reportes y Análisis:**
@@ -46,17 +59,17 @@ El sistema se estructura en **5 módulos principales**:
 5. **🌐 Catálogo Digital (Web Pública):**
    - Portal web responsivo para clientes finales sin requerir registro.
    - Visualización de prendas en existencia con fotos y ficha técnica.
-   - Filtros avanzados por categoría, talla y color.
+   - Filtros avanzados por categoría, talla y color (RF-77).
    - Consulta de disponibilidad en tiempo real por cada local físico y geolocalización de tiendas.
 
 ---
 
-## 📋 Documentación de Requisitos
+## 📋 Documentación del Proyecto
 
-La especificación completa del sistema se encuentra documentada en:
-
-- 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados con descripción, actores, prioridad y criterios de aceptación.
-- 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de seguridad, usabilidad, rendimiento y mantenibilidad.
+- 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados (Versión 2.0).
+- 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de calidad y rendimiento (Versión 2.0).
+- 🖼️ [Diagramas de Casos de Uso (`docs/diagramas_casos_de_uso/`)](docs/diagramas_casos_de_uso/) — Fuentes PlantUML y diagramas PNG organizados por módulo.
+- 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
 
 ---
 
@@ -65,16 +78,16 @@ La especificación completa del sistema se encuentra documentada en:
 | Rol | Alcance y Responsabilidades |
 |---|---|
 | **Administrador** | Acceso total al sistema, configuración de catálogos maestros, gestión de usuarios, reseteo de credenciales, reportes gerenciales e inventario global. |
-| **Empleado (Vendedor)** | Registro de ventas, consulta de stock por tienda, generación de tickets digitales y búsqueda de productos. |
+| **Vendedor** | Registro de ventas en caja, consulta de stock por tienda, emisión de tickets digitales y búsqueda de productos. |
 | **Cliente** | Acceso de solo lectura al catálogo digital público para consultar prendas y disponibilidad por tienda. |
 
 ---
 
 ## 🛠️ Arquitectura y Tecnologías Propuestas
 
-- **Frontend:** Aplicación Web Responsiva (HTML5 / CSS3 / JavaScript moderno o framework SPA/PWA).
+- **Frontend:** Aplicación Web Responsiva (HTML5 / CSS3 / JavaScript moderno o React + Vite).
 - **Backend / API:** Servicios RESTful desacoplados para la lógica de negocio y persistencia.
-- **Base de Datos:** Motor relacional con integridad transaccional (MySQL) para garantizar la consistencia en ventas e inventario.
+- **Base de Datos:** Motor relacional con integridad transaccional (MySQL) para consistencia de inventario en los 2 locales.
 - **Sincronización:** Soporte de almacenamiento local (IndexedDB) con sincronización hacia la base de datos central.
 
 ---
@@ -84,10 +97,14 @@ La especificación completa del sistema se encuentra documentada en:
 ```text
 tienda-ropa/
 ├── docs/
-│   ├── requisitos_funcionales.md      # Especificación funcional detallada (RF-01 a RF-77)
-│   └── requisitos_no_funcionales.md   # Criterios de calidad, seguridad y rendimiento
-└── README.md                          # Información general y guía del proyecto
+│   ├── diagramas_casos_de_uso/
+│   │   ├── codigo_puml/              # Código fuente PlantUML (.puml)
+│   │   └── imagenes_png/             # Diagramas renderizados (.png)
+│   ├── legacy_v1.0/                  # Archivo histórico del proyecto anterior
+│   │   ├── README.md                 # Análisis comparativo v1.0 vs v2.0
+│   │   ├── requisitos_funcionales_v1.0.md
+│   │   └── requisitos_no_funcionales_v1.0.md
+│   ├── requisitos_funcionales.md      # Especificación funcional v2.0 (RF-01 a RF-77)
+│   └── requisitos_no_funcionales.md   # Criterios de calidad v2.0
+└── README.md                          # Guía general del proyecto (v2.0)
 ```
-
----
-

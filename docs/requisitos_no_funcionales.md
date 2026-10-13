@@ -1,7 +1,7 @@
-﻿# Requisitos No Funcionales
+# Requisitos No Funcionales
 
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
-**Versión:** 1.0  
+**Versión:** 2.0  
 **Fecha:** 12/10/2026  
 
 ---
