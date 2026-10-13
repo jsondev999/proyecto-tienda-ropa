@@ -971,7 +971,7 @@
 **Criterios de Aceptación:**
 - El sistema opera de manera íntegra desde navegadores modernos sin requerir instalación previa de software en el cliente.
 - La interfaz adapta automáticamente su disposición de elementos, botones y formularios táctiles o de puntero al tamaño de pantalla del dispositivo.
-- La arquitectura desacoplada (Frontend / API Backend) permite reutilizar los servicios si a futuro se empaqueta como app de escritorio o móvil.
+- La arquitectura cliente-servidor API-first centraliza la lógica de negocio en el backend de forma independiente de la interfaz, permitiendo a futuro integrar clientes de escritorio o móviles sin modificar los servicios.
 
 ---
 

@@ -26,7 +26,7 @@ Por ello, se tomó la decisión de **refundar el proyecto desde sus cimientos**,
 | **Modelado UML** | Inexistente. | **Diagramas de Casos de Uso completos** (fuentes `.puml` e imágenes `.png`). |
 | **Integridad de Datos** | Atributos abiertos (texto libre). | **Catálogos maestros** gestionados por el Administrador (RF-74). |
 | **Emisión en Ventas** | Confusión con comprobantes tributarios. | **Tickets digitales internos** desligados de SUNAT (RF-76). |
-| **Enfoque Tecnológico** | No delimitado. | **Arquitectura Web Responsiva** desacoplada mediante API REST (RF-72). |
+| **Enfoque Tecnológico** | No delimitado. | **Arquitectura cliente-servidor API-first** (Clean Architecture + CQRS) con Docker Compose (RF-72). |
 
 ---
 
@@ -66,8 +66,10 @@ El sistema se estructura en **5 módulos principales**:
 
 ## 📋 Documentación del Proyecto
 
+- 📄 [Estándares de Arquitectura (`docs/estandares_arquitectura/`)](docs/estandares_arquitectura/estandares_arquitectura_desarrollo.md) — Lineamientos oficiales de Clean Architecture, CQRS, codificación y CI/CD.
 - 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados (Versión 2.0).
 - 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de calidad y rendimiento (Versión 2.0).
+- 📄 [Documentación Técnica de Base de Datos (`docs/documentacion_tecnica_bd.md`)](docs/documentacion_tecnica_bd.md) — Diccionario de datos y modelo transaccional MySQL.
 - 🖼️ [Diagramas de Casos de Uso (`docs/diagramas_casos_de_uso/`)](docs/diagramas_casos_de_uso/) — Fuentes PlantUML y diagramas PNG organizados por módulo.
 - 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
 
@@ -83,12 +85,13 @@ El sistema se estructura en **5 módulos principales**:
 
 ---
 
-## 🛠️ Arquitectura y Tecnologías Propuestas
+## 🛠️ Arquitectura y Tecnologías Oficiales
 
-- **Frontend:** Aplicación Web Responsiva (HTML5 / CSS3 / JavaScript moderno o React + Vite).
-- **Backend / API:** Servicios RESTful desacoplados para la lógica de negocio y persistencia.
-- **Base de Datos:** Motor relacional con integridad transaccional (MySQL) para consistencia de inventario en los 2 locales.
-- **Sincronización:** Soporte de almacenamiento local (IndexedDB) con sincronización hacia la base de datos central.
+- **Patrón Arquitectónico:** Arquitectura cliente-servidor API-first con **Clean Architecture** (Dominio → Aplicación → Infraestructura → Presentación) y patrón **CQRS** (separación de Commands y Queries).
+- **Frontend (Cliente Web):** React + TypeScript + Vite (interfaz responsive con soporte PWA).
+- **Backend (API REST):** PHP 8.2+ con Laravel (endpoints RESTful independientes de la interfaz).
+- **Base de Datos:** MySQL 8.0 (persistencia relacional centralizada con transacciones ACID).
+- **Contenedores y Despliegue:** Docker y Docker Compose para desarrollo local y despliegue continuo en servidor.
 
 ---
 

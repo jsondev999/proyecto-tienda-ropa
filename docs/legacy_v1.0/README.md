@@ -24,7 +24,7 @@ La **Versión 1.0** presentó un avance inicial del proyecto desarrollado con ba
 | **Gestión de Usuarios** | Roles básicos sin control centralizado de contraseñas. | **Control total del Administrador (RF-73)** para listar y resetear credenciales de empleados. |
 | **Ventas y Emisión** | Términos confusos ("comprobantes" con riesgo de asunción de SUNAT). | **Tickets digitales internos (RF-76)** desligados de SUNAT, con almacenamiento y envío digital. |
 | **Diagramas UML** | Inexistentes. | **Suite completa de Casos de Uso en PlantUML** (código fuente `.puml` e imágenes renderizadas `.png`). |
-| **Estrategia Multiplataforma** | Planteaba aplicaciones móviles nativas desarticuladas. | **Aplicación Web Responsiva (RF-72)** centralizada y desacoplada mediante API REST. |
+| **Estrategia Multiplataforma** | Planteaba aplicaciones móviles nativas desarticuladas. | **Aplicación Web Responsiva (RF-72)** bajo arquitectura cliente-servidor API-first con Clean Architecture. |
 
 ---
 
