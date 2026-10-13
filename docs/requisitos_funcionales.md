@@ -613,42 +613,16 @@
 
 ---
 
-### RF-76 — Gestión de motivos de anulación de ventas
+### RF-76 — Historial y consulta de ventas
 
-**Descripción:** El sistema deberá permitir al Administrador gestionar una lista de motivos predefinidos para la anulación de ventas, garantizando que los vendedores seleccionen una causal formal y estandarizada al cancelar una transacción.  
-**Actor(es):** Administrador  
-**Prioridad:** Media
-
-**Criterios de Aceptación:**
-- El Administrador puede crear, editar y desactivar motivos tipificados de anulación (ej. error en digitación, devolución, fallo en medio de pago).
-- Cada motivo cuenta con un nombre descriptivo y estado activo/inactivo.
-- Los motivos inactivos dejan de ofrecerse para nuevas anulaciones pero se conservan en las auditorías históricas.
-
----
-
-### RF-77 — Anulación de venta con selección de motivo predefinido
-
-**Descripción:** El sistema deberá permitir la anulación controlada de una venta registrada previamente, exigiendo la selección obligatoria de un motivo predefinido por el Administrador. La venta no se eliminará físicamente de la base de datos y su stock se restaurará automáticamente en el inventario del local respectivo.  
+**Descripción:** El sistema deberá permitir consultar el historial completo de ventas realizadas, permitiendo auditar todas las transacciones registradas con filtros detallados.  
 **Actor(es):** Administrador, Empleado  
 **Prioridad:** Alta
 
 **Criterios de Aceptación:**
-- La venta no se elimina de la base de datos; su estado cambia de `COMPLETADA` a `ANULADA`.
-- Para anular es obligatorio seleccionar un motivo de la lista activa (RF-76) y permite agregar una observación complementaria.
-- El sistema ejecuta una transacción atómica que cambia el estado, registra fecha, hora y usuario responsable, y restituye de inmediato el stock al local.
-
----
-
-### RF-78 — Historial y consulta de ventas
-
-**Descripción:** El sistema deberá permitir consultar el historial completo de ventas realizadas, permitiendo auditar transacciones tanto completadas como anuladas con filtros detallados.  
-**Actor(es):** Administrador, Empleado  
-**Prioridad:** Alta
-
-**Criterios de Aceptación:**
-- Presenta el listado cronológico de ventas con comprobante, fecha/hora, local, vendedor, medio de pago, total y estado.
-- Permite filtrar por rango de fechas, local, vendedor, medio de pago y estado (`COMPLETADA` o `ANULADA`).
-- Permite consultar el detalle de productos de cada venta y, si fue anulada, visualizar el motivo registrado y el responsable.
+- Presenta el listado cronológico de ventas con comprobante, fecha/hora, local, vendedor, medio de pago y total.
+- Permite filtrar por rango de fechas, local comercial, vendedor y medio de pago.
+- Permite consultar el desglose detallado de productos, cantidades y precios de cada venta registrada.
 
 ---
 
@@ -1001,7 +975,7 @@
 
 ---
 
-### RF-79 — Búsqueda y filtros para clientes en el catálogo digital
+### RF-77 — Búsqueda y filtros para clientes en el catálogo digital
 
 **Descripción:** El catálogo digital deberá permitir a los clientes buscar y filtrar prendas mediante múltiples criterios combinados, facilitando encontrar productos y consultar la disponibilidad en cada una de las dos tiendas físicas.  
 **Actor(es):** Cliente  

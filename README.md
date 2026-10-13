@@ -10,7 +10,7 @@ El sistema centraliza y optimiza los procesos operativos del negocio, permitiend
 - Control preciso de existencias sincronizado entre los dos locales comerciales.
 - Registro ágil de ventas en punto de venta (POS) y emisión de comprobantes.
 - Catálogo web público para que los clientes consulten prendas, tallas, colores y disponibilidad en cada tienda.
-- Anulación auditada de transacciones mediante motivos estandarizados.
+- Consulta e historial completo de transacciones realizadas.
 - Generación de reportes financieros y de inventario para la toma de decisiones.
 
 El proyecto está diseñado como una **aplicación web moderna y responsiva**, garantizando acceso inmediato desde computadoras de escritorio, tablets y teléfonos celulares sin necesidad de instalaciones complejas, con arquitectura desacoplada para admitir futuras versiones en escritorio o aplicación móvil.
@@ -34,7 +34,6 @@ El sistema se estructura en **5 módulos principales**:
 
 3. **💳 Registro y Gestión de Ventas:**
    - Punto de venta rápido compatible con múltiples medios de pago (efectivo, tarjetas, billeteras digitales).
-   - Anulación controlada de ventas con selección obligatoria de **motivo predefinido** y devolución automática de stock.
    - Historial completo y auditable de transacciones comerciales.
    - Soporte para operación offline temporal y sincronización automática.
 
@@ -55,7 +54,7 @@ El sistema se estructura en **5 módulos principales**:
 
 La especificación completa del sistema se encuentra documentada en:
 
-- 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 79 requisitos detallados con descripción, actores, prioridad y criterios de aceptación.
+- 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados con descripción, actores, prioridad y criterios de aceptación.
 - 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de seguridad, usabilidad, rendimiento y mantenibilidad.
 
 ---
@@ -64,7 +63,7 @@ La especificación completa del sistema se encuentra documentada en:
 
 | Rol | Alcance y Responsabilidades |
 |---|---|
-| **Administrador** | Acceso total al sistema, configuración de catálogos maestros, gestión de usuarios, reseteo de credenciales, anulación de ventas, reportes gerenciales e inventario global. |
+| **Administrador** | Acceso total al sistema, configuración de catálogos maestros, gestión de usuarios, reseteo de credenciales, reportes gerenciales e inventario global. |
 | **Empleado (Vendedor)** | Registro de ventas, consulta de stock por tienda, emisión de comprobantes y búsqueda de productos. |
 | **Cliente** | Acceso de solo lectura al catálogo digital público para consultar prendas y disponibilidad por tienda. |
 
@@ -84,7 +83,7 @@ La especificación completa del sistema se encuentra documentada en:
 ```text
 tienda-ropa/
 ├── docs/
-│   ├── requisitos_funcionales.md      # Especificación funcional detallada (RF-01 a RF-79)
+│   ├── requisitos_funcionales.md      # Especificación funcional detallada (RF-01 a RF-77)
 │   └── requisitos_no_funcionales.md   # Criterios de calidad, seguridad y rendimiento
 └── README.md                          # Información general y guía del proyecto
 ```
