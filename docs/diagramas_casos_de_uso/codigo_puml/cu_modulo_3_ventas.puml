@@ -1,0 +1,66 @@
+@startuml cu_modulo_3_ventas
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam monochrome false
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #2B2D42
+    ArrowColor #2B2D42
+    FontColor #2B2D42
+}
+
+skinparam actor {
+    BackgroundColor #EDF2F4
+    BorderColor #2B2D42
+    FontColor #2B2D42
+}
+
+actor "Administrador" as Admin
+actor "Vendedor" as Vendedor
+
+rectangle "Sistema de Gestión — Registro de Ventas" {
+    usecase "Registrar Venta" as UC_RegistrarVenta
+    usecase "Seleccionar Productos a Vender" as UC_SeleccionarProd
+    usecase "Calcular Total de la Venta" as UC_CalcularTotal
+    usecase "Seleccionar Medio de Pago" as UC_MedioPago
+    usecase "Actualizar Stock en Inventario" as UC_ActualizarStock
+    usecase "Emitir Comprobante de Venta" as UC_EmitirComprobante
+    usecase "Imprimir Comprobante Físico" as UC_ImprimirComprobante
+    usecase "Enviar Comprobante Digital" as UC_EnviarComprobanteDigital
+    usecase "Almacenar Registro Localmente sin Conexión" as UC_OperarOffline
+    usecase "Sincronizar Ventas con la Nube" as UC_SincronizarNube
+    
+    usecase "Consultar Historial de Ventas" as UC_HistorialVentas
+    usecase "Filtrar Ventas por Fecha, Vendedor y Medio de Pago" as UC_FiltrarHistorial
+    usecase "Visualizar Detalle de Transacción" as UC_DetalleVenta
+}
+
+' Asociaciones Vendedor
+Vendedor --> UC_RegistrarVenta
+Vendedor --> UC_HistorialVentas
+
+' Asociaciones Administrador
+Admin --> UC_RegistrarVenta
+Admin --> UC_HistorialVentas
+
+' Inclusiones
+UC_RegistrarVenta ..> UC_SeleccionarProd : <<include>>
+UC_RegistrarVenta ..> UC_CalcularTotal : <<include>>
+UC_RegistrarVenta ..> UC_MedioPago : <<include>>
+UC_RegistrarVenta ..> UC_ActualizarStock : <<include>>
+UC_RegistrarVenta ..> UC_EmitirComprobante : <<include>>
+
+UC_HistorialVentas ..> UC_DetalleVenta : <<include>>
+
+' Extensiones
+UC_ImprimirComprobante ..> UC_EmitirComprobante : <<extend>>
+UC_EnviarComprobanteDigital ..> UC_EmitirComprobante : <<extend>>
+UC_OperarOffline ..> UC_RegistrarVenta : <<extend>>
+UC_SincronizarNube ..> UC_RegistrarVenta : <<extend>>
+UC_FiltrarHistorial ..> UC_HistorialVentas : <<extend>>
+
+@enduml

@@ -1,0 +1,73 @@
+@startuml cu_modulo_2_inventario
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam monochrome false
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #2B2D42
+    ArrowColor #2B2D42
+    FontColor #2B2D42
+}
+
+skinparam actor {
+    BackgroundColor #EDF2F4
+    BorderColor #2B2D42
+    FontColor #2B2D42
+}
+
+actor "Administrador" as Admin
+actor "Vendedor" as Vendedor
+
+rectangle "Sistema de Gestión — Gestión de Inventario" {
+    usecase "Consultar Inventario de Productos" as UC_ConsultarInv
+    usecase "Buscar Productos en Tiempo Real" as UC_BuscarProd
+    usecase "Filtrar Productos por Criterios Múltiples" as UC_FiltrarProd
+    usecase "Consultar Stock por Local Físico" as UC_StockLocal
+    
+    usecase "Registrar Nuevo Producto" as UC_RegistrarProd
+    usecase "Modificar Datos de Producto" as UC_ModificarProd
+    usecase "Eliminar Producto del Inventario" as UC_EliminarProd
+    usecase "Ajustar Existencias de Stock" as UC_AjustarStock
+    usecase "Configurar Umbral de Stock Mínimo" as UC_UmbralStock
+    usecase "Notificar Alerta de Stock Bajo" as UC_AlertaStock
+    usecase "Exportar Inventario a Excel y PDF" as UC_ExportarInv
+    
+    usecase "Gestionar Catálogos Maestros" as UC_CatalogosMaestros
+    usecase "Administrar Categorías de Prendas" as UC_AdmCategorias
+    usecase "Administrar Tallas Disponibles" as UC_AdmTallas
+    usecase "Administrar Colores de Productos" as UC_AdmColores
+    usecase "Administrar Marcas Comerciales" as UC_AdmMarcas
+}
+
+' Interacciones de Vendedor
+Vendedor --> UC_ConsultarInv
+
+' Interacciones de Administrador
+Admin --> UC_ConsultarInv
+Admin --> UC_RegistrarProd
+Admin --> UC_ModificarProd
+Admin --> UC_EliminarProd
+Admin --> UC_AjustarStock
+Admin --> UC_UmbralStock
+Admin --> UC_ExportarInv
+Admin --> UC_CatalogosMaestros
+
+' Inclusiones
+UC_ConsultarInv ..> UC_StockLocal : <<include>>
+UC_RegistrarProd ..> UC_StockLocal : <<include>>
+
+' Extensiones
+UC_BuscarProd ..> UC_ConsultarInv : <<extend>>
+UC_FiltrarProd ..> UC_ConsultarInv : <<extend>>
+UC_AlertaStock ..> UC_ConsultarInv : <<extend>>
+
+UC_AdmCategorias ..> UC_CatalogosMaestros : <<extend>>
+UC_AdmTallas ..> UC_CatalogosMaestros : <<extend>>
+UC_AdmColores ..> UC_CatalogosMaestros : <<extend>>
+UC_AdmMarcas ..> UC_CatalogosMaestros : <<extend>>
+
+@enduml

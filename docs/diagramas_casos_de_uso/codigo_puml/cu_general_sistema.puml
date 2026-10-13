@@ -1,0 +1,77 @@
+@startuml cu_general_sistema
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam monochrome false
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #2B2D42
+    ArrowColor #2B2D42
+    FontColor #2B2D42
+}
+
+skinparam actor {
+    BackgroundColor #EDF2F4
+    BorderColor #2B2D42
+    FontColor #2B2D42
+}
+
+actor "Administrador" as Admin
+actor "Vendedor" as Vendedor
+actor "Cliente" as Cliente
+
+rectangle "Sistema de Gestión y Catálogo Digital" {
+    package "Módulo 1: Autenticación y Seguridad" {
+        usecase "Iniciar Sesión" as UC_Login
+        usecase "Gestionar Usuarios del Sistema" as UC_GestionUsuarios
+    }
+    
+    package "Módulo 2: Gestión de Inventario" {
+        usecase "Consultar Inventario de Productos" as UC_ConsultarInv
+        usecase "Administrar Catálogo de Productos y Stock" as UC_AdmInventario
+        usecase "Gestionar Catálogos Maestros" as UC_CatalogosMaestros
+    }
+    
+    package "Módulo 3: Registro de Ventas" {
+        usecase "Registrar Transacción de Venta" as UC_RegistrarVenta
+        usecase "Consultar Historial de Ventas" as UC_HistorialVentas
+    }
+    
+    package "Módulo 4: Reportes y Análisis" {
+        usecase "Generar y Analizar Reportes de Ventas" as UC_ReportesVentas
+        usecase "Programar Envío Automático de Reportes" as UC_ProgramarReportes
+    }
+    
+    package "Módulo 5: Catálogo Digital" {
+        usecase "Explorar Catálogo Público de Prendas" as UC_ExplorarCatalogo
+        usecase "Consultar Disponibilidad por Tienda Física" as UC_ConsultarStockTiendas
+        usecase "Consultar Ubicación de Tiendas Físicas" as UC_UbicacionTiendas
+    }
+}
+
+' Asociaciones Cliente
+Cliente --> UC_ExplorarCatalogo
+Cliente --> UC_ConsultarStockTiendas
+Cliente --> UC_UbicacionTiendas
+
+' Asociaciones Vendedor
+Vendedor --> UC_Login
+Vendedor --> UC_ConsultarInv
+Vendedor --> UC_RegistrarVenta
+Vendedor --> UC_HistorialVentas
+
+' Asociaciones Administrador
+Admin --> UC_Login
+Admin --> UC_GestionUsuarios
+Admin --> UC_ConsultarInv
+Admin --> UC_AdmInventario
+Admin --> UC_CatalogosMaestros
+Admin --> UC_RegistrarVenta
+Admin --> UC_HistorialVentas
+Admin --> UC_ReportesVentas
+Admin --> UC_ProgramarReportes
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml cu_modulo_5_catalogo
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam monochrome false
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #2B2D42
+    ArrowColor #2B2D42
+    FontColor #2B2D42
+}
+
+skinparam actor {
+    BackgroundColor #EDF2F4
+    BorderColor #2B2D42
+    FontColor #2B2D42
+}
+
+actor "Cliente" as Cliente
+
+rectangle "Catálogo Digital Público" {
+    usecase "Visualizar Catálogo de Productos" as UC_VerCatalogo
+    usecase "Filtrar por Categoría de Prendas" as UC_FiltrarCat
+    usecase "Filtrar por Talla y Color" as UC_FiltrarTallaColor
+    usecase "Buscar Prendas por Texto Predictivo" as UC_BuscarTexto
+    usecase "Consultar Ficha Detallada del Producto" as UC_VerFicha
+    usecase "Consultar Disponibilidad de Stock por Tienda Física" as UC_VerStockTienda
+    usecase "Visualizar Ubicación de Tiendas Físicas en Mapa" as UC_VerUbicacionTiendas
+}
+
+Cliente --> UC_VerCatalogo
+Cliente --> UC_VerUbicacionTiendas
+
+' Inclusiones
+UC_VerFicha ..> UC_VerStockTienda : <<include>>
+
+' Extensiones
+UC_FiltrarCat ..> UC_VerCatalogo : <<extend>>
+UC_FiltrarTallaColor ..> UC_VerCatalogo : <<extend>>
+UC_BuscarTexto ..> UC_VerCatalogo : <<extend>>
+UC_VerFicha ..> UC_VerCatalogo : <<extend>>
+
+@enduml

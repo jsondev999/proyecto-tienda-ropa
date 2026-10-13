@@ -1,0 +1,64 @@
+@startuml cu_modulo_4_reportes
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam monochrome false
+left to right direction
+
+skinparam usecase {
+    BackgroundColor #F8F9FA
+    BorderColor #2B2D42
+    ArrowColor #2B2D42
+    FontColor #2B2D42
+}
+
+skinparam actor {
+    BackgroundColor #EDF2F4
+    BorderColor #2B2D42
+    FontColor #2B2D42
+}
+
+actor "Administrador" as Admin
+
+rectangle "Sistema de Gestión — Reportes y Análisis" {
+    usecase "Generar Reporte de Ventas" as UC_GenRepVentas
+    usecase "Filtrar por Rango de Fechas" as UC_FiltroFechas
+    usecase "Filtrar por Local Físico" as UC_FiltroLocal
+    usecase "Filtrar por Vendedor" as UC_FiltroVendedor
+    usecase "Filtrar por Medio de Pago" as UC_FiltroPago
+    usecase "Filtrar por Categoría de Producto" as UC_FiltroCat
+    usecase "Generar Gráficos Estadísticos de Ventas" as UC_GraficosVentas
+    usecase "Comparar Ventas entre Locales" as UC_CompararLocales
+    usecase "Consultar Reporte de Ganancias Netas" as UC_Ganancias
+    
+    usecase "Consultar Productos Más y Menos Vendidos" as UC_RankingProd
+    usecase "Exportar Reporte a Formato PDF" as UC_ExportarPDF
+    usecase "Exportar Reporte a Formato Excel" as UC_ExportarExcel
+    usecase "Programar Envío Automático de Reportes" as UC_ProgramarEnvio
+    usecase "Guardar Configuración Personalizada de Reportes" as UC_ConfigPersonalizada
+}
+
+Admin --> UC_GenRepVentas
+Admin --> UC_RankingProd
+Admin --> UC_CompararLocales
+Admin --> UC_Ganancias
+Admin --> UC_ProgramarEnvio
+Admin --> UC_ConfigPersonalizada
+
+' Inclusiones
+UC_RankingProd ..> UC_GenRepVentas : <<include>>
+
+' Extensiones de filtrado
+UC_FiltroFechas ..> UC_GenRepVentas : <<extend>>
+UC_FiltroLocal ..> UC_GenRepVentas : <<extend>>
+UC_FiltroVendedor ..> UC_GenRepVentas : <<extend>>
+UC_FiltroPago ..> UC_GenRepVentas : <<extend>>
+UC_FiltroCat ..> UC_GenRepVentas : <<extend>>
+
+' Extensiones de visualización y exportación
+UC_GraficosVentas ..> UC_GenRepVentas : <<extend>>
+UC_ExportarPDF ..> UC_GenRepVentas : <<extend>>
+UC_ExportarExcel ..> UC_GenRepVentas : <<extend>>
+
+@enduml
