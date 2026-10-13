@@ -3,30 +3,10 @@
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
 **Versión:** 2.0  
 **Fecha:** 13/10/2026  
-**Documento base:** Guía Metodológica de Requisitos — Primera Fase  
 
 ---
 
-## 📌 1. Marco Metodológico
-
-De acuerdo con el estándar de ingeniería de requisitos de la cátedra:
-> *La necesidad o requerimiento de usuario expresa qué necesita lograr el interesado o qué problema del negocio desea resolver, sin describir aún la solución técnica ni componentes de software específicos.*
-
-### 1.1 Estructura Estándar Aplicada
-Toda necesidad de este documento responde a la pregunta **"¿Quién necesita qué y para qué?"** mediante la fórmula:
-
-$$\text{[Actor/Interesado]} + \text{necesita} + \text{[capacidad o resultado]} + \text{para} + \text{[objetivo o beneficio]}$$
-
-### 1.2 Elementos de Análisis
-Cada necesidad se desglosa en cuatro dimensiones clave:
-* **Actor / Interesado:** Persona o rol del negocio que experimenta la carencia o impulsa el requerimiento.
-* **Necesidad:** Verbo y acción sustantiva que describe la capacidad requerida.
-* **Objeto:** El elemento de información, recurso o proceso sobre el cual recae la acción.
-* **Propósito:** El impacto de negocio, ganancia de eficiencia o mitigación de riesgo que se persigue.
-
----
-
-## 📋 2. Catálogo General de Necesidades de Negocio
+## 📋 1. Catálogo General de Necesidades de Negocio
 
 | ID | Nombre de la Necesidad | Actor Principal | Módulo de Negocio Relacionado |
 |---|---|---|---|
@@ -43,7 +23,7 @@ Cada necesidad se desglosa en cuatro dimensiones clave:
 
 ---
 
-## 🔍 3. Detalle y Desglose de Necesidades de Negocio
+## 🔍 2. Detalle y Desglose de Necesidades de Negocio
 
 ---
 
@@ -361,7 +341,7 @@ N-10
 
 ---
 
-## 📊 4. Matriz de Cobertura de Necesidades vs. Módulos
+## 📊 3. Matriz de Cobertura de Necesidades vs. Módulos
 
 Esta matriz verifica que el 100% del alcance funcional del sistema responda directamente a una necesidad legítima del negocio:
 
