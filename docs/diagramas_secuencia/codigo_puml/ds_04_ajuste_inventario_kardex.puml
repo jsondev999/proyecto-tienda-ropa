@@ -1,0 +1,90 @@
+@startuml ds_04_ajuste_inventario_kardex
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Administrador" as Admin
+participant "Frontend (React)\nInventarioAjusteModal" as UI
+participant "Middleware Auth\nBearer Token JWT" as Middleware
+participant "Backend Controller\nInventarioController" as Controller
+participant "Application Service\nRegistrarAjusteHandler" as Service
+database "Database (MySQL)\nInnoDB Engine" as DB
+
+Admin -> UI : Selecciona variante, local, tipo de ajuste (INGRESO/SALIDA_MERMA/CORRECCION),\ncantidad (+ / -) y escribe motivo obligatorio
+activate UI
+
+UI -> Middleware : POST /api/inventario/ajustes\nHeaders: { Authorization: Bearer <token> }\nJSON: { local_id, variante_id, tipo_ajuste, cantidad, motivo }
+activate Middleware
+
+alt Token inválido o Rol != ADMINISTRADOR
+    Middleware --> UI : HTTP 403 Forbidden\nJSON: { error: "Acción restringida al Administrador" }
+    UI --> Admin : Notificación de acceso denegado
+else Token Válido y Rol Autorizado
+    Middleware -> Controller : Reenvía petición autenticada (usuario_id)
+    deactivate Middleware
+    activate Controller
+
+    Controller -> Controller : Validar motivo no vacío (min. 10 caracteres)\ny cantidad distinta de cero
+    alt Validación fallida
+        Controller --> UI : HTTP 422 Unprocessable Entity\nJSON: { errors: [ "El motivo es obligatorio y debe tener al menos 10 caracteres" ] }
+        UI --> Admin : Muestra error en formulario modal
+    else Datos válidos
+        Controller -> Service : execute(RegistrarAjusteStockCommand)
+        activate Service
+
+        group Transacción de Auditoría y Actualización de Stock [MySQL ACID]
+            Service -> DB : START TRANSACTION
+            activate DB
+
+            Service -> DB : SELECT stock_actual, stock_minimo FROM inventario\nWHERE local_id = ? AND variante_id = ? FOR UPDATE
+            DB --> Service : stock_actual, stock_minimo
+
+            alt Ajuste negativo excede stock actual (stock_actual + cantidad < 0)
+                Service -> DB : ROLLBACK
+                Service --> Controller : throw InvalidStockAdjustmentException("El ajuste no puede dejar existencias negativas")
+                Controller --> UI : HTTP 400 Bad Request\nJSON: { error: "La cantidad a retirar supera el stock actual en tienda" }
+                UI --> Admin : Muestra alerta de inconsistencia de cantidad
+            else Ajuste Válido
+                Service -> DB : UPDATE inventario\nSET stock_actual = stock_actual + ?, updated_at = NOW()\nWHERE local_id = ? AND variante_id = ?
+                DB --> Service : OK
+
+                Service -> DB : INSERT INTO ajustes_inventario\n(local_id, variante_id, usuario_id, tipo_ajuste, cantidad, motivo, fecha_ajuste)\nVALUES (?, ?, ?, ?, ?, ?, NOW())
+                DB --> Service : ajuste_id generado
+
+                Service -> DB : COMMIT
+                DB --> Service : Transacción confirmada
+                deactivate DB
+
+                Service --> Controller : AjusteRealizadoDto(ajuste_id, nuevo_stock, alerta_stock_bajo: (nuevo_stock <= stock_minimo))
+                deactivate Service
+
+                Controller --> UI : HTTP 201 Created\nJSON: { mensaje: "Ajuste registrado exitosamente", nuevo_stock: 12, alerta: false }
+                deactivate Controller
+
+                UI -> UI : Cerrar modal y actualizar fila en la tabla de inventario
+                alt alerta == true
+                    UI --> Admin : Muestra notificación de éxito con advertencia: "Stock bajo el umbral mínimo"
+                else alerta == false
+                    UI --> Admin : Muestra notificación de éxito
+                end
+                deactivate UI
+            end
+        end
+    end
+end
+
+@enduml

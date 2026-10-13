@@ -1,0 +1,97 @@
+@startuml ds_02_registro_producto_variantes
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Administrador" as Admin
+participant "Frontend (React)\nProductoFormView" as UI
+participant "Middleware Auth\nBearer Token JWT" as Middleware
+participant "Backend Controller\nProductoController" as Controller
+participant "Application Service\nRegistrarProductoHandler" as Service
+participant "Storage Service\nImageStorage" as Storage
+database "Database (MySQL)\nInnoDB Engine" as DB
+
+Admin -> UI : Completa datos de prenda (nombre, categoría, marca, precios)\ny selecciona matriz de tallas/colores
+activate UI
+
+UI -> Middleware : POST /api/productos (Multipart Form Data)\nHeaders: { Authorization: Bearer <token> }
+activate Middleware
+
+alt Token inválido o Rol != ADMINISTRADOR
+    Middleware --> UI : HTTP 403 Forbidden\nJSON: { error: "Acceso no autorizado" }
+    UI --> Admin : Muestra alerta de permisos insuficientes
+else Token Válido y Rol Verificado
+    Middleware -> Controller : Reenvía petición autenticada
+    deactivate Middleware
+    activate Controller
+
+    Controller -> Controller : Validar campos obligatorios (FormRequest)
+    alt Datos inválidos (precios negativos, modelo duplicado)
+        Controller --> UI : HTTP 422 Unprocessable Entity\nJSON: { errors: [ ... ] }
+        UI --> Admin : Muestra errores de validación en formulario
+    else Datos válidos
+        Controller -> Storage : subirImagen(imagenFile)
+        activate Storage
+        Storage --> Controller : imagenUrl
+        deactivate Storage
+
+        Controller -> Service : execute(RegistrarProductoCommand)
+        activate Service
+
+        group Transacción Atómica de Registro [MySQL ACID]
+            Service -> DB : START TRANSACTION
+            activate DB
+
+            Service -> DB : INSERT INTO productos\n(categoria_id, marca_id, codigo_modelo, nombre, descripcion,\nprecio_compra, precio_venta, imagen_url, activo, created_at, updated_at)\nVALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW())
+            DB --> Service : producto_id generado
+
+            loop Por cada combinación de (talla_id, color_id) seleccionada
+                Service -> Service : Generar SKU único (ej. POL-LEV-M-NEG-001)
+                Service -> DB : INSERT INTO variantes_producto\n(producto_id, talla_id, color_id, sku, codigo_barras, activo, created_at, updated_at)\nVALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())
+                DB --> Service : variante_id generado
+
+                loop Para cada local físico (Local 1 y Local 2)
+                    Service -> DB : INSERT INTO inventario\n(local_id, variante_id, stock_actual, stock_minimo, updated_at)\nVALUES (?, ?, 0, 5, NOW())
+                    DB --> Service : OK
+                end
+            end
+
+            alt Error en inserción o duplicidad de SKU
+                Service -> DB : ROLLBACK
+                DB --> Service : Transacción revertida
+                Service --> Controller : throw DatabaseException("Error al registrar variantes")
+                Controller --> UI : HTTP 500 Internal Server Error\nJSON: { error: "No se pudo registrar el producto" }
+                UI --> Admin : Mensaje de error de servidor
+            else Registro Exitoso
+                Service -> DB : COMMIT
+                DB --> Service : Transacción confirmada
+                deactivate DB
+
+                Service --> Controller : ProductoCreadoDto(id, nombre, variantesCount)
+                deactivate Service
+
+                Controller --> UI : HTTP 201 Created\nJSON: { mensaje: "Producto registrado con éxito", id: producto_id }
+                deactivate Controller
+
+                UI --> Admin : Notificación de éxito y actualización del inventario
+                deactivate UI
+            end
+        end
+    end
+end
+
+@enduml

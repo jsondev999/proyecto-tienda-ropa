@@ -1,0 +1,83 @@
+@startuml ds_01_autenticacion_jwt
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Usuario\n(Admin/Vendedor)" as Actor
+participant "Frontend (React)\nLoginView" as UI
+participant "Backend Controller\nAuthController" as Controller
+participant "Application Service\nLoginCommandHandler" as Service
+participant "Domain Entity\nUsuario" as Domain
+database "Database (MySQL)\nTabla: usuarios" as DB
+
+Actor -> UI : Ingresa username y password
+activate UI
+
+UI -> Controller : POST /api/auth/login\nJSON: { username, password }
+activate Controller
+
+Controller -> Service : execute(LoginCommand)
+activate Service
+
+Service -> DB : SELECT id, username, password_hash, rol, local_id, intentos_fallidos, bloqueado, activo\nFROM usuarios WHERE username = ?
+activate DB
+DB --> Service : Registro de usuario
+deactivate DB
+
+alt Usuario no existe o cuenta inactiva (activo = 0)
+    Service --> Controller : throw AuthenticationException("Credenciales incorrectas")
+    Controller --> UI : HTTP 401 Unauthorized\nJSON: { error: "Credenciales incorrectas" }
+    UI --> Actor : Muestra mensaje de error genérico
+else Cuenta bloqueada por seguridad (bloqueado = 1)
+    Service --> Controller : throw AccountLockedException("Cuenta bloqueada temporalmente")
+    Controller --> UI : HTTP 403 Forbidden\nJSON: { error: "Cuenta bloqueada por múltiples intentos" }
+    UI --> Actor : Alerta de cuenta bloqueada (contactar al Administrador)
+else Validación de Hash de Contraseña
+    Service -> Domain : verificarPassword(password, password_hash)
+    activate Domain
+    Domain --> Service : Resultado (true / false)
+    deactivate Domain
+
+    alt Password Incorrecto (Hash no coincide)
+        Service -> DB : UPDATE usuarios SET intentos_fallidos = intentos_fallidos + 1,\nbloqueado = CASE WHEN intentos_fallidos + 1 >= 5 THEN 1 ELSE 0 END\nWHERE id = ?
+        activate DB
+        DB --> Service : OK
+        deactivate DB
+        
+        Service --> Controller : throw AuthenticationException("Credenciales incorrectas")
+        Controller --> UI : HTTP 401 Unauthorized\nJSON: { error: "Credenciales incorrectas" }
+        UI --> Actor : Muestra error sin revelar cuál dato falló
+    else Password Correcto
+        Service -> DB : UPDATE usuarios SET intentos_fallidos = 0, ultimo_acceso = NOW()\nWHERE id = ?
+        activate DB
+        DB --> Service : OK
+        deactivate DB
+
+        Service -> Service : Generar Token JWT firmado con Claims\n(userId, username, rol, localId, exp: 8h)
+        Service --> Controller : AuthResponseDto(token, userSummary)
+        deactivate Service
+
+        Controller --> UI : HTTP 200 OK\nJSON: { token, user: { id, username, rol, local_id } }
+        deactivate Controller
+
+        UI -> UI : Almacenar token en Storage seguro\ny configurar cabecera Authorization: Bearer <token>
+        UI --> Actor : Confirmación visual y redirección según rol\n(Dashboard Admin o Terminal POS)
+        deactivate UI
+    end
+end
+
+@enduml

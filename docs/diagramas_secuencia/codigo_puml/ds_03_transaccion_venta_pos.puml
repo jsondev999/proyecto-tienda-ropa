@@ -1,0 +1,109 @@
+@startuml ds_03_transaccion_venta_pos
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Vendedor" as Vendedor
+participant "Frontend (React)\nTerminalPosView" as UI
+participant "Middleware Auth\nBearer Token JWT" as Middleware
+participant "Backend Controller\nVentaController" as Controller
+participant "Application Service\nRegistrarVentaHandler" as Service
+participant "Infra Service\nTicketGeneratorService" as TicketService
+database "Database (MySQL)\nInnoDB Engine" as DB
+
+Vendedor -> UI : Agrega prendas al carrito, selecciona medios de pago\n(ej. S/ 80 Efectivo + S/ 50 Yape) y presiona "Confirmar Venta"
+activate UI
+
+UI -> Middleware : POST /api/ventas\nHeaders: { Authorization: Bearer <token> }\nJSON: { local_id, items: [ { variante_id, cantidad, precio_unitario } ], pagos: [ ... ] }
+activate Middleware
+
+Middleware -> Controller : Reenvía petición con usuario autenticado (usuario_id)
+deactivate Middleware
+activate Controller
+
+Controller -> Service : execute(RegistrarVentaCommand)
+activate Service
+
+group Transacción Transaccional ACID con Bloqueo de Stock [Concurrencia Segura]
+    Service -> DB : START TRANSACTION
+    activate DB
+
+    note over Service, DB
+      Bloqueo pesimista de filas en tabla 'inventario'
+      para evitar ventas en negativo por concurrencia entre terminales
+    end note
+
+    loop Por cada item en la venta
+        Service -> DB : SELECT stock_actual, stock_minimo FROM inventario\nWHERE local_id = ? AND variante_id = ? FOR UPDATE
+        DB --> Service : stock_actual
+        
+        alt stock_actual < cantidad_solicitada
+            Service -> DB : ROLLBACK
+            DB --> Service : Transacción abortada
+            Service --> Controller : throw StockInsuficienteException("Stock insuficiente para variante")
+            Controller --> UI : HTTP 400 Bad Request\nJSON: { error: "Stock insuficiente para el producto seleccionado" }
+            UI --> Vendedor : Alerta de stock insuficiente en tienda
+        end
+    end
+
+    Service -> Service : Validar cuadre: suma(pagos.monto) == total_venta
+    alt Pago incompleto o descuadrado
+        Service -> DB : ROLLBACK
+        Service --> Controller : throw PaymentMismatchException("Los pagos no cubren el total")
+        Controller --> UI : HTTP 422 Unprocessable Entity\nJSON: { error: "El importe de pago no coincide con el total" }
+        UI --> Vendedor : Muestra error en pantalla de cobro
+    else Stock confirmado y pagos validados
+        Service -> Service : Generar número de ticket correlativo (ej. TICK-L1-00001045)
+
+        Service -> DB : INSERT INTO ventas\n(numero_ticket, local_id, usuario_id, subtotal, total, fecha_venta, sincronizado_nube, created_at)\nVALUES (?, ?, ?, ?, ?, NOW(), 1, NOW())
+        DB --> Service : venta_id generado
+
+        loop Por cada item vendido
+            Service -> DB : INSERT INTO detalle_ventas\n(venta_id, variante_id, cantidad, precio_unitario, costo_unitario, subtotal)\nVALUES (?, ?, ?, ?, ?, ?)
+            DB --> Service : OK
+
+            Service -> DB : UPDATE inventario\nSET stock_actual = stock_actual - ?\nWHERE local_id = ? AND variante_id = ?
+            DB --> Service : OK
+        end
+
+        loop Por cada medio de pago utilizado
+            Service -> DB : INSERT INTO pagos_venta\n(venta_id, metodo_pago_id, monto, referencia)\nVALUES (?, ?, ?, ?)
+            DB --> Service : OK
+        end
+
+        Service -> DB : COMMIT
+        DB --> Service : Transacción exitosa
+        deactivate DB
+
+        Service -> TicketService : generarTicketDigital(venta_id)
+        activate TicketService
+        TicketService --> Service : ticketPdfData (base64 o url descargable)
+        deactivate TicketService
+
+        Service --> Controller : VentaConfirmadaDto(venta_id, numero_ticket, total, ticketPdfData)
+        deactivate Service
+
+        Controller --> UI : HTTP 201 Created\nJSON: { mensaje: "Venta registrada con éxito", ticket: { numero, total, url } }
+        deactivate Controller
+
+        UI -> UI : Limpiar carrito de compras en pantalla y memoria
+        UI --> Vendedor : Muestra modal con ticket digital listo para imprimir o enviar
+        deactivate UI
+    end
+end
+
+@enduml

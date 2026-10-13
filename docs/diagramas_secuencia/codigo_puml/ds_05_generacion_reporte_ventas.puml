@@ -1,0 +1,80 @@
+@startuml ds_05_generacion_reporte_ventas
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Administrador" as Admin
+participant "Frontend (React)\nReportesDashboardView" as UI
+participant "Middleware Auth\nBearer Token JWT" as Middleware
+participant "Backend Controller\nReportesController" as Controller
+participant "Application Service\nConsultarReporteVentasHandler" as Service
+participant "Infra Service\nReportExporterService" as Exporter
+database "Database (MySQL)\nInnoDB Engine" as DB
+
+Admin -> UI : Aplica filtros (fecha_inicio, fecha_fin, local_id, formato: 'PDF' o 'EXCEL')\ny hace clic en "Descargar Reporte"
+activate UI
+
+UI -> Middleware : GET /api/reportes/ventas?fecha_inicio=2026-10-01&fecha_fin=2026-10-12&local_id=1&formato=PDF\nHeaders: { Authorization: Bearer <token> }
+activate Middleware
+
+alt Token inválido o expirado
+    Middleware --> UI : HTTP 401 Unauthorized\nJSON: { error: "Sesión expirada" }
+    UI --> Admin : Redirección a Login
+else Permiso Autorizado (Rol: Administrador)
+    Middleware -> Controller : Reenvía petición autenticada
+    deactivate Middleware
+    activate Controller
+
+    Controller -> Controller : Validar rango de fechas (fecha_inicio <= fecha_fin)
+    alt Rango de fechas ilógico
+        Controller --> UI : HTTP 422 Unprocessable Entity\nJSON: { error: "La fecha de inicio no puede ser posterior a la fecha de fin" }
+        UI --> Admin : Muestra mensaje de validación
+    else Fechas válidas
+        Controller -> Service : execute(ConsultarReporteVentasQuery)
+        activate Service
+
+        Service -> DB : SELECT v.id, v.numero_ticket, v.fecha_venta, u.nombre_completo AS vendedor,\n       l.nombre AS local, dv.cantidad, dv.precio_unitario, dv.costo_unitario,\n       (dv.precio_unitario - dv.costo_unitario) * dv.cantidad AS ganancia_neta,\n       p.nombre AS prenda, t.nombre AS talla, c.nombre AS color\nFROM ventas v\nINNER JOIN detalle_ventas dv ON v.id = dv.venta_id\nINNER JOIN variantes_producto vp ON dv.variante_id = vp.id\nINNER JOIN productos p ON vp.producto_id = p.id\nINNER JOIN tallas t ON vp.talla_id = t.id\nINNER JOIN colores c ON vp.color_id = c.id\nINNER JOIN usuarios u ON v.usuario_id = u.id\nINNER JOIN locales l ON v.local_id = l.id\nWHERE v.fecha_venta BETWEEN ? AND ? AND (v.local_id = ? OR ? IS NULL)\nORDER BY v.fecha_venta DESC
+        activate DB
+        DB --> Service : Lista de transacciones y renglones de detalle
+        deactivate DB
+
+        Service -> Service : Calcular métricas consolidadas:\nTotal Ingresos, Total Costos, Ganancia Neta Total y Top Prendas Vendidas
+
+        alt formato == "JSON" (Visualización en pantalla)
+            Service --> Controller : ReporteVentasDto(metricas, filas)
+            Controller --> UI : HTTP 200 OK\nJSON: { metricas: { total, ganancia, transacciones }, items: [ ... ] }
+            UI --> Admin : Renderiza tablas y gráficos interactivos
+        else formato == "PDF" o "EXCEL" (Exportación de Archivo)
+            Service -> Exporter : exportarArchivo(filas, metricas, formato)
+            activate Exporter
+            Exporter --> Service : archivoBinario, nombreArchivo, mimeType
+            deactivate Exporter
+
+            Service --> Controller : ArchivoDescargaDto(archivoBinario, nombreArchivo, mimeType)
+            deactivate Service
+
+            Controller --> UI : HTTP 200 OK\nHeaders: {\n  Content-Type: application/pdf,\n  Content-Disposition: attachment; filename="reporte_ventas_oct2026.pdf"\n}\nBody: [Binary Stream]
+            deactivate Controller
+
+            UI -> UI : Disparar descarga automática en el navegador
+            UI --> Admin : Notificación: "Reporte generado y descargado con éxito"
+            deactivate UI
+        end
+    end
+end
+
+@enduml
