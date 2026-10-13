@@ -65,8 +65,6 @@ El estándar es de **aplicación obligatoria** para todos los componentes del si
 - La API REST
 - La base de datos MySQL
 
-**Fuera del alcance:** pasarela de pago en línea, integración con SUNAT y comprobantes electrónicos, módulo de compras a proveedores y tienda virtual para clientes externos.
-
 ---
 
 ## 4. Marco metodológico y referencias
