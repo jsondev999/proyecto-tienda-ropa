@@ -12,7 +12,7 @@
 Un **Diagrama de Flujo de Datos (DFD)** es una herramienta de modelado estructurado que representa cómo se mueve, transforma y almacena la información dentro de un sistema.
 
 A diferencia del **Caso de Uso** (que modela *quién interactúa con qué pantalla para lograr una meta*), el **DFD** se concentra en:
-$$\text{Entidad Externa} \longrightarrow \text{Proceso (Transformación)} \longleftrightarrow \text{Flujo de Datos} \longleftrightarrow \text{Almacén de Datos}$$
+> **Entidad Externa ➔ Proceso (Transformación) ⇄ Flujo de Datos ⇄ Almacén de Datos**
 
 ### 1.1 Elementos Notacionales (Gane & Sarson / Yourdon)
 
@@ -20,8 +20,8 @@ $$\text{Entidad Externa} \longrightarrow \text{Proceso (Transformación)} \longl
 |:---:|---|---|
 | 🟩 | **Entidad Externa** | Persona u organización externa al software que envía datos de entrada o recibe resultados del sistema (*Vendedor, Administrador, Cliente*). |
 | 🔵 | **Proceso** | Función o rutina del software que transforma datos de entrada en datos de salida mediante reglas de negocio. |
-| $\longrightarrow$ | **Flujo de Datos** | Tubería o movimiento de información entre procesos, entidades y almacenes. **Siempre se nombra con un sustantivo**. |
-| 🗄️ | **Almacén de Datos ($D\#$)** | Repositorio pasivo donde los datos se guardan para su uso posterior (tablas de la base de datos). |
+| ➔ | **Flujo de Datos** | Tubería o movimiento de información entre procesos, entidades y almacenes. **Siempre se nombra con un sustantivo**. |
+| 🗄️ | **Almacén de Datos (D1, D2...)** | Repositorio pasivo donde los datos se guardan para su uso posterior (tablas de la base de datos). |
 
 ### 1.2 Reglas Básicas Cumplidas en este Modelo
 1. **Regla de Nomenclatura:** Todos los flujos tienen nombres sustantivos (ej. *"Datos de venta"*, no verbos como *"Vender"*).
@@ -163,7 +163,7 @@ flowchart TB
     P5 -->|"Disponibilidad física por tienda"| E_CLIENTE
 ```
 
-### Diccionario de Almacenes de Datos ($D\#$)
+### Diccionario de Almacenes de Datos (D1 a D5)
 
 | Código | Nombre del Almacén | Contenido de Datos Almacenados | Tablas Físicas de la BD |
 |:---:|---|---|---|
