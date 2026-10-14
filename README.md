@@ -75,6 +75,7 @@ El sistema se estructura en **5 módulos principales**:
 - 📝 [Especificaciones de Casos de Uso (`docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md`)](docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md) — 15 fichas de casos de uso con flujos, precondiciones, postcondiciones y trazabilidad (CU-01 a CU-15).
 - 🔄 [Diagramas de Flujo de Datos DFD (`docs/diagramas_dfd/documentacion_dfd.md`)](docs/diagramas_dfd/documentacion_dfd.md) — DFD Nivel 0 (Contexto), Nivel 1 (Procesos) y Nivel 2 (Ventas) con código Mermaid y almacenes D1 a D5.
 - 🧪 [Especificación de Casos de Prueba (`docs/casos_de_prueba.md`)](docs/casos_de_prueba.md) — 77 casos de prueba (CP-01 a CP-77) bajo estándar IEEE 829 para verificación funcional de criterios de aceptación.
+- 🎯 [Matriz de Trazabilidad Integral (`docs/matriz_de_trazabilidad.md`)](docs/matriz_de_trazabilidad.md) — Matriz oficial de 7 columnas relacionando Necesidad, RF, RNF, Caso de Uso, DFD, Diseño y Prueba para el 100% de requisitos.
 - 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
 
 ---
@@ -120,6 +121,7 @@ tienda-ropa/
 │   ├── necesidades_del_negocio.md     # Especificación formal de necesidades (N-01 a N-10)
 │   ├── requisitos_funcionales.md      # Especificación funcional v2.0 (RF-01 a RF-77)
 │   ├── requisitos_no_funcionales.md   # Criterios de calidad v2.0
-│   └── casos_de_prueba.md             # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
+│   ├── casos_de_prueba.md             # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
+│   └── matriz_de_trazabilidad.md      # Matriz integral de 7 columnas (N ➔ RF ➔ RNF ➔ CU ➔ DFD ➔ DS ➔ CP)
 └── README.md                          # Guía general del proyecto (v2.0)
 ```
