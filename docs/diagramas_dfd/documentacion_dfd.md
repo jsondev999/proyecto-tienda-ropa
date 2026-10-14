@@ -3,7 +3,6 @@
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
 **Versión:** 2.0  
 **Fecha:** 13/10/2026  
-**Documento base:** Infografía y Estándar Académico DFD (Niveles 0, 1 y 2)  
 
 ---
 
