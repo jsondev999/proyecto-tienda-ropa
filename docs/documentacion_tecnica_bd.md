@@ -301,7 +301,7 @@ A continuación se detallan todas las relaciones de integridad referencial entre
 
 ## 4. Diagrama Entidad-Relación (Mermaid ER)
 
-El siguiente diagrama modela de forma gráfica las 15 tablas transaccionales y sus relaciones de cardinalidad bajo la Tercera Forma Normal (3FN):
+El siguiente diagrama modela de forma gráfica las 17 tablas transaccionales y sus relaciones de cardinalidad bajo la Tercera Forma Normal (3FN):
 
 ```mermaid
 erDiagram

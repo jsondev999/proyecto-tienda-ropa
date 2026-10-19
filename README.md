@@ -120,6 +120,9 @@ tienda-ropa/
 ├── .github/
 │   └── workflows/
 │       └── docs-validation.yml          # Flujo CI: Validación de markdown, links rotos y diagramas
+├── database/
+│   ├── schema.sql                       # Script DDL oficial para MySQL 8.0 (17 tablas normalizadas en 3FN)
+│   └── seeds.sql                        # Datos semilla de catálogos cerrados, locales y usuarios
 ├── docs/
 │   ├── acuerdos/                        # Working Agreement y gobernanza del equipo (Scrum + RUP)
 │   ├── analisis_edt/                    # Diagnóstico crítico y propuesta optimizada de la WBS
@@ -149,8 +152,25 @@ tienda-ropa/
 │   ├── requisitos_funcionales.md        # 77 Requisitos Funcionales Oficiales v2.1
 │   └── requisitos_no_funcionales.md     # 14 Criterios de calidad RNF-01 a RNF-14 v2.1
 ├── .gitignore                           # Exclusión de temporales y archivos del SO
-├── .markdownlint.json                   # Configuración del linter de documentación
+├── .markdownlint-cli2.jsonc             # Reglas afinadas del linter de documentación
+├── .markdownlint.json                   # Compatibilidad con extensiones de editor
 ├── .mlc-config.json                     # Reglas de validación para chequeo de links
+├── docker-compose.yml                   # Orquestación de MySQL 8.0 y phpMyAdmin
 ├── INFORME_ANALISIS_Y_MEJORAS.md        # Auditoría de coherencia y plan de acción
 └── README.md                            # Guía general del proyecto (v2.0)
+```
+
+---
+
+## 🐳 Inicialización Rápida del Entorno (Base de Datos Local)
+
+Para inicializar la base de datos MySQL 8.0 con su esquema completo de 17 tablas y datos semilla de catálogos maestros:
+
+```bash
+# Levantar contenedores en segundo plano:
+docker compose up -d
+
+# Acceder al administrador visual phpMyAdmin:
+# URL: http://localhost:8080
+# Servidor: mysql | Usuario: root | Clave: root_password_secure_2026
 ```

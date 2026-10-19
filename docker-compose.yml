@@ -1,0 +1,37 @@
+services:
+  # Base de Datos Relacional Centralizada
+  mysql:
+    image: mysql:8.0
+    container_name: sysell_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_secure_2026
+      MYSQL_DATABASE: sysell_db
+      MYSQL_USER: sysell_user
+      MYSQL_PASSWORD: sysell_password_2026
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql:ro
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # Administrador Web de Base de Datos
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: sysell_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+    driver: local
