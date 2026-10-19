@@ -31,38 +31,41 @@ En el curso previo de \textit{Análisis de Sistemas} (documentado en el informe 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.80, every node/.style={transform shape},
-    boxLegacy/.style={rectangle, draw=red!80!black, fill=red!10, rounded corners=3pt,
-                      thick, align=center, text width=4.8cm, minimum height=0.75cm},
-    boxModern/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=3pt,
-                      thick, align=center, text width=4.8cm, minimum height=0.75cm},
-    headTitle/.style={font=\bfseries\small, align=center, text width=4.8cm}
+    scale=0.90, every node/.style={transform shape},
+    boxLegacy/.style={rectangle, draw=red!80!black, fill=red!10, rounded corners=4pt,
+                      thick, align=center, text width=5.4cm, minimum height=1.05cm,
+                      inner sep=5pt, font=\small},
+    boxModern/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=4pt,
+                      thick, align=center, text width=5.4cm, minimum height=1.05cm,
+                      inner sep=5pt, font=\small},
+    headTitleLegacy/.style={font=\bfseries\small, align=center, text width=5.4cm, text=red!85!black},
+    headTitleModern/.style={font=\bfseries\small, align=center, text width=5.4cm, text=blue!85!black}
 ]
-% Lado Legacy
-\node[headTitle, red!85!black] (tLegacy) at (-3.2, 3.8)
-    {Sistema Heredado (Legacy v1.0)\\\small Enfoque Empírico / Acoplado};
-\node[boxLegacy] (l1) at (-3.2, 2.7) {UI Monolítica (Vistas acopladas a DB)};
-\node[boxLegacy] (l2) at (-3.2, 1.8) {Lógica Dispersa (Sin capas ni CQRS)};
-\node[boxLegacy] (l3) at (-3.2, 0.9) {DB 5 Tablas (Desnorm., campos abiertos)};
-\node[boxLegacy] (l4) at (-3.2, 0.0) {Testing Subjetivo (Sin casos formales)};
+% Lado Legacy (Columna Izquierda)
+\node[boxLegacy] (l1) at (-3.8, 2.0) {UI Monolítica\\(Vistas acopladas directamente a DB)};
+\node[headTitleLegacy, above=0.35cm of l1] (tLegacy)
+    {Sistema Heredado (Legacy v1.0)\\[2pt]\footnotesize Enfoque Empírico / Acoplado};
+\node[boxLegacy, below=0.32cm of l1] (l2) {Lógica Dispersa\\(Sin capas arquitectónicas ni CQRS)};
+\node[boxLegacy, below=0.32cm of l2] (l3) {DB de 5 Tablas\\(Desnormalizada, con campos abiertos)};
+\node[boxLegacy, below=0.32cm of l3] (l4) {Testing Subjetivo\\(Sin especificación formal de pruebas)};
 
-% Flecha de Transformacion (en el centro, entre columnas)
-\draw[-{Stealth[length=3.5mm]}, line width=2pt, primaryblue]
-    (0.0, 1.35) -- (1.2, 1.35)
-    node[midway, above=3pt, font=\bfseries\scriptsize, text=primaryblue] {Refactor.}
-    node[midway, below=3pt, font=\scriptsize\itshape, text=darkblue] {v2.0};
+% Lado Moderno (Columna Derecha)
+\node[boxModern, fill=green!15, draw=green!70!black] (m1) at (3.8, 2.0)
+    {Capa de Presentación\\(React 18 SPA + Web Mobile-First)};
+\node[headTitleModern, above=0.35cm of m1] (tModern)
+    {Solución Profesional (SYSELL v2.0)\\[2pt]\footnotesize Clean Architecture + Estándares SWEBOK};
+\node[boxModern, fill=cyan!15, draw=cyan!70!black, below=0.32cm of m1] (m2)
+    {Capa Aplicación y Dominio\\(Patrón CQRS + Seguridad RBAC)};
+\node[boxModern, fill=orange!15, draw=orange!70!black, below=0.32cm of m2] (m3)
+    {Base de Datos MySQL 8.0 en 3FN\\(17 Tablas con Integridad Referencial)};
+\node[boxModern, fill=purple!15, draw=purple!70!black, below=0.32cm of m3] (m4)
+    {SQA Integral IEEE 829\\(77 Casos de Prueba + CI/CD Docker)};
 
-% Lado Moderno
-\node[headTitle, blue!85!black] (tModern) at (4.2, 3.8)
-    {Solución Profesional (SYSELL v2.0)\\\small Clean Architecture + Estándares};
-\node[boxModern, fill=green!15, draw=green!70!black] (m1) at (4.2, 2.7)
-    {Capa Presentación (React 18 + SPA Mobile)};
-\node[boxModern, fill=cyan!15, draw=cyan!70!black] (m2) at (4.2, 1.8)
-    {Capa Aplicación \& Dominio (CQRS + RBAC)};
-\node[boxModern, fill=orange!15, draw=orange!70!black] (m3) at (4.2, 0.9)
-    {MySQL 8.0 en 3FN (17 Tablas normalizadas)};
-\node[boxModern, fill=purple!15, draw=purple!70!black] (m4) at (4.2, 0.0)
-    {SQA IEEE 829 (77 CPs) + CI/CD Docker};
+% Flecha Central de Transformacion
+\draw[-{Stealth[length=4mm]}, line width=2.2pt, primaryblue]
+    (-0.75, 0.0) -- (0.75, 0.0)
+    node[midway, above=4pt, font=\bfseries\scriptsize, text=primaryblue] {Refactorización}
+    node[midway, below=4pt, font=\scriptsize\bfseries, text=darkblue] {v2.0 (Clean Arch.)};
 
 \end{tikzpicture}
 \caption{Comparativa Estructural: De Enfoque Empírico Legacy a Ingeniería de Software v2.0}
