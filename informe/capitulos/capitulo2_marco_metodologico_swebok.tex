@@ -6,19 +6,19 @@ Para el desarrollo de \textbf{SYSELL Web v2.0}, se adoptó una estrategia metodo
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.9, every node/.style={transform shape},
-    fase/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=1pt, align=center, minimum width=2.6cm, minimum height=1.1cm},
-    sprint/.style={rectangle, draw=green!60!black, fill=green!10, rounded corners=4pt, line width=1pt, align=center, minimum width=2.6cm, minimum height=1.1cm},
-    arrowDown/.style={thick, -{Stealth[length=2.5mm]}, primaryblue},
-    arrowNext/.style={thick, -{Stealth[length=2.5mm]}, gray!80}
+    scale=0.92, every node/.style={transform shape},
+    fase/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=0.9pt, align=center, text width=2.15cm, minimum height=1.05cm, font=\small, inner sep=2pt},
+    sprint/.style={rectangle, draw=green!60!black, fill=green!10, rounded corners=4pt, line width=0.9pt, align=center, text width=2.15cm, minimum height=1.05cm, font=\small, inner sep=2pt},
+    arrowDown/.style={thick, -{Stealth[length=2.2mm]}, primaryblue, shorten >= 2pt, shorten <= 2pt},
+    arrowNext/.style={thick, -{Stealth[length=2.2mm]}, gray!70, shorten >= 3pt, shorten <= 3pt}
 ]
 
 % Fila 1: Fases RUP
-\node[fase] (r0) at (0, 2.5) {\textbf{Inicio}\\\scriptsize Días 1--3};
-\node[fase] (r1) at (3.2, 2.5) {\textbf{Elaboración}\\\scriptsize Días 4--10};
-\node[fase] (r2) at (6.4, 2.5) {\textbf{Construcción I}\\\scriptsize Días 11--17};
-\node[fase] (r3) at (9.6, 2.5) {\textbf{Construcción II}\\\scriptsize Días 18--24};
-\node[fase] (r4) at (12.8, 2.5) {\textbf{Transición}\\\scriptsize Días 25--28};
+\node[fase] (r0) at (0, 2.2) {\textbf{Inicio}\\[1pt]\scriptsize Días 1--3};
+\node[fase] (r1) at (2.9, 2.2) {\textbf{Elaboración}\\[1pt]\scriptsize Días 4--10};
+\node[fase] (r2) at (5.8, 2.2) {\textbf{Construcción I}\\[1pt]\scriptsize Días 11--17};
+\node[fase] (r3) at (8.7, 2.2) {\textbf{Construcción II}\\[1pt]\scriptsize Días 18--24};
+\node[fase] (r4) at (11.6, 2.2) {\textbf{Transición}\\[1pt]\scriptsize Días 25--28};
 
 % Flechas horizontales RUP
 \draw[arrowNext] (r0) -- (r1);
@@ -27,11 +27,11 @@ Para el desarrollo de \textbf{SYSELL Web v2.0}, se adoptó una estrategia metodo
 \draw[arrowNext] (r3) -- (r4);
 
 % Fila 2: Sprints Scrum
-\node[sprint] (s0) at (0, 0) {\textbf{Sprint 0}\\\scriptsize Entorno \& Visión};
-\node[sprint] (s1) at (3.2, 0) {\textbf{Sprint 1}\\\scriptsize Auth \& Catálogo};
-\node[sprint] (s2) at (6.4, 0) {\textbf{Sprint 2}\\\scriptsize Inventario \& Kardex};
-\node[sprint] (s3) at (9.6, 0) {\textbf{Sprint 3}\\\scriptsize POS \& Facturación};
-\node[sprint] (s4) at (12.8, 0) {\textbf{Sprint 4}\\\scriptsize Analítica \& Deploy};
+\node[sprint] (s0) at (0, 0) {\textbf{Sprint 0}\\[1pt]\scriptsize Entorno \& Visión};
+\node[sprint] (s1) at (2.9, 0) {\textbf{Sprint 1}\\[1pt]\scriptsize Auth \& Catálogo};
+\node[sprint] (s2) at (5.8, 0) {\textbf{Sprint 2}\\[1pt]\scriptsize Inventario \& Kardex};
+\node[sprint] (s3) at (8.7, 0) {\textbf{Sprint 3}\\[1pt]\scriptsize POS \& Facturación};
+\node[sprint] (s4) at (11.6, 0) {\textbf{Sprint 4}\\[1pt]\scriptsize Analítica \& Deploy};
 
 % Flechas verticales de sincronizacion
 \draw[arrowDown] (r0) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s0);

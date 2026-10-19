@@ -11,51 +11,55 @@ El modelo de base de datos de \textbf{SYSELL Web v2.0} fue diseñado bajo el mot
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.88, every node/.style={transform shape},
-    cluster/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!5, rounded corners=6pt, line width=1pt, align=center, minimum width=3.8cm, minimum height=2.2cm},
-    tableNode/.style={rectangle, draw=darkblue, fill=white, rounded corners=2pt, font=\scriptsize, align=left, inner sep=3pt},
-    fkLine/.style={thick, -{Stealth[length=2.2mm]}, primaryblue}
+    scale=0.82, every node/.style={transform shape},
+    cluster/.style={rectangle, rounded corners=5pt, line width=1pt, align=center,
+                    minimum width=3.6cm, minimum height=2.0cm, draw, fill},
+    tn/.style={font=\scriptsize, align=left, inner sep=2pt},
+    fk/.style={thick, -{Stealth[length=2mm]}}
 ]
 
-% Cluster 1: Seguridad y Locales
-\node[cluster, fill=red!5, draw=red!70!black] (cSeg) at (-4.5, 2.5) {};
-\node[anchor=north, font=\bfseries\scriptsize, text=red!80!black] at (-4.5, 3.5) {Cluster Seguridad y Locales};
-\node[tableNode] at (-4.5, 2.8) {\textbf{locales} (id, nombre, direccion)};
-\node[tableNode] at (-4.5, 2.0) {\textbf{usuarios} (id, local\_id FK, username, rol)};
+% Cluster Seguridad
+\node[cluster, draw=red!70!black, fill=red!5] (cSeg) at (-4.2, 2.2) {};
+\node[font=\bfseries\scriptsize, text=red!80!black] at (-4.2, 3.0) {Seg. y Locales};
+\node[tn] at (-4.2, 2.4) {\textbf{locales}(id, nombre)};
+\node[tn] at (-4.2, 1.9) {\textbf{usuarios}(id, local\_id$^{FK}$, rol)};
 
-% Cluster 2: Catalogos Maestros
-\node[cluster, fill=cyan!5, draw=cyan!70!black] (cCat) at (4.5, 2.5) {};
-\node[anchor=north, font=\bfseries\scriptsize, text=cyan!80!black] at (4.5, 3.5) {Cluster Catálogos Maestros};
-\node[tableNode] at (4.5, 2.8) {\textbf{categorias}, \textbf{marcas}};
-\node[tableNode] at (4.5, 2.0) {\textbf{tallas}, \textbf{colores} (HEX)};
+% Cluster Catalogos
+\node[cluster, draw=cyan!70!black, fill=cyan!5] (cCat) at (4.2, 2.2) {};
+\node[font=\bfseries\scriptsize, text=cyan!80!black] at (4.2, 3.0) {Catálogos Maestros};
+\node[tn] at (4.2, 2.4) {\textbf{categorias}, \textbf{marcas}};
+\node[tn] at (4.2, 1.9) {\textbf{tallas}, \textbf{colores}(hex)};
 
-% Cluster 3: Productos e Inventario
-\node[cluster, fill=green!5, draw=green!70!black, minimum width=13cm, minimum height=2.4cm] (cInv) at (0, -0.4) {};
-\node[anchor=north, font=\bfseries\scriptsize, text=green!80!black] at (0, 0.7) {Cluster Núcleo de Inventario y Kardex};
-\node[tableNode] at (-4.5, -0.4) {\textbf{productos} (id, cat\_id FK, marca\_id FK, precio)};
-\node[tableNode] at (0, -0.4) {\textbf{variantes\_producto} (id, prod\_id FK, talla\_id FK, color\_id FK, SKU)};
-\node[tableNode] at (4.5, -0.4) {\textbf{inventario} (id, local\_id FK, var\_id FK, stock)};
+% Cluster Inventario (ancho)
+\node[cluster, draw=green!70!black, fill=green!5,
+      minimum width=12.0cm, minimum height=2.2cm] (cInv) at (0, -0.3) {};
+\node[font=\bfseries\scriptsize, text=green!80!black] at (0, 0.8) {Núcleo: Productos e Inventario};
+\node[tn] at (-4.0, -0.2) {\textbf{productos}(id, cat\_id$^{FK}$, precio)};
+\node[tn] at (0, -0.2) {\textbf{variantes\_producto}(id, prod/talla/color$^{FK}$, SKU)};
+\node[tn] at (4.0, -0.2) {\textbf{inventario}(id, local\_id$^{FK}$, var\_id$^{FK}$, stock)};
 
-% Cluster 4: Ventas POS
-\node[cluster, fill=orange!5, draw=orange!70!black] (cVentas) at (-3.2, -3.2) {};
-\node[anchor=north, font=\bfseries\scriptsize, text=orange!80!black] at (-3.2, -2.2) {Cluster Ventas y Facturación};
-\node[tableNode] at (-3.2, -2.9) {\textbf{ventas} (id, ticket, local\_id FK, user\_id FK)};
-\node[tableNode] at (-3.2, -3.6) {\textbf{detalle\_ventas}, \textbf{pagos\_venta}, \textbf{metodos\_pago}};
+% Cluster Ventas
+\node[cluster, draw=orange!70!black, fill=orange!5,
+      minimum width=5.4cm] (cVentas) at (-3.0, -3.0) {};
+\node[font=\bfseries\scriptsize, text=orange!80!black] at (-3.0, -2.1) {Ventas y Facturación};
+\node[tn] at (-3.0, -2.7) {\textbf{ventas}(id, ticket, local\_id$^{FK}$)};
+\node[tn] at (-3.0, -3.2) {\textbf{detalle\_ventas}, \textbf{pagos\_venta}};
 
-% Cluster 5: Auditoria
-\node[cluster, fill=purple!5, draw=purple!70!black] (cAud) at (3.2, -3.2) {};
-\node[anchor=north, font=\bfseries\scriptsize, text=purple!80!black] at (3.2, -2.2) {Cluster Auditoría y Kardex};
-\node[tableNode] at (3.2, -2.9) {\textbf{ajustes\_inventario} (id, motivo, saldo)};
-\node[tableNode] at (3.2, -3.6) {\textbf{auditoria} (id, user\_id FK, snapshot JSON)};
+% Cluster Auditoria
+\node[cluster, draw=purple!70!black, fill=purple!5,
+      minimum width=4.8cm] (cAud) at (3.0, -3.0) {};
+\node[font=\bfseries\scriptsize, text=purple!80!black] at (3.0, -2.1) {Auditoría y Kardex};
+\node[tn] at (3.0, -2.7) {\textbf{ajustes\_inventario}(id, motivo)};
+\node[tn] at (3.0, -3.2) {\textbf{auditoria}(id, user\_id$^{FK}$, JSON)};
 
-% Relaciones principales
-\draw[fkLine] (cSeg.south) -- (-4.5, 0.7);
-\draw[fkLine] (cCat.south) -- (4.5, 0.7);
-\draw[fkLine] (0, -1.6) -- (cVentas.north);
-\draw[fkLine] (4.5, -1.6) -- (cAud.north);
+% Relaciones FK entre clusters
+\draw[fk, red!70!black]  (cSeg.south) -- (-4.2, 0.8)  node[above right, font=\tiny] {};
+\draw[fk, cyan!70!black] (cCat.south) --  (4.2, 0.8);
+\draw[fk, green!70!black] (-1.5, -1.3) -- (cVentas.north);
+\draw[fk, green!70!black]  (1.5, -1.3) -- (cAud.north);
 
 \end{tikzpicture}
-\caption{Diagrama de Clusters Relacionales e Integridad de la Base de Datos (MySQL 8.0 en 3FN)}
+\caption{Diagrama de Clusters Relacionales e Integridad Referencial (MySQL 8.0 en 3FN)}
 \label{fig:erd_clusters}
 \end{figure}
 
@@ -103,6 +107,18 @@ Para salvaguardar la integridad de los datos ante eliminaciones accidentales o a
         \item \texttt{(local\_id, variante\_id)} en \texttt{inventario} para asegurar un único registro de balance de existencias por tienda.
     \end{itemize}
 \end{itemize}
+
+\section{Diagrama Entidad-Relación (ERD) Físico Completo}
+El siguiente diagrama entidad-relación (ERD) muestra la estructura física completa de la base de datos con las \textbf{17 tablas normalizadas}, sus atributos principales, claves primarias (PK), claves foráneas (FK) y todas las relaciones de integridad referencial implementadas en \textbf{MySQL 8.0 con motor InnoDB}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth, height=0.68\textheight, keepaspectratio]{diagrama_entidad_relacion.png}
+\caption{Diagrama Entidad-Relación Físico Completo del Sistema SYSELL (17 Tablas en MySQL 8.0, 3FN)}
+\label{fig:erd_completo}
+\end{figure}
+
+La imagen muestra las cardinalidades exactas (1:N, N:M resueltas con tablas intermedias), los tipos de datos \texttt{BIGINT UNSIGNED} para PKs auto-incrementales, restricciones \texttt{UNIQUE} compuestas y las políticas de cascada (\texttt{RESTRICT} y \texttt{CASCADE}) que gobiernan la integridad referencial del sistema.
 
 \section{Scripts SQL Ejecutables y Datos Semilla}
 La estructura física de la base de datos se encuentra totalmente codificada y versionada en el repositorio:
