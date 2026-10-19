@@ -80,16 +80,38 @@ INFORME FINAL DE INGENIERÍA DE SOFTWARE — SYSELL WEB v2.0
 
 ### Desglose Detallado de Cada Capítulo:
 
-#### 📖 CAPÍTULO 1: Contexto, Diagnóstico del Sistema Heredado y Objetivos
+#### 📖 CAPÍTULO 1: Contexto, Diagnóstico del Sistema Heredado (Análisis de Sistemas) y Objetivos
 1. **1.1. Información de la Empresa / Cliente:**
-   - Denominación comercial: *Machi's* (Tacna, Perú). Tienda física de ropa para varón con 2 locales comerciales (Local 1: Av. San Martín, Local 2: Av. Bolognesi).
-   - Problemática del negocio: Falta de control de existencias en tiempo real entre sucursales, errores en tallas/colores por texto libre, ausencia de catálogo web para clientes y tickets de venta sin control interno digital.
+   - Denominación comercial: *Machi's* (Tacna, Perú). Tienda física de ropa para varón con 2 locales comerciales (Local 1: Av. San Martín N° 450, Local 2: Av. Bolognesi N° 820).
+   - Problemática del negocio: Falta de visibilidad de existencias entre sucursales, discrepancias en inventario por texto libre en colores y tallas, ausencia de canal web de consulta y tickets manuales sin control interno.
 2. **1.2. Diagnóstico Crítico del Sistema Heredado (Análisis de Sistemas - v1.0):**
-   - Presentación de lo realizado en el curso previo (*Trabajo Final II*): 5 paquetes de trabajo en cascada, 72 requisitos empíricos, ausencia de catálogos maestros y confusión con comprobantes SUNAT.
-   - Detalle de los vacíos funcionales que motivaron la refundación a la Versión 2.0 (analizados en `docs/analisis_edt/analisis_critico_edt_legacy.md`).
-3. **1.3. Objetivos del Proyecto:**
+   - Presentación de lo realizado en el curso previo (*Trabajo Final II*): WBS clásica PMBOK en 5 fases, cuenta de control `1.3.3 Programar el sistema`, 72 requisitos empíricos y DFDs preliminares.
+   - **Deficiencias técnicas y metodológicas del proyecto heredado:**
+     * *Atomización y confusión de nivel de abstracción:* En el curso previo, cada caja de texto o campo de formulario de pantalla se redactó como un "Requisito Funcional" independiente (ej. *RF-08: Pedir nombre de usuario*, *RF-09: Pedir contraseña*, *RF-10: Color de prenda*, *RF-11: Talla de prenda*). Esto infló artificialmente el catálogo a 72 requisitos superficiales sin lógica de negocio, validaciones transaccionales ni reglas de integridad.
+     * *Vulnerabilidad crítica por texto libre (Ausencia de Catálogos Maestros):* Se permitía ingresar libremente cualquier texto para tallas ("M", "m", "Mediano", "med") o colores ("Azul", "Azul Marino", "Blue"), lo cual en producción corrompe la base de datos, imposibilita el cálculo de existencias y rompe los reportes estadísticos.
+     * *Confusión tributaria (Riesgo SUNAT):* Se hablaba indistintamente de "boletas/facturas electrónicas", generando la falsa expectativa de integración con SUNAT/OSE, lo cual era inviable y desmedido para una tienda física minorista que requería exclusivamente **tickets digitales de control interno**.
+     * *Vacíos transaccionales severos:* El sistema heredado omitió por completo el control de caja y turnos (apertura, arqueo ciego, cierre), la gestión de pagos mixtos (Efectivo + Yape/Plin), el control de mermas en Kardex y la anulación supervisada de ventas.
+     * *Criterios de aceptación vagos:* Redactados como *"Se acepta cuando funcione sin errores"*, imposibilitando el testing formal y la verificabilidad objetiva.
+     * *Monopolio operativo y error de codificación en la EDT:* Los 5 paquetes de trabajo fueron asignados a un único responsable con códigos erróneos (`1.3.1.1` a `1.3.1.5` en lugar de `1.3.3.X`), sin especialización de roles ni arquitectura en capas.
+3. **1.3. Matriz de Transformación Integral: Análisis de Sistemas $\rightarrow$ Ingeniería de Software v2.0:**
+
+| Capa de Ingeniería | Enfoque Heredado (Análisis de Sistemas v1.0) | Enfoque Refundado (Ingeniería de Software v2.0) | Criterio de Rúbrica Resuelto |
+|---|---|---|:---:|
+| **Elicitación y Requisitos** | 72 requisitos empíricos atomizados por campos de pantalla. | **77 Requisitos Funcionales Oficiales** bajo ISO/IEC/IEEE 29148 con descripción, actores, prioridad y criterios verificables. | Criterios 6, 7 y 12 |
+| **Atributos de Calidad** | Requisitos no funcionales genéricos sin métricas verificables. | **14 Requisitos No Funcionales (RNF-01 a RNF-14)** categorizados según **ISO/IEC 25010** con métricas de tiempo y seguridad. | Criterios 6 y 15 |
+| **Trazabilidad** | Inexistente. Requisitos huérfanos sin correspondencia a pruebas. | **Matriz de Trazabilidad Integral de 7 columnas** bidireccional (100% de cobertura verificada). | Criterios 8, 14 y 16 |
+| **Modelado de Procesos** | DFDs conceptuales desconectados de las tablas de datos. | **DFD Niveles 0, 1 y 2 balanceados** con entradas, salidas y almacenes normalizados `D1` a `D5`. | Criterio 11 |
+| **Modelado de Interacción** | Inexistente (cero diagramas de casos de uso formales). | **15 Casos de Uso UML 2.5** con especificaciones textuales completas (precondiciones, flujos alternos y postcondiciones). | Criterios 11 y 12 |
+| **Diseño Dinámico** | Cero diagramas dinámicos de secuencia o colaboración. | **8 Diagramas de Secuencia Técnicos en PlantUML** (`strictuml`) modelando controladores, servicios y transacciones SQL ACID. | Criterios 11 y 16 |
+| **Arquitectura de Software** | Estructura monolítica no definida; lógica mezclada con persistencia. | **Clean Architecture (4 capas concéntricas) + CQRS** con autenticación dual Laravel Sanctum (SPA Cookie + API Token). | Criterios 2, 3 y 4 |
+| **Base de Datos** | Diseño empírico informal de tablas aisladas. | **17 Tablas relacionales en Tercera Forma Normal (3FN)** con script DDL `schema.sql` y datos semilla `seeds.sql`. | Criterios 11 y 18 |
+| **Aseguramiento de Calidad** | "Se acepta si funciona sin errores" (subjetivo). | **77 Casos de Prueba IEEE 829 / ISTQB** con validación positiva, negativa y de límites. | Criterios 10 y 15 |
+| **Gestión y Planificación** | EDT en cascada rígida con errores de jerarquía PMBOK. | **Marco Híbrido RUP + Scrum:** Product Backlog de 18 HUs (94 SP) en 4 Sprints quincenales con filtros DoR y DoD. | Criterios 4, 5, 9 y 10 |
+| **Infraestructura y DevOps** | Despliegue manual no documentado. | **Docker Compose** (MySQL 8.0 + phpMyAdmin) y **CI en GitHub Actions** con linters y validación sintáctica. | Criterios 18 y 20 |
+
+4. **1.4. Objetivos del Proyecto:**
    - *Objetivo General:* Diseñar e implementar un sistema web integral de gestión comercial, inventario multi-tienda y vitrina digital responsiva (SYSELL Web v2.0).
-   - *Objetivos Específicos:* (1) Controlar stock independiente y alertas de reposición por local; (2) Implementar terminal POS rápida con medios de pago mixtos; (3) Proporcionar catálogo público en tiempo real; (4) Asegurar trazabilidad completa con auditoría y testing IEEE 829.
+   - *Objetivos Específicos:* (1) Controlar existencias independientes y alertas de reposición por local; (2) Implementar terminal POS rápida con medios de pago mixtos; (3) Proporcionar vitrina pública en tiempo real; (4) Asegurar trazabilidad completa con auditoría y testing IEEE 829.
 
 ---
 
@@ -109,9 +131,13 @@ INFORME FINAL DE INGENIERÍA DE SOFTWARE — SYSELL WEB v2.0
 ---
 
 #### 📖 CAPÍTULO 3: Ingeniería de Requisitos (ISO/IEC/IEEE 29148) y Trazabilidad
-1. **3.1. Necesidades del Negocio y del Usuario:**
+1. **3.1. Proceso de Transformación y Refactorización de Requisitos:**
+   - *El problema de los tres lenguajes:* Detallar cómo se resolvió la brecha donde la v1.0 tenía 72 requisitos de pantalla, mientras que los casos de prueba y la matriz utilizaban 77 requisitos profesionales.
+   - *Metodología de consolidación:* Explicar cómo se agruparon los campos dispersos en agregados transaccionales coherentes (ej. la selección de prenda, talla, color, precio y SKU se consolidó en el agregado `RF-15: Registrar prenda con variantes`).
+   - *Erradicación de campos libres (`RF-74`):* Demostrar cómo la creación de catálogos maestros cerrados eliminó el riesgo de datos corruptos.
+2. **3.2. Necesidades del Negocio y del Usuario:**
    - Especificación formal de las 10 necesidades raíz (`N-01` a `N-10`).
-2. **3.2. Catálogo Oficial de 77 Requisitos Funcionales (`RF-01` a `RF-77`):**
+3. **3.3. Catálogo Oficial de 77 Requisitos Funcionales (`RF-01` a `RF-77`):**
    - Presentación de los 5 módulos:
      * *Módulo 1:* Autenticación y Seguridad (15 RFs: login, bcrypt, bloqueo a 3 intentos, roles, usuarios, reset).
      * *Módulo 2:* Gestión de Inventario (28 RFs: prendas, variantes, stock por tienda, alertas, catálogos maestros cerrados).
@@ -119,9 +145,9 @@ INFORME FINAL DE INGENIERÍA DE SOFTWARE — SYSELL WEB v2.0
      * *Módulo 4:* Reportes y Análisis Estratégico (11 RFs: ventas por fecha/local/vendedor, ranking top, gráficos, PDF/Excel).
      * *Módulo 5:* Catálogo Digital Web Público (6 RFs: vitrina sin login, filtros dinámicos, stock por tienda, responsive).
    - Estructura estándar de cada requisito: ID, Nombre, Descripción, Actor, Prioridad, Criterios de Aceptación Verificables y Trazabilidad.
-3. **3.3. Requisitos No Funcionales y Criterios de Calidad (`RNF-01` a `RNF-14`):**
+4. **3.4. Requisitos No Funcionales y Criterios de Calidad (`RNF-01` a `RNF-14`):**
    - Atributos según ISO/IEC 25010: Rendimiento (tiempo de respuesta < 2s), Seguridad (OWASP, HTTPS, hashing Bcrypt), Fiabilidad (modo offline con sincronización), Usabilidad (Mobile-first).
-4. **3.4. Matriz de Trazabilidad Integral (7 Columnas):**
+5. **3.5. Matriz de Trazabilidad Integral (7 Columnas):**
    - Demostración de cobertura del 100%: Necesidad $\rightarrow$ RF $\rightarrow$ RNF $\rightarrow$ Caso de Uso $\rightarrow$ DFD $\rightarrow$ Diseño (DS / BD) $\rightarrow$ Caso de Prueba.
 
 ---
@@ -201,7 +227,9 @@ INFORME FINAL DE INGENIERÍA DE SOFTWARE — SYSELL WEB v2.0
      * *Sprint 4 (22 SP - Transición):* Reportería estratégica, bitácora de auditoría y vitrina web pública.
    - Desglose de tareas técnicas (`TSK`) por cada capa de Clean Architecture.
 3. **9.3. Estructura de Desglose del Trabajo (EDT / WBS Optimizada):**
-   - Comparativa de la WBS optimizada frente a la EDT deficiente del curso previo.
+   - *Diagnóstico de la EDT heredada (Análisis de Sistemas):* Cuenta de control `1.3.3 Programar el sistema` desglosada erróneamente con prefijos `1.3.1.X`, repitiendo en cascada monolítica *"Diseñar BD $\rightarrow$ Programar $\rightarrow$ Probar"* para cada módulo aislado.
+   - *Propuesta WBS optimizada v2.0:* Descomposición orientada a entregables de valor e incrementos funcionales (Sprints), organizando las tareas técnicas (`TSK`) verticalmente por caso de uso y horizontalmente por capa arquitectónica (Dominio, Aplicación, Infraestructura, Presentación y QA).
+   - *Matriz de equivalencia WBS:* Cuadro comparativo entre los 5 paquetes legacy y los paquetes de trabajo modernos del diccionario de la EDT.
 
 ---
 
