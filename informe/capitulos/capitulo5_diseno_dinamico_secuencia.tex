@@ -15,25 +15,32 @@ Se diseñaron 8 diagramas de secuencia que cubren la totalidad de los flujos cr�
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{c l c p{6.5cm}}
+\begin{tabularx}{\textwidth}{>{\ttfamily\centering}p{1.4cm} >{\raggedright\bfseries}p{4cm} >{\ttfamily\centering}p{1.8cm} Y}
 \toprule
 \textbf{Código} & \textbf{Diagrama de Secuencia} & \textbf{Caso de Uso} & \textbf{Lógica Técnica Modelada} \\
 \midrule
-\texttt{DS-01} & Autenticación JWT y Bloqueo & \texttt{CU-01} & Verificación Bcrypt, generación de token y bloqueo automático al 3er fallo consecutivo. \\
-\texttt{DS-02} & Registro de Prendas y Catálogos & \texttt{CU-05}, \texttt{CU-07} & Validación de atributos en catálogos cerrados, cálculo de SKU único y persistencia. \\
-\texttt{DS-03} & Transacción de Venta POS & \texttt{CU-08}, \texttt{CU-09} & Validación de stock, liquidación con pagos mixtos, descuento atómico y ticket digital. \\
-\texttt{DS-04} & Ajuste de Stock en Kardex & \texttt{CU-06} & Asiento manual por el Administrador con justificación obligatoria y recálculo de saldo. \\
-\texttt{DS-05} & Reporte y Exportación de Ventas & \texttt{CU-13}, \texttt{CU-14} & Consultas agregadas con filtros multicriterio y compilación en PDF/Excel. \\
-\texttt{DS-06} & Gestión y Desbloqueo de Usuarios & \texttt{CU-02} & CRUD de colaboradores, cambio de local, reseteo de clave y reinicio de intentos a 0. \\
-\texttt{DS-07} & Catálogo Digital Web Público & \texttt{CU-15} & Consulta pública sin autenticación, filtros AND y stock referencial por tienda física. \\
-\texttt{DS-08} & Anulación de Venta Comercial & \texttt{CU-12} & Validación de clave de Admin, cambio de estado y restitución atómica de existencias. \\
+DS-01 & Autenticación JWT y Bloqueo & CU-01 & Verificación Bcrypt, generación de token y bloqueo automático al 3er fallo consecutivo. \\
+\addlinespace
+DS-02 & Registro de Prendas y Catálogos & CU-05, CU-07 & Validación de atributos en catálogos cerrados, cálculo de SKU único y persistencia. \\
+\addlinespace
+DS-03 & Transacción de Venta POS & CU-08, CU-09 & Validación de stock, liquidación con pagos mixtos, descuento atómico y ticket digital. \\
+\addlinespace
+DS-04 & Ajuste de Stock en Kardex & CU-06 & Asiento manual por el Administrador con justificación obligatoria y recálculo de saldo. \\
+\addlinespace
+DS-05 & Reporte y Exportación de Ventas & CU-13, CU-14 & Consultas agregadas con filtros multicriterio y compilación en PDF/Excel. \\
+\addlinespace
+DS-06 & Gestión y Desbloqueo de Usuarios & CU-02 & CRUD de colaboradores, cambio de local, reseteo de clave y reinicio de intentos a 0. \\
+\addlinespace
+DS-07 & Catálogo Digital Web Público & CU-15 & Consulta pública sin autenticación, filtros AND y stock referencial por tienda física. \\
+\addlinespace
+DS-08 & Anulación de Venta Comercial & CU-12 & Validación de clave de Admin, cambio de estado y restitución atómica de existencias. \\
 \bottomrule
 \end{tabularx}
 \caption{Suite de Diagramas de Secuencia Técnicos formalizados en SYSELL Web}
 \label{tab:diagramas_secuencia}
 \end{table}
 
-\section{Análisis de Flujos Transaccionales Críticos}
+\section{Análisis de Flujos Transaccionales Críticos con Evidencia Gráfica}
 
 \subsection{Autenticación y Bloqueo Preventivo (DS-01)}
 El flujo modela la recepción del payload JSON con credenciales en \texttt{/api/auth/login}. El servicio recupera el usuario por su \texttt{username}; si la cuenta no está bloqueada ni inactiva, compara la clave recibida mediante \texttt{password\_verify()} con el hash almacenado. Si la verificación falla:
@@ -44,6 +51,23 @@ SET intentos_fallidos = intentos_fallidos + 1,
 WHERE id = ?;
 \end{lstlisting}
 Si el contador alcanza 3, el estado pasa de inmediato a \texttt{bloqueado = 1}, denegando futuras peticiones y registrando el evento en la bitácora de auditoría.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{ds_01_autenticacion_jwt.png}
+\caption{Diagrama de Secuencia DS-01: Autenticación JWT y Bloqueo al 3er Intento}
+\label{fig:ds_01}
+\end{figure}
+
+\subsection{Registro de Prendas y Desglose de Variantes (DS-02)}
+El administrador registra una prenda base vinculándola a catálogos cerrados. El sistema genera de forma cartesiana las variantes de talla y color asignando los códigos SKU normalizados:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{ds_02_registro_producto_variantes.png}
+\caption{Diagrama de Secuencia DS-02: Registro de Prenda Base y Variantes por SKU}
+\label{fig:ds_02}
+\end{figure}
 
 \subsection{Transacción Atómica de Venta POS (DS-03)}
 Para evitar inconsistencias en el inventario ante concurrencia o caídas de red, el proceso de confirmación de venta se ejecuta dentro de una transacción ACID (\textit{Database Transaction}):
@@ -60,6 +84,33 @@ Para evitar inconsistencias en el inventario ante concurrencia o caídas de red,
     \item Inserción de los medios de pago aplicados en \texttt{pagos\_venta}.
     \item Confirmación definitiva (\texttt{COMMIT}). En caso de cualquier falla de validación o stock insuficiente, se aborta la operación completa (\texttt{ROLLBACK}).
 \end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{ds_03_transaccion_venta_pos.png}
+\caption{Diagrama de Secuencia DS-03: Transacción Atómica de Venta en Terminal POS}
+\label{fig:ds_03}
+\end{figure}
+
+\subsection{Ajuste Manual de Existencias en Kardex (DS-04)}
+Cualquier modificación manual del inventario físico requiere autorización del administrador, motivo explícito y registro de saldo previo y posterior:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{ds_04_ajuste_inventario_kardex.png}
+\caption{Diagrama de Secuencia DS-04: Ajuste de Inventario Físico y Movimiento de Kardex}
+\label{fig:ds_04}
+\end{figure}
+
+\subsection{Generación y Exportación de Reportes Gerenciales (DS-05)}
+Las consultas analíticas leen vistas optimizadas agregando ventas por sucursal, vendedor y rotación sin bloquear las tablas de caja:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{ds_05_generacion_reporte_ventas.png}
+\caption{Diagrama de Secuencia DS-05: Generación y Exportación de Reportes de Ventas}
+\label{fig:ds_05}
+\end{figure}
 
 \subsection{Anulación Supervisada de Venta (DS-08)}
 La anulación es un privilegio exclusivo del Administrador (\texttt{RF-53}). Requiere reautenticación con contraseña y un motivo formal. El servicio verifica que la venta no esté previamente anulada, actualiza el estado a \texttt{'ANULADA'}, reincorpora las unidades vendidas al stock del local correspondiente e inserta un registro inmutable en la tabla \texttt{auditoria}.

@@ -5,21 +5,43 @@ Para el desarrollo de \textbf{SYSELL Web v2.0}, se adoptó una estrategia metodo
 
 \begin{figure}[H]
 \centering
-\begin{center}
-\fbox{
-\begin{minipage}{0.9\textwidth}
-\centering
-\vspace{0.2cm}
-\textbf{Fase RUP: INICIO} $\longrightarrow$ \textbf{Sprint 0} (Días 1--3): Visión, alcance, viabilidad y entorno.\\
-\textbf{Fase RUP: ELABORACIÓN} $\longrightarrow$ \textbf{Sprint 1} (Días 4--10): Arquitectura base, seguridad RBAC y catálogos.\\
-\textbf{Fase RUP: CONSTRUCCIÓN I} $\longrightarrow$ \textbf{Sprint 2} (Días 11--17): Caja, inventario multilocal y Kardex.\\
-\textbf{Fase RUP: CONSTRUCCIÓN II} $\longrightarrow$ \textbf{Sprint 3} (Días 18--24): Terminal POS, pagos mixtos y tickets.\\
-\textbf{Fase RUP: TRANSICIÓN} $\longrightarrow$ \textbf{Sprint 4} (Días 25--28): Reportería, catálogo web y despliegue.
-\vspace{0.2cm}
-\end{minipage}
-}
-\end{center}
-\caption{Sincronización de Fases RUP con la Cadencia Ágil de Sprints en SYSELL}
+\begin{tikzpicture}[
+    scale=0.9, every node/.style={transform shape},
+    fase/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=1pt, align=center, minimum width=2.6cm, minimum height=1.1cm},
+    sprint/.style={rectangle, draw=green!60!black, fill=green!10, rounded corners=4pt, line width=1pt, align=center, minimum width=2.6cm, minimum height=1.1cm},
+    arrowDown/.style={thick, -{Stealth[length=2.5mm]}, primaryblue},
+    arrowNext/.style={thick, -{Stealth[length=2.5mm]}, gray!80}
+]
+
+% Fila 1: Fases RUP
+\node[fase] (r0) at (0, 2.5) {\textbf{Inicio}\\\scriptsize Días 1--3};
+\node[fase] (r1) at (3.2, 2.5) {\textbf{Elaboración}\\\scriptsize Días 4--10};
+\node[fase] (r2) at (6.4, 2.5) {\textbf{Construcción I}\\\scriptsize Días 11--17};
+\node[fase] (r3) at (9.6, 2.5) {\textbf{Construcción II}\\\scriptsize Días 18--24};
+\node[fase] (r4) at (12.8, 2.5) {\textbf{Transición}\\\scriptsize Días 25--28};
+
+% Flechas horizontales RUP
+\draw[arrowNext] (r0) -- (r1);
+\draw[arrowNext] (r1) -- (r2);
+\draw[arrowNext] (r2) -- (r3);
+\draw[arrowNext] (r3) -- (r4);
+
+% Fila 2: Sprints Scrum
+\node[sprint] (s0) at (0, 0) {\textbf{Sprint 0}\\\scriptsize Entorno \& Visión};
+\node[sprint] (s1) at (3.2, 0) {\textbf{Sprint 1}\\\scriptsize Auth \& Catálogo};
+\node[sprint] (s2) at (6.4, 0) {\textbf{Sprint 2}\\\scriptsize Inventario \& Kardex};
+\node[sprint] (s3) at (9.6, 0) {\textbf{Sprint 3}\\\scriptsize POS \& Facturación};
+\node[sprint] (s4) at (12.8, 0) {\textbf{Sprint 4}\\\scriptsize Analítica \& Deploy};
+
+% Flechas verticales de sincronizacion
+\draw[arrowDown] (r0) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s0);
+\draw[arrowDown] (r1) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s1);
+\draw[arrowDown] (r2) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s2);
+\draw[arrowDown] (r3) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s3);
+\draw[arrowDown] (r4) -- node[midway, right=1pt, font=\tiny\bfseries, text=primaryblue] {Alinea} (s4);
+
+\end{tikzpicture}
+\caption{Sincronización de Fases RUP con la Cadencia Ágil de Sprints en SYSELL Web}
 \label{fig:rup_scrum_sync}
 \end{figure}
 
@@ -35,21 +57,21 @@ La ejecución del proyecto se alinea de forma explícita con el cuerpo de conoci
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{l p{7cm} p{5.5cm}}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.8cm} Y >{\raggedright\small\arraybackslash}p{4.2cm}}
 \toprule
 \textbf{Área de SWEBOK v4} & \textbf{Actividad / Práctica Implementada en SYSELL} & \textbf{Artefacto de Evidencia} \\
 \midrule
-\textbf{1. Software Requirements} & Elicitación formal de 10 necesidades del negocio, descomposición en 77 RFs estructurados y 14 RNFs ISO 25010 con matriz de trazabilidad integral. & \texttt{docs/requisitos\_funcionales.md}, \texttt{docs/matriz\_de\_trazabilidad.md} \\
+1. Software Requirements & Elicitación formal de 10 necesidades del negocio, descomposición en 77 RFs estructurados y 14 RNFs ISO 25010 con matriz de trazabilidad integral. & \nolinkurl{docs/requisitos_funcionales.md}, \nolinkurl{docs/matriz_de_trazabilidad.md} \\
 \addlinespace
-\textbf{2. Software Design} & Modelado en 4 capas concéntricas (Clean Architecture), separación Command/Query (CQRS), 15 casos de uso UML, DFDs niveles 0--2 y 8 diagramas de secuencia. & \texttt{docs/estandares\_arquitectura/}, \texttt{docs/diagramas\_secuencia/} \\
+2. Software Design & Modelado en 4 capas concéntricas (Clean Architecture), separación Command/Query (CQRS), 15 casos de uso UML, DFDs niveles 0--2 y 8 diagramas de secuencia. & \nolinkurl{docs/estandares_arquitectura/}, \nolinkurl{docs/diagramas_secuencia/} \\
 \addlinespace
-\textbf{3. Software Construction} & Desarrollo desacoplado en PHP 8.2 (Laravel) y React 18 (TypeScript), tipado estricto, persistencia relacional MySQL 8.0 y scripts SQL reproducibles. & \texttt{database/schema.sql}, \texttt{database/seeds.sql} \\
+3. Software Construction & Desarrollo desacoplado en PHP 8.2 (Laravel) y React 18 (TypeScript), tipado estricto, persistencia relacional MySQL 8.0 y scripts SQL reproducibles. & \nolinkurl{database/schema.sql}, \nolinkurl{database/seeds.sql} \\
 \addlinespace
-\textbf{4. Software Testing} & Diseño y ejecución de 77 casos de prueba formales bajo estándar IEEE 829 / ISTQB, cubriendo escenarios positivos, negativos y de límites. & \texttt{docs/casos\_de\_prueba.md} \\
+4. Software Testing & Diseño y ejecución de 77 casos de prueba formales bajo estándar IEEE 829 / ISTQB, cubriendo escenarios positivos, negativos y de límites. & \nolinkurl{docs/casos_de_prueba.md} \\
 \addlinespace
-\textbf{5. Software Eng. Management} & Estimación en Story Points con Planning Poker (escala Fibonacci), Product Backlog de 94 SP y gestión de capacidad en 4 Sprints quincenales. & \texttt{docs/product\_backlog/}, \texttt{docs/sprints/} \\
+5. Software Eng. Management & Estimación en Story Points con Planning Poker (escala Fibonacci), Product Backlog de 94 SP y gestión de capacidad en 4 Sprints quincenales. & \nolinkurl{docs/product_backlog/}, \nolinkurl{docs/sprints/} \\
 \addlinespace
-\textbf{6. Software Eng. Process} & Institucionalización del Working Agreement, gobernanza de equipo, aplicación rigurosa de DoR/DoD y automatización continua en CI/CD. & \texttt{docs/acuerdos/}, \texttt{.github/workflows/} \\
+6. Software Eng. Process & Institucionalización del Working Agreement, gobernanza de equipo, aplicación rigurosa de DoR/DoD y automatización continua en CI/CD. & \nolinkurl{docs/acuerdos/}, \nolinkurl{.github/workflows/} \\
 \bottomrule
 \end{tabularx}
 \caption{Mapeo de actividades del proyecto a las áreas de conocimiento de SWEBOK v4}
@@ -62,17 +84,17 @@ El equipo de desarrollo \textbf{Pollitos Design} formalizó su gobernanza median
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{l l p{8.5cm}}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} >{\bfseries}p{3.8cm} Y}
 \toprule
 \textbf{Integrante} & \textbf{Rol Principal} & \textbf{Responsabilidades Clave} \\
 \midrule
-\textbf{Johan Mamani} & Product Owner / PM & Gestión y priorización del Product Backlog, validación de criterios de aceptación con el cliente comercial, facilitación de ceremonias. \\
+Johan Mamani & Product Owner / PM & Gestión y priorización del Product Backlog, validación de criterios de aceptación con el cliente comercial, facilitación de ceremonias. \\
 \addlinespace
-\textbf{Aron Cachicatari} & Tech Lead / Arquitecto & Diseño de Clean Architecture y CQRS, gobernanza del modelo de base de datos MySQL, revisión de Pull Requests y diseño de diagramas técnicos. \\
+Aron Cachicatari & Tech Lead / Arquitecto & Diseño de Clean Architecture y CQRS, gobernanza del modelo de base de datos MySQL, revisión de Pull Requests y diseño de diagramas técnicos. \\
 \addlinespace
-\textbf{Luis Condori} & UI/UX / Analista & Diseño de interfaces reactivas responsivas (Mobile-first), prototipado, especificación formal de casos de uso y balanceo de diagramas DFD. \\
+Luis Condori & UI/UX / Analista & Diseño de interfaces reactivas responsivas (Mobile-first), prototipado, especificación formal de casos de uso y balanceo de diagramas DFD. \\
 \addlinespace
-\textbf{Giorgini Disalvatore} & QA Lead / Scrum Master & Diseño de los 77 casos de prueba IEEE 829, verificación del cumplimiento de DoR y DoD, aseguramiento de la trazabilidad y métricas de calidad. \\
+Giorgini Disalvatore & QA Lead / Scrum Master & Diseño de los 77 casos de prueba IEEE 829, verificación del cumplimiento de DoR y DoD, aseguramiento de la trazabilidad y métricas de calidad. \\
 \bottomrule
 \end{tabularx}
 \caption{Roles y responsabilidades del equipo Pollitos Design}

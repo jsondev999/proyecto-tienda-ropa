@@ -24,7 +24,14 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{tikz}
-\usetikzlibrary{babel, positioning, arrows.meta}
+\usetikzlibrary{babel, positioning, arrows.meta, shapes.geometric, fit, backgrounds}
+
+% --- Rutas de Búsqueda de Gráficos e Imágenes ---
+\graphicspath{{../docs/diagramas_casos_de_uso/imagenes_png/}{../docs/diagramas_secuencia/imagenes_png/}{../docs/}}
+
+% --- Definición de Columnas Flexibles Tabularx ---
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{Z}{>{\centering\arraybackslash}X}
 
 % --- Formato de Código Fuente y Algoritmos ---
 \usepackage{listings}

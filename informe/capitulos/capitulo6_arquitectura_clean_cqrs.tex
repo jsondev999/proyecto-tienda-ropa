@@ -5,27 +5,35 @@ Para garantizar la mantenibilidad, escalabilidad y la independencia de framework
 
 \begin{figure}[H]
 \centering
-\begin{center}
-\fbox{
-\begin{minipage}{0.85\textwidth}
-\centering
-\vspace{0.3cm}
-\textbf{1. CAPA DE DOMINIO (Núcleo de Negocio)}\\
-\textit{Entidades puras (Producto, Variante, Venta, Usuario), Value Objects (SKU, Money), Invariantes.}\\
-$\uparrow$ \\
-\textbf{2. CAPA DE APLICACIÓN (Casos de Uso)}\\
-\textit{Commands (mutaciones transaccionales), Queries (lecturas optimizadas), Interfaces de Repositorios.}\\
-$\uparrow$ \\
-\textbf{3. CAPA DE INFRAESTRUCTURA (Adaptadores Técnicos)}\\
-\textit{Persistencia MySQL (Eloquent), Hashing Bcrypt, Tokens Sanctum, Generador PDF/Excel, Storage S3.}\\
-$\uparrow$ \\
-\textbf{4. CAPA DE PRESENTACIÓN (Puntos de Entrada)}\\
-\textit{Controladores API REST (Laravel), Validadores FormRequest, Cliente Web SPA (React/TypeScript).}
-\vspace{0.3cm}
-\end{minipage}
-}
-\end{center}
-\caption{Estructura de cuatro capas concéntricas de Clean Architecture en SYSELL Web}
+\begin{tikzpicture}[
+    scale=0.92, every node/.style={transform shape},
+    cPres/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=8pt, line width=1.5pt, minimum width=13.5cm, minimum height=6.2cm},
+    cInfra/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=6pt, line width=1.5pt, minimum width=11.5cm, minimum height=4.8cm},
+    cApp/.style={rectangle, draw=cyan!80!black, fill=cyan!10, rounded corners=4pt, line width=1.5pt, minimum width=9.5cm, minimum height=3.4cm},
+    cDom/.style={rectangle, draw=green!70!black, fill=green!15, rounded corners=3pt, line width=1.5pt, minimum width=7.5cm, minimum height=2.0cm, align=center}
+]
+
+% Capa 4: Presentacion
+\node[cPres] (pres) at (0, 0) {};
+\node[anchor=north, font=\bfseries\small, text=blue!80!black] at (0, 3.0) {Capa de Presentación (Controladores REST Laravel, React 18 SPA, Web Mobile)};
+
+% Capa 3: Infraestructura
+\node[cInfra] (infra) at (0, -0.2) {};
+\node[anchor=north, font=\bfseries\small, text=purple!80!black] at (0, 2.1) {Capa de Infraestructura (MySQL 8.0, Sanctum Auth, Eloquent Repositories, PDF/Excel)};
+
+% Capa 2: Aplicacion
+\node[cApp] (app) at (0, -0.4) {};
+\node[anchor=north, font=\bfseries\small, text=cyan!80!black] at (0, 1.2) {Capa de Aplicación (Commands, Queries, Application Services, Interfaces)};
+
+% Capa 1: Dominio
+\node[cDom] (dom) at (0, -0.7) {\textbf{Capa de Dominio (Núcleo Puro)}\\\scriptsize Entidades (Prenda, Variante, Venta, Usuario), Value Objects (SKU, Moneda)\\\scriptsize Reglas de Negocio Invariantes (Sin dependencias externas)};
+
+% Regla de Dependencia
+\draw[-{Stealth[length=3mm]}, line width=2pt, red!80!black] (-6.0, -2.5) -- (-6.0, 2.5)
+    node[midway, left=3pt, rotate=90, font=\scriptsize\bfseries, text=red!80!black] {Regla de Dependencia (Siempre hacia el Dominio)};
+
+\end{tikzpicture}
+\caption{Diagrama de Cuatro Capas Concéntricas de Clean Architecture en SYSELL Web}
 \label{fig:clean_architecture}
 \end{figure}
 
@@ -38,36 +46,58 @@ $\uparrow$ \\
 \end{itemize}
 
 \section{Patrón CQRS (Command Query Responsibility Segregation)}
-Para optimizar el rendimiento y clarificar las intenciones transaccionales, se aplicó el patrón \textbf{CQRS}, separando conceptual y operativamente las acciones del sistema en dos modelos:
+Para optimizar el rendimiento y clarificar las intenciones transaccionales, se aplicó el patrón \textbf{CQRS}, separando conceptual y operativamente las acciones del sistema en dos modelos de ejecución:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.88, every node/.style={transform shape},
+    boxC/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=3pt, thick, align=center, minimum width=3.8cm, minimum height=1cm, font=\small},
+    boxQ/.style={rectangle, draw=blue!70!black, fill=blue!10, rounded corners=3pt, thick, align=center, minimum width=3.8cm, minimum height=1cm, font=\small},
+    dbNode/.style={cylinder, shape border rotate=90, draw=purple!80!black, fill=purple!15, aspect=0.3, minimum width=2.5cm, minimum height=2.6cm, align=center, font=\small\bfseries},
+    flow/.style={thick, -{Stealth[length=2.5mm]}}
+]
+
+\node[rectangle, draw=gray!70, fill=gray!10, rounded corners=3pt, minimum width=3cm, minimum height=3.5cm, align=center] (client) at (-5.5, 0) {\textbf{Cliente Web / POS}\\\scriptsize (Peticiones HTTP)};
+
+\node[boxC] (cmd) at (-0.5, 1.2) {\textbf{Command Bus (Escritura)}\\\scriptsize Transacciones ACID (Venta, Ajuste)};
+\node[boxQ] (qry) at (-0.5, -1.2) {\textbf{Query Bus (Lectura)}\\\scriptsize Consultas Directas / Vistas};
+
+\node[dbNode] (db) at (5.0, 0) {Base de Datos\\MySQL 8.0\\(3FN)};
+
+\draw[flow, red!80!black] (client.north east) -- node[midway, above=2pt, font=\scriptsize\bfseries] {POST / PUT / DELETE} (cmd.west);
+\draw[flow, red!80!black] (cmd.east) -- node[midway, above=2pt, font=\scriptsize\bfseries] {Mutaciones ACID} (db.north west);
+
+\draw[flow, blue!80!black] (client.south east) -- node[midway, below=2pt, font=\scriptsize\bfseries] {GET (Catálogo, Reportes)} (qry.west);
+\draw[flow, blue!80!black] (db.south west) -- node[midway, below=2pt, font=\scriptsize\bfseries] {Proyecciones Optimizadas} (qry.east);
+
+\end{tikzpicture}
+\caption{Segregación Operativa de Comandos y Consultas con el Patrón CQRS}
+\label{fig:cqrs_pattern}
+\end{figure}
 
 \begin{enumerate}
-    \item \textbf{Commands (Comandos de Escritura):} Operaciones que mutan el estado del sistema. Modifican datos, disparan transacciones ACID y retornan confirmación o identificadores generados.
-    \begin{itemize}
-        \item Ejemplos: \texttt{RegistrarPrendaCommand}, \texttt{ConfirmarVentaCommand}, \texttt{AnularVentaCommand}, \texttt{AjustarStockKardexCommand}.
-    \end{itemize}
-    \item \textbf{Queries (Consultas de Lectura):} Operaciones que únicamente leen datos sin alterar el estado. Están altamente optimizadas con proyecciones SQL directas y paginación para respuestas inmediatas.
-    \begin{itemize}
-        \item Ejemplos: \texttt{GetPrendasCatalogoPublicoQuery}, \texttt{GetStockPorLocalQuery}, \texttt{GetReporteVentasPorFechaQuery}.
-    \end{itemize}
+    \item \textbf{Commands (Comandos de Escritura):} Mutan el estado del sistema. Modifican datos, disparan transacciones ACID y retornan confirmación o IDs (ej. creación de prendas, confirmación de venta POS, anulación y ajustes de Kardex).
+    \item \textbf{Queries (Consultas de Lectura):} Solo leen datos sin alterar el estado. Están optimizadas con proyecciones SQL directas y paginación (ej. consulta del catálogo web, stock por sucursal y reportería gerencial).
 \end{enumerate}
 
-\section{Estándar de Seguridad Web y Autenticación Híbrida (OWASP Top 10)}
+\section{Seguridad Web (OWASP Top 10) y Autenticación Híbrida}
 El sistema adopta las directrices de seguridad de \textbf{OWASP Top 10} para mitigar vulnerabilidades comunes:
 
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{l p{5cm} p{6.5cm}}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.8cm} >{\raggedright}p{4.8cm} Y}
 \toprule
 \textbf{Vulnerabilidad OWASP} & \textbf{Mecanismo de Protección en SYSELL} & \textbf{Implementación Técnica} \\
 \midrule
-\textbf{A01: Broken Access Control} & Control RBAC estricto a nivel de Middleware en cada endpoint API. & Roles \texttt{ADMINISTRADOR} y \texttt{VENDEDOR} evaluados en servidor antes de procesar la solicitud. \\
+A01: Broken Access Control & Control RBAC estricto a nivel de Middleware en cada endpoint API. & Roles \texttt{ADMINISTRADOR} y \texttt{VENDEDOR} evaluados en servidor antes de procesar la solicitud. \\
 \addlinespace
-\textbf{A02: Cryptographic Failures} & Cifrado unidireccional y canales seguros de transporte. & Contraseñas con hash Bcrypt (cost 12), forzando HTTPS con encabezados HSTS en producción. \\
+A02: Cryptographic Failures & Cifrado unidireccional y canales seguros de transporte. & Contraseñas con hash Bcrypt (cost 12), forzando HTTPS con encabezados HSTS en producción. \\
 \addlinespace
-\textbf{A03: Injection (SQLi)} & Consultas parametrizadas obligatorias. & Uso exclusivo del Query Builder / Eloquent ORM; prohibido el concatenado de variables crudas en SQL. \\
+A03: Injection (SQLi) & Consultas parametrizadas obligatorias. & Uso exclusivo del Query Builder / Eloquent ORM; prohibido el concatenado de variables crudas en SQL. \\
 \addlinespace
-\textbf{A07: Identification Failures} & Bloqueo preventivo de cuentas y rate limiting. & Bloqueo automático al tercer fallo consecutivo (\texttt{RF-06}) y acelerador de retardo en reintentos. \\
+A07: Identification Failures & Bloqueo preventivo de cuentas y rate limiting. & Bloqueo automático al tercer fallo consecutivo (\texttt{RF-06}) y acelerador de retardo en reintentos. \\
 \bottomrule
 \end{tabularx}
 \caption{Matriz de mitigación de vulnerabilidades de seguridad OWASP Top 10}

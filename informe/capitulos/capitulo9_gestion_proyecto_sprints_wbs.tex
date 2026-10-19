@@ -9,7 +9,7 @@ El desarrollo del proyecto se gestionó bajo el marco de trabajo ágil Scrum, ar
 \small
 \caption{Resumen de Épicas y Distribución de Historias de Usuario}
 \label{tab:epicas_backlog}
-\begin{tabular}{|l|c|c|l|}
+\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright}p{4.2cm}|>{\centering}p{2cm}|>{\centering}p{2.4cm}|Y|}
 \hline
 \textbf{Épica} & \textbf{Cant. HU} & \textbf{Puntos (SP)} & \textbf{Objetivo de Negocio} \\ \hline
 EP-01: Autenticación y Seguridad & 3 HU & 13 SP & Control de acceso y gobierno RBAC. \\ \hline
@@ -20,7 +20,7 @@ EP-05: Analítica y Reportes Gerenciales & 2 HU & 11 SP & Métricas financieras,
 EP-06: Catálogo Web de Exhibición & 2 HU & 8 SP & Vitrina digital para clientes finales sin pasarela. \\ \hline
 EP-07: Infraestructura y DevOps & 1 HU & 6 SP & Contenedores Docker y automatización CI. \\ \hline
 \textbf{TOTAL GENERAL} & \textbf{18 HU} & \textbf{94 SP} & \textbf{Alcance Completo v2.0} \\ \hline
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 \section{Criterios de Preparación (DoR) y Criterios de Finalización (DoD)}
@@ -48,6 +48,30 @@ Un incremento de software se considera potencialmente entregable únicamente cua
 
 \section{Planificación y Ejecución de los 4 Sprints}
 El ciclo de desarrollo se estructuró en cuatro iteraciones de dos semanas de duración cada una:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.9, every node/.style={transform shape},
+    barSprint/.style={rectangle, rounded corners=3pt, thick, align=center, font=\small\bfseries, minimum height=1.1cm},
+    flowLine/.style={thick, -{Stealth[length=2.5mm]}, primaryblue}
+]
+
+\node[barSprint, fill=blue!15, draw=blue!80!black, minimum width=3.0cm] (sp1) at (0, 0) {Sprint 1\\24 SP\\\scriptsize Fundaciones \& Auth};
+\node[barSprint, fill=cyan!15, draw=cyan!80!black, minimum width=3.2cm] (sp2) at (3.8, 0) {Sprint 2\\26 SP\\\scriptsize Inventario \& Kardex};
+\node[barSprint, fill=orange!15, draw=orange!80!black, minimum width=3.0cm] (sp3) at (7.6, 0) {Sprint 3\\24 SP\\\scriptsize POS \& Facturación};
+\node[barSprint, fill=green!15, draw=green!80!black, minimum width=2.8cm] (sp4) at (11.2, 0) {Sprint 4\\20 SP\\\scriptsize Analítica \& Deploy};
+
+\draw[flowLine] (sp1) -- (sp2);
+\draw[flowLine] (sp2) -- (sp3);
+\draw[flowLine] (sp3) -- (sp4);
+
+\node[rectangle, draw=primaryblue, fill=white, rounded corners=2pt, font=\scriptsize\bfseries, text=primaryblue] at (5.6, -1.2) {Total Acumulado: 94 Story Points en 4 Iteraciones (100\% Completado)};
+
+\end{tikzpicture}
+\caption{Cadencia y Distribución de Esfuerzo en Story Points a lo Largo de los 4 Sprints}
+\label{fig:sprints_velocity}
+\end{figure}
 
 \subsection{Sprint 1: Fundaciones, Seguridad y Modelo de Dominio (24 SP)}
 \textbf{Objetivo:} Construir el núcleo arquitectónico, la base de datos relacional normalizada y el subsistema de autenticación con gobierno de roles.
@@ -110,15 +134,15 @@ Uno de los hallazgos críticos del diagnóstico de ingeniería de software sobre
 \small
 \caption{Matriz de Comparación: EDT Legacy vs. EDT Optimizada v2.0}
 \label{tab:comparacion_edt}
-\begin{tabular}{|p{3.5cm}|p{5cm}|p{5.5cm}|}
+\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright}p{3.5cm}|>{\raggedright}p{4.8cm}|Y|}
 \hline
 \textbf{Dimensión de Análisis} & \textbf{EDT Legacy v1.0 (Análisis)} & \textbf{EDT Optimizada v2.0 (Ingeniería)} \\ \hline
-\textbf{Enfoque Metodológico} & 5 fases secuenciales en cascada clásica sin ciclos de retroalimentación. & Orientada a entregables de valor con 4 iteraciones incrementales (Sprints). \\ \hline
-\textbf{Integridad de Codificación} & Inconsistencia sintáctica: salto arbitrario de \texttt{1.3.1} a \texttt{1.3.1.1} como actividad sin paquete. & Codificación jerárquica estricta según el estándar del Project Management Institute (PMI). \\ \hline
-\textbf{Alineación Arquitectónica} & Tareas genéricas («programar módulo») sin separación de responsabilidades. & Tareas estructuradas por capas de Clean Architecture: Dominio, Aplicación, Infraestructura y UI. \\ \hline
-\textbf{Calidad y Validación} & Ausencia de aseguramiento formal; no contemplaba casos de prueba IEEE 829. & Paquete específico de SQA con 77 casos de prueba y validación estática en CI/CD. \\ \hline
-\textbf{Despliegue y DevOps} & Se limitaba a «instalación en servidor local». & Contenedores Docker Compose, linters de documentación y pipeline GitHub Actions. \\ \hline
-\end{tabular}
+Enfoque Metodológico & 5 fases secuenciales en cascada clásica sin ciclos de retroalimentación. & Orientada a entregables de valor con 4 iteraciones incrementales (Sprints). \\ \hline
+Integridad de Codificación & Inconsistencia sintáctica: salto arbitrario de \texttt{1.3.1} a \texttt{1.3.1.1} como actividad sin paquete. & Codificación jerárquica estricta según el estándar del Project Management Institute (PMI). \\ \hline
+Alineación Arquitectónica & Tareas genéricas («programar módulo») sin separación de responsabilidades. & Tareas estructuradas por capas de Clean Architecture: Dominio, Aplicación, Infraestructura y UI. \\ \hline
+Calidad y Validación & Ausencia de aseguramiento formal; no contemplaba casos de prueba IEEE 829. & Paquete específico de SQA con 77 casos de prueba y validación estática en CI/CD. \\ \hline
+Despliegue y DevOps & Se limitaba a «instalación en servidor local». & Contenedores Docker Compose, linters de documentación y pipeline GitHub Actions. \\ \hline
+\end{tabularx}
 \end{table}
 
 La EDT v2.0 resultante garantiza trazabilidad total desde las necesidades de negocio del patrocinador de Machi's hasta cada línea de código desplegada en los entornos de ejecución.

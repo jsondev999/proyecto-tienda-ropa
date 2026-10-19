@@ -28,37 +28,69 @@ En el curso previo de \textit{Análisis de Sistemas} (documentado en el informe 
     \item \textbf{Monopolio de roles y error en la EDT (WBS):} Los cinco paquetes de trabajo de programación estaban asignados a un único responsable con una codificación errónea (\texttt{1.3.1.X} en lugar de \texttt{1.3.3.X}), sin contemplar especialización de roles ni arquitectura de software.
 \end{enumerate}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.92, every node/.style={transform shape},
+    boxLegacy/.style={rectangle, draw=red!80!black, fill=red!10, rounded corners=3pt, thick, align=center, minimum width=6cm, minimum height=0.7cm},
+    boxModern/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=3pt, thick, align=center, minimum width=6cm, minimum height=0.7cm},
+    headTitle/.style={font=\bfseries\normalsize, align=center}
+]
+% Lado Legacy
+\node[headTitle, red!85!black] (tLegacy) at (0, 3.8) {Sistema Heredado (Legacy v1.0)\\\small Enfoque Empírico / Acoplado};
+\node[boxLegacy] (l1) at (0, 2.7) {UI Monolítica (Vistas acopladas a DB)};
+\node[boxLegacy] (l2) at (0, 1.8) {Lógica Dispersa (Sin capas ni CQRS)};
+\node[boxLegacy] (l3) at (0, 0.9) {DB 5 Tablas (Desnormalizada, campos abiertos)};
+\node[boxLegacy] (l4) at (0, 0.0) {Testing Subjetivo (Sin casos formales)};
+
+% Flecha de Transformacion
+\draw[-{Stealth[length=3.5mm]}, line width=2pt, primaryblue] (3.4, 1.35) -- (5.0, 1.35) 
+    node[midway, above=3pt, font=\bfseries\small, text=primaryblue] {Refactorización}
+    node[midway, below=3pt, font=\scriptsize\itshape, text=darkblue] {Ingeniería v2.0};
+
+% Lado Moderno
+\node[headTitle, blue!85!black] (tModern) at (8.4, 3.8) {Solución Profesional (SYSELL v2.0)\\\small Clean Architecture + Estándares};
+\node[boxModern, fill=green!15, draw=green!70!black] (m1) at (8.4, 2.7) {Capa Presentación (React 18 + SPA Mobile)};
+\node[boxModern, fill=cyan!15, draw=cyan!70!black] (m2) at (8.4, 1.8) {Capa Aplicación \& Dominio (CQRS + RBAC)};
+\node[boxModern, fill=orange!15, draw=orange!70!black] (m3) at (8.4, 0.9) {MySQL 8.0 en 3FN (17 Tablas normalizadas)};
+\node[boxModern, fill=purple!15, draw=purple!70!black] (m4) at (8.4, 0.0) {SQA IEEE 829 (77 CPs) + CI/CD Docker};
+
+\end{tikzpicture}
+\caption{Comparativa Estructural: De Enfoque Empírico Legacy a Ingeniería de Software v2.0}
+\label{fig:legacy_vs_modern}
+\end{figure}
+
 \section{Matriz de Transformación Integral: Análisis de Sistemas $\rightarrow$ v2.0}
 Para superar las debilidades del proyecto heredado y elevar la solución a los estándares profesionales de ingeniería de software, se ejecutó una refundación metodológica integral estructurada en once dimensiones técnicas:
 
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{l p{5.5cm} p{5.5cm} c}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.6cm} Y Y >{\centering\arraybackslash}p{2.3cm}}
 \toprule
 \textbf{Capa de Ingeniería} & \textbf{Análisis de Sistemas (v1.0)} & \textbf{Ingeniería de Software (v2.0)} & \textbf{Criterio Rúbrica} \\
 \midrule
-\textbf{Requisitos} & 72 requisitos empíricos atomizados por campos de pantalla. & \textbf{77 Requisitos Funcionales Oficiales} (ISO 29148) estructurados con criterios verificables. & Crit. 6, 7, 12 \\
+Requisitos & 72 requisitos empíricos atomizados por campos de pantalla. & \textbf{77 Requisitos Funcionales Oficiales} (ISO 29148) estructurados con criterios verificables. & Crit. 6, 7, 12 \\
 \addlinespace
-\textbf{Calidad / RNF} & Requisitos no funcionales genéricos sin métricas. & \textbf{14 Requisitos No Funcionales (RNF)} categorizados bajo norma \textbf{ISO/IEC 25010}. & Crit. 6, 15 \\
+Calidad / RNF & Requisitos no funcionales genéricos sin métricas. & \textbf{14 Requisitos No Funcionales (RNF)} categorizados bajo norma \textbf{ISO/IEC 25010}. & Crit. 6, 15 \\
 \addlinespace
-\textbf{Trazabilidad} & Inexistente; requisitos huérfanos sin correspondencia. & \textbf{Matriz Integral de 7 columnas} con cobertura bidireccional al 100\%. & Crit. 8, 14, 16 \\
+Trazabilidad & Inexistente; requisitos huérfanos sin correspondencia. & \textbf{Matriz Integral de 7 columnas} con cobertura bidireccional al 100\%. & Crit. 8, 14, 16 \\
 \addlinespace
-\textbf{Procesos (DFD)} & DFDs conceptuales desconectados de almacenes. & \textbf{DFD Niveles 0, 1 y 2 balanceados} con almacenes normalizados \texttt{D1} a \texttt{D5}. & Crit. 11 \\
+Procesos (DFD) & DFDs conceptuales desconectados de almacenes. & \textbf{DFD Niveles 0, 1 y 2 balanceados} con almacenes normalizados \texttt{D1} a \texttt{D5}. & Crit. 11 \\
 \addlinespace
-\textbf{Casos de Uso} & Inexistente (cero diagramas formales UML). & \textbf{15 Casos de Uso UML 2.5} con especificaciones textuales y flujos alternos. & Crit. 11, 12 \\
+Casos de Uso & Inexistente (cero diagramas formales UML). & \textbf{15 Casos de Uso UML 2.5} con especificaciones textuales y flujos alternos. & Crit. 11, 12 \\
 \addlinespace
-\textbf{Diseño Dinámico} & Cero diagramas de interacción. & \textbf{8 Diagramas de Secuencia PlantUML} (\texttt{strictuml}) con transacciones ACID. & Crit. 11, 16 \\
+Diseño Dinámico & Cero diagramas de interacción. & \textbf{8 Diagramas de Secuencia PlantUML} (\texttt{strictuml}) con transacciones ACID. & Crit. 11, 16 \\
 \addlinespace
-\textbf{Arquitectura} & Estructura monolítica no documentada. & \textbf{Clean Architecture (4 capas) + CQRS} y autenticación híbrida Laravel Sanctum. & Crit. 2, 3, 4 \\
+Arquitectura & Estructura monolítica no documentada. & \textbf{Clean Architecture (4 capas) + CQRS} y autenticación híbrida Laravel Sanctum. & Crit. 2, 3, 4 \\
 \addlinespace
-\textbf{Base de Datos} & Diseño empírico informal de tablas aisladas. & \textbf{17 Tablas relacionales en 3FN} con scripts \texttt{schema.sql} y \texttt{seeds.sql}. & Crit. 11, 18 \\
+Base de Datos & Diseño empírico informal de tablas aisladas. & \textbf{17 Tablas relacionales en 3FN} con scripts \texttt{schema.sql} y \texttt{seeds.sql}. & Crit. 11, 18 \\
 \addlinespace
-\textbf{Testing / QA} & ``Se acepta si funciona sin errores'' (subjetivo). & \textbf{77 Casos de Prueba IEEE 829 / ISTQB} con validación positiva, negativa y límites. & Crit. 10, 15 \\
+Testing / QA & ``Se acepta si funciona sin errores'' (subjetivo). & \textbf{77 Casos de Prueba IEEE 829 / ISTQB} con validación positiva, negativa y límites. & Crit. 10, 15 \\
 \addlinespace
-\textbf{Gestión Ágil} & EDT en cascada rígida con errores jerárquicos. & \textbf{Híbrido RUP + Scrum:} Product Backlog (18 HUs, 94 SP) en 4 Sprints con DoR/DoD. & Crit. 4, 5, 9, 10 \\
+Gestión Ágil & EDT en cascada rígida con errores jerárquicos. & \textbf{Híbrido RUP + Scrum:} Product Backlog (18 HUs, 94 SP) en 4 Sprints con DoR/DoD. & Crit. 4, 5, 9, 10 \\
 \addlinespace
-\textbf{DevOps / CI} & Despliegue manual no documentado. & \textbf{Docker Compose} y \textbf{CI en GitHub Actions} con validación continua. & Crit. 18, 20 \\
+DevOps / CI & Despliegue manual no documentado. & \textbf{Docker Compose} y \textbf{CI en GitHub Actions} con validación continua. & Crit. 18, 20 \\
 \bottomrule
 \end{tabularx}
 \caption{Matriz comparativa de evolución capa por capa: Análisis de Sistemas vs. v2.0}
