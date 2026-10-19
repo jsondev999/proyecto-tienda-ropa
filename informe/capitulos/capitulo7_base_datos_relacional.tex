@@ -1,0 +1,62 @@
+\chapter{Modelo de Datos Relacional (MySQL 8.0 en 3FN) e Infraestructura}
+
+\section{Diseño Conceptual y Normalización en Tercera Forma Normal (3FN)}
+El modelo de base de datos de \textbf{SYSELL Web v2.0} fue diseñado bajo el motor relacional **MySQL 8.0** con almacenamiento **InnoDB**, aplicando rigurosamente los principios de normalización relacional hasta la **Tercera Forma Normal (3FN)**:
+\begin{itemize}
+    \item \textbf{Primera Forma Normal (1FN):} Se eliminaron grupos repetitivos y atributos multivaluados. Cada celda contiene valores atómicos.
+    \item \textbf{Segunda Forma Normal (2FN):} En tablas con claves compuestas (como \texttt{inventario} o \texttt{variantes\_producto}), todos los atributos no clave dependen funcionalmente de la totalidad de la clave primaria.
+    \item \textbf{Tercera Forma Normal (3FN):} No existen dependencias transitivas; ningún atributo no clave depende de otro atributo no clave. Por ejemplo, los datos descriptivos de colores y tallas residen en sus propias tablas maestras cerradas (\texttt{colores}, \texttt{tallas}) y no incrustados en la tabla de productos.
+\end{itemize}
+
+\section{Catálogo y Estructura de las 17 Tablas del Sistema}
+El modelo relacional abarca 17 entidades organizadas en 5 grupos funcionales:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l l p{6.5cm}}
+\toprule
+\textbf{N$^\circ$} & \textbf{Tabla Relacional} & \textbf{Clave Primaria} & \textbf{Propósito y Rol en el Sistema} \\
+\midrule
+1 & \texttt{locales} & \texttt{id (BIGINT)} & Registro de las dos sucursales físicas (San Martín y Bolognesi). \\
+2 & \texttt{usuarios} & \texttt{id (BIGINT)} & Cuentas de acceso, credenciales Bcrypt, intentos y rol RBAC. \\
+3 & \texttt{categorias} & \texttt{id (BIGINT)} & Catálogo cerrado de familias de prendas (Camisas, Polos, etc.). \\
+4 & \texttt{marcas} & \texttt{id (BIGINT)} & Catálogo cerrado de marcas comerciales de confección. \\
+5 & \texttt{tallas} & \texttt{id (BIGINT)} & Catálogo maestro de tallas alfabéticas y numéricas (RF-74). \\
+6 & \texttt{colores} & \texttt{id (BIGINT)} & Catálogo de colores con código hexadecimal para vista web. \\
+7 & \texttt{metodos\_pago} & \texttt{id (BIGINT)} & Medios de cobro habilitados (Efectivo, Tarjetas, Yape, Plin). \\
+8 & \texttt{productos} & \texttt{id (BIGINT)} & Prenda base masculina con código de modelo y precios oficiales. \\
+9 & \texttt{imagenes\_producto} & \texttt{id (BIGINT)} & Galería de fotos en alta definición por prenda (RF-69). \\
+10 & \texttt{variantes\_producto}& \texttt{id (BIGINT)} & Combinación física vendible de Talla + Color con código SKU único. \\
+11 & \texttt{inventario} & \texttt{id (BIGINT)} & Existencias físicas independientes y stock mínimo por local. \\
+12 & \texttt{ventas} & \texttt{id (BIGINT)} & Encabezado de transacción comercial con número de ticket único. \\
+13 & \texttt{detalle\_ventas} & \texttt{id (BIGINT)} & Desglose de prendas, precios históricos y subtotales por venta. \\
+14 & \texttt{pagos\_venta} & \texttt{id (BIGINT)} & Liquidación multitendencia de medios de pago combinados. \\
+15 & \texttt{ajustes\_inventario}& \texttt{id (BIGINT)} & Asientos auditables de Kardex (ingresos, mermas, correcciones). \\
+16 & \texttt{reportes\_configuracion}& \texttt{id (BIGINT)} & Parámetros JSON y programaciones de reportes gerenciales. \\
+17 & \texttt{auditoria} & \texttt{id (BIGINT)} & Bitácora inmutable de eventos críticos con snapshot JSON (HU-18). \\
+\bottomrule
+\end{tabularx}
+\caption{Catálogo de las 17 tablas relacionales normalizadas en MySQL 8.0}
+\label{tab:tablas_bd}
+\end{table}
+
+\section{Reglas de Integridad Referencial y Restricciones Transaccionales}
+Para salvaguardar la integridad de los datos ante eliminaciones accidentales o actualizaciones:
+\begin{itemize}
+    \item \textbf{Protección contra orfandad comercial (\texttt{ON DELETE RESTRICT}):} Si una prenda o variante registra ventas históricas en \texttt{detalle\_ventas}, la base de datos bloquea cualquier intento de borrado físico en \texttt{productos} o \texttt{variantes\_producto}. La baja debe procesarse mediante borrado lógico (\texttt{activo = 0}).
+    \item \textbf{Eliminación en cascada controlada (\texttt{ON DELETE CASCADE}):} Si se da de baja una prenda base que no registra ventas, sus variantes e imágenes asociadas en \texttt{imagenes\_producto} se suprimen automáticamente sin dejar registros basura.
+    \item \textbf{Unicidad Compuesta:} Se aplican restricciones \texttt{UNIQUE} compuestas:
+    \begin{itemize}
+        \item \texttt{(producto\_id, talla\_id, color\_id)} en \texttt{variantes\_producto} para impedir variantes duplicadas de una misma prenda.
+        \item \texttt{(local\_id, variante\_id)} en \texttt{inventario} para asegurar un único registro de balance de existencias por tienda.
+    \end{itemize}
+\end{itemize}
+
+\section{Scripts SQL Ejecutables y Datos Semilla}
+La estructura física de la base de datos se encuentra totalmente codificada y versionada en el repositorio:
+\begin{itemize}
+    \item \texttt{database/schema.sql}: Script DDL con la creación de tablas, índices y llaves foráneas.
+    \item \texttt{database/seeds.sql}: Datos iniciales para locales, catálogos maestros cerrados de tallas, colores, marcas y usuario administrador de prueba.
+\end{itemize}
+El esquema completo puede ser levantado de forma automática mediante contenedores Docker con el comando \texttt{docker compose up -d}.

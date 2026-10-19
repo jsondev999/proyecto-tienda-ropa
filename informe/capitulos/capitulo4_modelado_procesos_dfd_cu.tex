@@ -1,0 +1,87 @@
+\chapter{Modelado Funcional y Procesos del Negocio (UML y DFD)}
+
+\section{Modelado de Casos de Uso del Sistema (UML 2.5)}
+La interacción entre los actores del negocio y el sistema se estructuró formalmente a través de 15 Casos de Uso (\texttt{CU-01} a \texttt{CU-15}), clasificados en tres actores operacionales:
+\begin{itemize}
+    \item \textbf{Administrador:} Responsable de la gestión estratégica, catálogos maestros, usuarios, anulación de ventas y reportes gerenciales.
+    \item \textbf{Vendedor / Cajero:} Operador de mostrador en tienda física, responsable de ventas, consultas de stock y turnos de caja.
+    \item \textbf{Visitante Web (Cliente Final):} Usuario público sin autenticación que consulta el catálogo digital y existencias físicas.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l l p{6.5cm}}
+\toprule
+\textbf{Código} & \textbf{Caso de Uso} & \textbf{Actor Primario} & \textbf{Descripción Operacional} \\
+\midrule
+\texttt{CU-01} & Iniciar Sesión en el Sistema & Admin, Vendedor & Validación de credenciales con bloqueo preventivo al tercer fallo. \\
+\texttt{CU-02} & Gestionar Usuarios y Roles & Administrador & Alta, baja lógica, modificación, desbloqueo y reseteo de claves. \\
+\texttt{CU-03} & Cerrar Sesión Segura & Admin, Vendedor & Revocación y destrucción de tokens de acceso en el cliente y servidor. \\
+\texttt{CU-04} & Consultar Inventario y Stock & Admin, Vendedor & Búsqueda predictiva y filtros combinados con desglose por sucursal. \\
+\texttt{CU-05} & Registrar y Editar Prendas & Administrador & Alta de prendas, fotos HD, precios y variantes con catálogos cerrados. \\
+\texttt{CU-06} & Ajustar Stock en Kardex & Administrador & Asientos de ingreso de mercadería, mermas o regularización física. \\
+\texttt{CU-07} & Mantener Catálogos Maestros & Administrador & Gestión de Categorías, Marcas, Tallas y Colores (RF-74). \\
+\texttt{CU-08} & Procesar Venta en Mostrador & Vendedor & Terminal POS, carrito, cálculo de totales, cambio y pago mixto. \\
+\texttt{CU-09} & Emitir Ticket Digital & Vendedor & Generación de ticket correlativo, impresión térmica y envío WhatsApp. \\
+\texttt{CU-10} & Sincronizar Ventas Offline & Sistema & Almacenamiento local en IndexedDB y consolidación en lote al conectar. \\
+\texttt{CU-11} & Consultar Historial de Ventas & Admin, Vendedor & Auditoría de tickets emitidos por fechas, local comercial y estado. \\
+\texttt{CU-12} & Anular Venta Comercial & Administrador & Anulación con clave de Admin y restitución atómica de existencias. \\
+\texttt{CU-13} & Generar Reporte de Ventas & Administrador & Métricas de recaudación por fecha, tienda y vendedor con filtros. \\
+\texttt{CU-14} & Analizar Rotación de Productos & Administrador & Ranking Top 10 prendas más vendidas y detección de baja rotación. \\
+\texttt{CU-15} & Explorar Catálogo Web Público & Visitante Web & Galería responsiva sin login con disponibilidad física por tienda. \\
+\bottomrule
+\end{tabularx}
+\caption{Catálogo oficial de los 15 Casos de Uso del sistema SYSELL Web v2.0}
+\label{tab:casos_de_uso}
+\end{table}
+
+\section{Diagramas de Flujo de Datos (DFD) Balanceados}
+Para garantizar la consistencia en el tránsito de la información, se modeló el flujo de datos en tres niveles de abstracción balanceados conforme a la metodología de Yourdon/DeMarco:
+
+\subsection{DFD Nivel 0: Diagrama de Contexto}
+Modela las fronteras del sistema, identificando las entidades externas interactuantes:
+\begin{itemize}
+    \item \textbf{Administrador:} Emite credenciales, parámetros de prendas, ajustes de stock y recibe alertas gerenciales y reportes analíticos.
+    \item \textbf{Vendedor:} Ingresa solicitudes de cobro, medios de pago, consultas de existencias y recibe tickets digitales y cambios calculados.
+    \item \textbf{Visitante Web:} Envía criterios de filtrado y recibe fichas técnicas con existencias físicas disponibles por sucursal.
+\end{itemize}
+
+\subsection{DFD Nivel 1: Procesos Principales del Sistema}
+Descompone el sistema en cinco procesos macro interconectados:
+\begin{itemize}
+    \item \textbf{Proceso 1.0 — Autenticar y Controlar Acceso:} Valida credenciales contra el almacén \texttt{D1: Usuarios y Roles}.
+    \item \textbf{Proceso 2.0 — Gestionar Inventario y Catálogos:} Administra prendas y variantes interactuando con \texttt{D2: Catálogos Maestros} y \texttt{D3: Inventario y Kardex}.
+    \item \textbf{Proceso 3.0 — Procesar Transacciones de Venta (POS):} Consume stock de \texttt{D3}, registra ventas en \texttt{D4: Ventas y Comprobantes} y genera asientos en \texttt{D5: Bitácora de Auditoría}.
+    \item \textbf{Proceso 4.0 — Generar Reportes y Analítica:} Agrega datos históricos de \texttt{D3} y \texttt{D4} para exportación gerencial.
+    \item \textbf{Proceso 5.0 — Publicar Catálogo Digital Web:} Lee datos públicos de \texttt{D2} y \texttt{D3} sin requerir autenticación.
+\end{itemize}
+
+\subsection{DFD Nivel 2: Descomposición del Proceso de Ventas (P 3.0)}
+Desglosa la lógica transaccional de caja en cinco subprocesos atómicos:
+\begin{enumerate}
+    \item \textbf{P 3.1: Iniciar Orden y Cargar Ítems:} Inicializa el ticket y valida existencias disponibles en tienda.
+    \item \textbf{P 3.2: Computar Totales y Descuentos:} Calcula subtotal, promociones autorizadas y saldo a cancelar.
+    \item \textbf{P 3.3: Registrar Pago y Liquidación:} Procesa medios de pago (efectivo, tarjetas o billeteras) y computa vuelto.
+    \item \textbf{P 3.4: Descontar Existencias de Inventario:} Ejecuta la sustracción atómica de stock en el almacén \texttt{D3}.
+    \item \textbf{P 3.5: Generar y Despachar Ticket Digital:} Persiste el comprobante en \texttt{D4} y envía la salida digital al cliente.
+\end{enumerate}
+
+\section{Diccionario de Almacenes de Datos Normalizados (D1 a D5)}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l p{5cm} p{5.5cm}}
+\toprule
+\textbf{Almacén} & \textbf{Nombre del Almacén} & \textbf{Tablas Relacionales Asociadas} & \textbf{Contenido y Finalidad} \\
+\midrule
+\texttt{D1} & Usuarios y Roles & \texttt{usuarios}, \texttt{locales} & Cuentas, credenciales Bcrypt, roles RBAC y asignación física de locales. \\
+\texttt{D2} & Catálogos Maestros & \texttt{categorias}, \texttt{marcas}, \texttt{tallas}, \texttt{colores} & Listas cerradas inmutables para selección de atributos de prendas (RF-74). \\
+\texttt{D3} & Inventario y Kardex & \texttt{productos}, \texttt{variantes\_producto}, \texttt{inventario}, \texttt{ajustes\_inventario} & Existencias por tienda, SKUs normalizados, alertas de stock y auditoría de Kardex. \\
+\texttt{D4} & Ventas y Comprobantes & \texttt{ventas}, \texttt{detalle\_ventas}, \texttt{pagos\_venta}, \texttt{metodos\_pago} & Encabezados, desglose de prendas vendidas, importes, medios mixtos y tickets. \\
+\texttt{D5} & Bitácora y Auditoría & \texttt{auditoria}, \texttt{reportes\_configuracion} & Registro inmutable de eventos críticos (crear, anular, resetear) con detalle JSON. \\
+\bottomrule
+\end{tabularx}
+\caption{Mapeo formal de almacenes de datos DFD a tablas de la base de datos MySQL}
+\label{tab:almacenes_dfd}
+\end{table}

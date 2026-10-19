@@ -1,0 +1,105 @@
+\chapter{Aseguramiento de Calidad y Pruebas del Software}
+\label{cap:calidad_pruebas}
+
+\section{Estrategia de Calidad y Marco Normativo IEEE 829 / ISTQB}
+El aseguramiento de calidad del software (SQA) en el proyecto Tienda Machi's se rige bajo los lineamientos del estándar internacional \textbf{IEEE 829} (Standard for Software and System Test Documentation) y las directrices metodológicas del \textbf{ISTQB} (International Software Testing Qualifications Board). En respuesta a la interrogante formativa de la cátedra:
+\begin{quote}
+\textit{«¿Cómo demuestro fehacientemente que se cumplió el requerimiento? Respuesta: Mediante criterios de aceptación medibles y casos de prueba empíricos».}
+\end{quote}
+
+A diferencia del proyecto heredado (Legacy v1.0), el cual carecía por completo de especificaciones de prueba formales, matrices de validación o criterios de aceptación estructurados, la versión 2.0 define un conjunto exhaustivo de \textbf{77 Casos de Prueba (CP-01 a CP-77)}, estableciendo una correspondencia unívoca y bidireccional ($1:1$) con los 77 Requisitos Funcionales aprobados.
+
+\section{Estructura Estándar de los Casos de Prueba}
+Cada caso de prueba diseñado en la especificación formal cuenta con los siguientes atributos:
+\begin{enumerate}
+    \item \textbf{Identificador Único:} Código correlativo estandarizado \texttt{CP-XX}.
+    \item \textbf{Requerimiento Trazado:} Código \texttt{RF-XX} y denominación funcional.
+    \item \textbf{Tipo de Prueba:} Validación de interfaz (UI), Lógica de negocio backend, Validación de límites (BVA), Prueba negativa / robustez o Seguridad (RBAC / OWASP).
+    \item \textbf{Precondiciones y Datos de Entrada:} Estado del sistema, roles requeridos y payloads de entrada.
+    \item \textbf{Procedimiento de Ejecución:} Secuencia cronológica y determinista de pasos ejecutados por el usuario o cliente HTTP.
+    \item \textbf{Resultado Esperado y Criterios Verificados:} Comportamiento verificable de la interfaz, códigos de respuesta HTTP (e.g., \texttt{200 OK}, \texttt{201 Created}, \texttt{403 Forbidden}, \texttt{422 Unprocessable Entity}) y mutaciones de persistencia en base de datos.
+    \item \textbf{Estado de Verificación:} Trazado como diseñado, listo para ejecución en el pipeline de CI/CD.
+\end{enumerate}
+
+\section{Distribución Modular de los Casos de Prueba}
+Los 77 casos de prueba se distribuyen equitativamente en los 5 módulos arquitectónicos del sistema:
+
+\begin{table}[H]
+\centering
+\caption{Distribución de Casos de Prueba por Módulo del Sistema}
+\label{tab:distribucion_cp}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Módulo del Sistema} & \textbf{Requisitos Trazados} & \textbf{Rango Casos de Prueba} & \textbf{Total} \\ \hline
+M1: Autenticación y Seguridad & RF-01 al RF-14, RF-73 & CP-01 al CP-14, CP-73 & 15 CP \\ \hline
+M2: Gestión de Inventario & RF-15 al RF-39, RF-74, RF-75, RF-77 & CP-15 al CP-39, CP-74, CP-75, CP-77 & 28 CP \\ \hline
+M3: Registro de Ventas (POS) & RF-40 al RF-55, RF-76 & CP-40 al CP-55, CP-76 & 17 CP \\ \hline
+M4: Reportes y Análisis Gerencial & RF-56 al RF-66 & CP-56 al CP-66 & 11 CP \\ \hline
+M5: Catálogo Digital Web & RF-67 al RF-72 & CP-67 al CP-72 & 6 CP \\ \hline
+\textbf{TOTAL GENERAL} & \textbf{RF-01 al RF-77} & \textbf{CP-01 al CP-77} & \textbf{77 CP} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Especificación de Casos de Prueba Críticos por Módulo}
+A continuación, se documenta una selección representativa de casos de prueba que cubren los flujos críticos de seguridad, consistencia transaccional y reglas de negocio del sistema.
+
+\subsection{Módulo 1: Autenticación y Control de Acceso (CP-01 a CP-14, CP-73)}
+\begin{table}[H]
+\centering
+\small
+\caption{Casos de Prueba Clave — Módulo de Autenticación y Seguridad}
+\label{tab:cp_modulo1}
+\begin{tabular}{|c|p{3.8cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
+\texttt{CP-01} & \textbf{RF-01} Solicitar usuario & Validación UI & Formulario de Login. Se deja campo usuario vacío e ingresa clave. \textit{Resultado:} Formulario bloquea submit y alerta campo obligatorio. \\ \hline
+\texttt{CP-04} & \textbf{RF-04} Validar credenciales backend & Backend API & Petición POST a \texttt{/api/auth/login}. \textit{Resultado:} Backend compara hash bcrypt contra BD y genera token Sanctum válido si coincide. \\ \hline
+\texttt{CP-06} & \textbf{RF-06} Bloqueo por 3 intentos fallidos & Seguridad & 3 accesos consecutivos con password errónea. \textit{Resultado:} El 3er intento conmuta estado a \texttt{bloqueado} e incrementa \texttt{intentos\_fallidos = 3}. \\ \hline
+\texttt{CP-08} & \textbf{RF-08} Restricción RBAC & Seguridad RBAC & Vendedor autenticado intenta acceder a \texttt{/api/reportes/gerenciales}. \textit{Resultado:} Middleware responde HTTP 403 Forbidden. \\ \hline
+\texttt{CP-14} & \textbf{RF-14} Desbloqueo administrativo & Seguridad & Administrador selecciona colaborador bloqueado y ejecuta desbloqueo. \textit{Resultado:} Estado cambia a \texttt{activo} y contador se restablece a 0. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Módulo 2: Gestión de Inventario Multi-Tienda (CP-15 a CP-39, CP-74, CP-75, CP-77)}
+\begin{table}[H]
+\centering
+\small
+\caption{Casos de Prueba Clave — Módulo de Inventario}
+\label{tab:cp_modulo2}
+\begin{tabular}{|c|p{3.8cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
+\texttt{CP-15} & \textbf{RF-15} Registrar prenda & Funcional & Envío de datos de prenda, categoría y tallas iniciales. \textit{Resultado:} Prenda creada con código correlativo en BD. \\ \hline
+\texttt{CP-23} & \textbf{RF-23} Alerta de stock mínimo & Lógica Negocio & El stock disponible de una talla desciende por debajo de 3 unidades. \textit{Resultado:} Se emite flag \texttt{bajo\_stock = true} en dashboard. \\ \hline
+\texttt{CP-33} & \textbf{RF-33} Traslado entre locales & Transaccional & Solicitud de traslado de 5 unidades de Local A a Local B. \textit{Resultado:} Descuento en origen, incremento en destino bajo transacción ACID única. \\ \hline
+\texttt{CP-35} & \textbf{RF-35} Rechazo de sobregiro físico & Límite / Negativa & Intento de traslado de 10 unidades cuando el stock físico es de 4 unidades. \textit{Resultado:} Rechazo inmediato con código HTTP 422 y rollback. \\ \hline
+\texttt{CP-77} & \textbf{RF-77} Desglose por talla y color & Integridad & Consulta de SKU por variantes múltiples. \textit{Resultado:} La matriz cartesiana talla/color/local cuadra exactamente con el total. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Módulo 3: Punto de Venta y Transacciones POS (CP-40 a CP-55, CP-76)}
+\begin{table}[H]
+\centering
+\small
+\caption{Casos de Prueba Clave — Módulo POS y Facturación}
+\label{tab:cp_modulo3}
+\begin{tabular}{|c|p{3.8cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
+\texttt{CP-40} & \textbf{RF-40} Apertura de caja diaria & Financiero & Cajero ingresa monto inicial de apertura. \textit{Resultado:} Registro de apertura persistido con timestamp y estado \texttt{abierta}. \\ \hline
+\texttt{CP-44} & \textbf{RF-44} Búsqueda de prenda en POS & Rendimiento UI & Escaneo de código de barras o búsqueda de texto. \textit{Resultado:} Resultados desplegados en pantalla en menos de 300 ms. \\ \hline
+\texttt{CP-49} & \textbf{RF-49} Descuento atómico de stock & Transaccional & Confirmación de venta con 2 ítems. \textit{Resultado:} Stock físico decrementado atómicamente; no se permiten carreras concurrentes. \\ \hline
+\texttt{CP-53} & \textbf{RF-53} Cierre y arqueo ciego & Auditoría & Cajero declara efectivo al cierre sin ver total del sistema. \textit{Resultado:} Sistema calcula sobrante/faltante y congela operaciones. \\ \hline
+\texttt{CP-76} & \textbf{RF-76} Multi-método de pago & Lógica Negocio & Pago dividido: S/. 100 en Efectivo y S/. 50 con billetera digital Yape. \textit{Resultado:} Ambas transacciones registradas cuadrando el total exacto. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Pruebas de Seguridad y Resiliencia (OWASP)}
+Adicionalmente a las pruebas funcionales, se diseñaron pruebas específicas de robustez y seguridad basadas en el estándar OWASP:
+\begin{itemize}
+    \item \textbf{Inyección SQL (OWASP A03):} Verificación de que todos los endpoints de consulta utilicen PDO con parámetros vinculados (Prepared Statements), evitando concatenación directa de cadenas.
+    \item \textbf{Cross-Site Scripting (XSS - OWASP A03):} Saneamiento y escape automático de caracteres especiales en campos de texto antes de su renderizado en clientes Vue.js/React.
+    \item \textbf{Control de Acceso Quebrantado (BOLA / IDOR - OWASP A01):} Verificación de que un usuario con rol Vendedor en Local A no pueda consultar o alterar las ventas del Local B modificando identificadores en URLs.
+\end{itemize}
+
+El conjunto de pruebas estructurado garantiza un nivel de madurez técnica certificable, eliminando la incertidumbre en la aceptación del producto software final.

@@ -1,0 +1,124 @@
+\chapter{Gestión Ágil del Proyecto: Sprints, Backlog y EDT / WBS}
+\label{cap:gestion_proyecto}
+
+\section{Estructura del Product Backlog e Historias de Usuario}
+El desarrollo del proyecto se gestionó bajo el marco de trabajo ágil Scrum, articulado mediante un \textbf{Product Backlog} compuesto por \textbf{18 Historias de Usuario (HU)} distribuidas en 7 Épicas de negocio, sumando un esfuerzo total estimado de \textbf{94 Puntos de Historia (Story Points - SP)} calculados mediante la técnica de \textit{Planning Poker} con escala Fibonacci.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Resumen de Épicas y Distribución de Historias de Usuario}
+\label{tab:epicas_backlog}
+\begin{tabular}{|l|c|c|l|}
+\hline
+\textbf{Épica} & \textbf{Cant. HU} & \textbf{Puntos (SP)} & \textbf{Objetivo de Negocio} \\ \hline
+EP-01: Autenticación y Seguridad & 3 HU & 13 SP & Control de acceso y gobierno RBAC. \\ \hline
+EP-02: Catálogo e Inventario Multi-Tienda & 4 HU & 22 SP & Control de prendas, tallas, colores y stock físico. \\ \hline
+EP-03: Logística y Traslados Internos & 2 HU & 13 SP & Transferencias atómicas entre sucursales. \\ \hline
+EP-04: Punto de Venta (POS) y Caja & 4 HU & 21 SP & Apertura/cierre de caja, facturación y cobros. \\ \hline
+EP-05: Analítica y Reportes Gerenciales & 2 HU & 11 SP & Métricas financieras, rotación y alertas. \\ \hline
+EP-06: Catálogo Web de Exhibición & 2 HU & 8 SP & Vitrina digital para clientes finales sin pasarela. \\ \hline
+EP-07: Infraestructura y DevOps & 1 HU & 6 SP & Contenedores Docker y automatización CI. \\ \hline
+\textbf{TOTAL GENERAL} & \textbf{18 HU} & \textbf{94 SP} & \textbf{Alcance Completo v2.0} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Criterios de Preparación (DoR) y Criterios de Finalización (DoD)}
+Para asegurar un flujo continuo y predecible de entrega de valor, el equipo \textit{Pollitos Design} acordó formalmente los siguientes criterios:
+
+\subsection{Definition of Ready (DoR - Criterio de Preparación)}
+Una Historia de Usuario únicamente puede ingresar al Sprint Backlog si cumple con:
+\begin{enumerate}
+    \item Formato estándar: \textit{«Como [Rol], quiero [Acción/Capacidad] para [Beneficio de Negocio]»}.
+    \item Criterios de aceptación detallados y verificables bajo la sintaxis Given-When-Then (Gherkin).
+    \item Dependencias arquitectónicas resueltas y estimación acordada por el equipo técnico.
+    \item Mockups de interfaz o contratos de API definidos si la historia involucra cambios de presentación.
+\end{enumerate}
+
+\subsection{Definition of Done (DoD - Criterio de Terminado)}
+Un incremento de software se considera potencialmente entregable únicamente cuando:
+\begin{enumerate}
+    \item Código fuente implementado y refactorizado respetando las 4 capas de Clean Architecture.
+    \item Pruebas unitarias y de integración asociadas ejecutadas con resultado exitoso ($100\%$ pass).
+    \item Código libre de vulnerabilidades críticas y analizado mediante linters estáticos en CI.
+    \item Migraciones de base de datos ejecutables hacia adelante y hacia atrás (\texttt{up} y \texttt{down}).
+    \item Documentación técnica de endpoints y diagramas de secuencia sincronizados.
+    \item Merge a la rama principal mediante Pull Request revisado por al menos un par técnico.
+\end{enumerate}
+
+\section{Planificación y Ejecución de los 4 Sprints}
+El ciclo de desarrollo se estructuró en cuatro iteraciones de dos semanas de duración cada una:
+
+\subsection{Sprint 1: Fundaciones, Seguridad y Modelo de Dominio (24 SP)}
+\textbf{Objetivo:} Construir el núcleo arquitectónico, la base de datos relacional normalizada y el subsistema de autenticación con gobierno de roles.
+\begin{itemize}
+    \item \textbf{HU-01:} Autenticación segura con bloqueo por 3 intentos fallidos (5 SP).
+    \item \textbf{HU-02:} Asignación de roles de usuario (RBAC) y control de perfiles (5 SP).
+    \item \textbf{HU-03:} Gestión administrativa de colaboradores y auditoría de accesos (8 SP).
+    \item \textbf{HU-18:} Infraestructura de contenedorización Docker y orquestación de servicios (6 SP).
+\end{itemize}
+
+\subsection{Sprint 2: Gestión de Inventario Multi-Tienda y Traslados (26 SP)}
+\textbf{Objetivo:} Implementar el catálogo de prendas con variantes ortogonales de talla/color y el mecanismo transaccional de transferencias entre locales.
+\begin{itemize}
+    \item \textbf{HU-04:} Registro y parametrización de prendas con variantes por talla y color (8 SP).
+    \item \textbf{HU-05:} Actualización de inventario físico y alertas de stock mínimo (5 SP).
+    \item \textbf{HU-06:} Consulta de disponibilidad multi-sucursal en tiempo real (5 SP).
+    \item \textbf{HU-07:} Solicitud y confirmación atómica de traslados entre sucursales (8 SP).
+\end{itemize}
+
+\subsection{Sprint 3: Punto de Venta (POS), Caja y Facturación (24 SP)}
+\textbf{Objetivo:} Implementar el flujo transaccional de caja, escaneo de productos, venta multi-método y emisión de comprobantes.
+\begin{itemize}
+    \item \textbf{HU-08:} Apertura y cierre de caja diaria con arqueo ciego (5 SP).
+    \item \textbf{HU-09:} Punto de venta rápido con escaneo de código de barras (8 SP).
+    \item \textbf{HU-10:} Registro de venta con múltiples métodos de pago (5 SP).
+    \item \textbf{HU-11:} Emisión e impresión de boletas de venta y notas de crédito (6 SP).
+\end{itemize}
+
+\subsection{Sprint 4: Analítica Gerencial, Catálogo Web y Despliegue CI/CD (20 SP)}
+\textbf{Objetivo:} Desarrollar los módulos analíticos para toma de decisiones, la vitrina web pública y el pipeline automatizado de validación.
+\begin{itemize}
+    \item \textbf{HU-12:} Reporte de prendas de mayor y menor rotación con gráficos gerenciales (5 SP).
+    \item \textbf{HU-13:} Balance financiero de caja y reporte consolidado de utilidades (6 SP).
+    \item \textbf{HU-14:} Catálogo digital interactivo responsive para clientes (5 SP).
+    \item \textbf{HU-15:} Filtro dinámico de prendas en vitrina web y enlace a WhatsApp (4 SP).
+\end{itemize}
+
+\section{Análisis Comparativo y Optimización de la EDT / WBS}
+Uno de los hallazgos críticos del diagnóstico de ingeniería de software sobre el proyecto Legacy v1.0 fue la deficiencia estructural de su Estructura de Desglose del Trabajo (EDT / WBS):
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    legacy/.style={rectangle, draw=red!70, fill=red!10, rounded corners, minimum width=4cm, minimum height=0.8cm, align=center},
+    modern/.style={rectangle, draw=green!60!black, fill=green!10, rounded corners, minimum width=4cm, minimum height=0.8cm, align=center},
+    arrow/.style={thick, ->, >=stealth}
+]
+\node[legacy] (leg) {\textbf{EDT Legacy v1.0}\\(Enfoque Cascada Lineal)};
+\node[modern, right=3cm of leg] (mod) {\textbf{EDT Optimizada v2.0}\\(Orientada a Entregables y Capas)};
+
+\draw[arrow, red!80!black, line width=1.5pt] (leg) -- node[above, font=\small\bfseries] {Refactorización} (mod);
+\end{tikzpicture}
+\caption{Transición Estructural de la EDT del Proyecto}
+\label{fig:transicion_edt}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Matriz de Comparación: EDT Legacy vs. EDT Optimizada v2.0}
+\label{tab:comparacion_edt}
+\begin{tabular}{|p{3.5cm}|p{5cm}|p{5.5cm}|}
+\hline
+\textbf{Dimensión de Análisis} & \textbf{EDT Legacy v1.0 (Análisis)} & \textbf{EDT Optimizada v2.0 (Ingeniería)} \\ \hline
+\textbf{Enfoque Metodológico} & 5 fases secuenciales en cascada clásica sin ciclos de retroalimentación. & Orientada a entregables de valor con 4 iteraciones incrementales (Sprints). \\ \hline
+\textbf{Integridad de Codificación} & Inconsistencia sintáctica: salto arbitrario de \texttt{1.3.1} a \texttt{1.3.1.1} como actividad sin paquete. & Codificación jerárquica estricta según el estándar del Project Management Institute (PMI). \\ \hline
+\textbf{Alineación Arquitectónica} & Tareas genéricas («programar módulo») sin separación de responsabilidades. & Tareas estructuradas por capas de Clean Architecture: Dominio, Aplicación, Infraestructura y UI. \\ \hline
+\textbf{Calidad y Validación} & Ausencia de aseguramiento formal; no contemplaba casos de prueba IEEE 829. & Paquete específico de SQA con 77 casos de prueba y validación estática en CI/CD. \\ \hline
+\textbf{Despliegue y DevOps} & Se limitaba a «instalación en servidor local». & Contenedores Docker Compose, linters de documentación y pipeline GitHub Actions. \\ \hline
+\end{tabular}
+\end{table}
+
+La EDT v2.0 resultante garantiza trazabilidad total desde las necesidades de negocio del patrocinador de Machi's hasta cada línea de código desplegada en los entornos de ejecución.

@@ -1,0 +1,130 @@
+\chapter{Ingeniería de Requisitos (ISO/IEC/IEEE 29148) y Trazabilidad}
+
+\section{Proceso de Transformación desde los Requisitos de Análisis de Sistemas}
+La transición de la versión preliminar heredada a la especificación profesional v2.0 resolvió la fractura metodológica existente mediante la aplicación del estándar internacional \textbf{ISO/IEC/IEEE 29148:2018}:
+\begin{itemize}
+    \item \textbf{Consolidación de agregados:} Se eliminó la práctica errónea de declarar campos de interfaz gráfica como requerimientos de software. Los campos dispersos de prenda, talla, color, precio y código se unificaron en el agregado transaccional \textbf{RF-15: Registrar prenda}.
+    \item \textbf{Catálogos maestros cerrados (RF-74):} Se estableció como regla de negocio inviolable la eliminación de texto libre para categorías, marcas, tallas y colores, garantizando integridad referencial en la base de datos.
+    \item \textbf{Unificación paramétrica de seguridad (RF-06):} Se fijó el umbral de bloqueo de cuentas tras fallos consecutivos a exactamente \textbf{3 intentos fallidos consecutivos}.
+\end{itemize}
+
+\section{Necesidades del Negocio y del Usuario}
+La elicitación inicial identificó 10 necesidades fundamentales que rigen el alcance del sistema:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l p{10cm}}
+\toprule
+\textbf{ID} & \textbf{Necesidad de Negocio} & \textbf{Descripción Operacional} \\
+\midrule
+\textbf{N-01} & Control de Acceso y Perfiles & Autenticar de forma segura al personal y restringir acciones según rol (Admin/Vendedor). \\
+\textbf{N-02} & Gestión de Colaboradores & Administrar cuentas de usuarios, asignación de tiendas y reseteo de claves. \\
+\textbf{N-03} & Estandarización de Prendas & Controlar marcas, categorías, tallas y colores mediante catálogos maestros cerrados. \\
+\textbf{N-04} & Control Multilocal de Stock & Registrar y consultar existencias físicas independientes para los dos locales comerciales. \\
+\textbf{N-05} & Búsqueda Ágil en Inventario & Localizar prendas en mostrador mediante filtros combinados y lectura de códigos SKU. \\
+\textbf{N-06} & Punto de Venta Transaccional & Procesar ventas rápidas con cálculo de cambio y liquidación con medios de pago mixtos. \\
+\textbf{N-07} & Emisión de Comprobantes & Generar tickets digitales de control interno imprimibles y enviables por mensajería. \\
+\textbf{N-08} & Continuidad Operativa Offline & Mantener operativa la caja ante pérdidas de Internet y sincronizar lotes al reconectar. \\
+\textbf{N-09} & Inteligencia y Reportes & Evaluar ventas por fechas, locales y vendedores, identificando prendas de alta y baja rotación. \\
+\textbf{N-10} & Vitrina Digital Pública & Ofrecer a clientes web una galería responsiva con fotos HD y stock físico por tienda. \\
+\bottomrule
+\end{tabularx}
+\caption{Catálogo de Necesidades del Negocio formalizadas en SYSELL Web}
+\label{tab:necesidades_negocio}
+\end{table}
+
+\section{Catálogo Oficial de 77 Requisitos Funcionales (RF-01 a RF-77)}
+El sistema se desglosa en 77 Requisitos Funcionales normalizados organizados en 5 módulos:
+
+\subsection{Módulo 1: Autenticación y Seguridad (15 RFs)}
+Abarca desde el ingreso seguro hasta el reseteo administrativo de contraseñas:
+\begin{itemize}
+    \item \texttt{RF-01}: Solicitar nombre de usuario obligatorio.
+    \item \texttt{RF-02}: Solicitar contraseña confidencial enmascarada.
+    \item \texttt{RF-03}: Autenticar identidad contra base de datos.
+    \item \texttt{RF-04}: Validar credenciales mediante hash Bcrypt.
+    \item \texttt{RF-05}: Denegar acceso erróneo con mensaje genérico.
+    \item \texttt{RF-06}: Bloquear cuenta tras 3 intentos fallidos consecutivos.
+    \item \texttt{RF-07}: Asignar roles (Administrador y Vendedor).
+    \item \texttt{RF-08}: Restringir funciones según rol mediante RBAC.
+    \item \texttt{RF-09}: Cerrar sesión invalidando tokens en servidor.
+    \item \texttt{RF-10}: Crear nuevo usuario colaborador asignado a local.
+    \item \texttt{RF-11}: Listar usuarios registrados con estado y perfil.
+    \item \texttt{RF-12}: Modificar datos de usuario sin quebrar histórico.
+    \item \texttt{RF-13}: Desactivar cuenta de usuario mediante borrado lógico.
+    \item \texttt{RF-14}: Desbloquear cuenta y reiniciar contador de fallos.
+    \item \texttt{RF-73}: Resetear contraseña de empleados exclusivo por Admin.
+\end{itemize}
+
+\subsection{Módulo 2: Gestión de Inventario (28 RFs)}
+Control exhaustivo de prendas, variantes físicas y catálogo maestro:
+\begin{itemize}
+    \item \texttt{RF-15} a \texttt{RF-18}: Registro, modificación, eliminación lógica y búsqueda por SKU de prendas.
+    \item \texttt{RF-19} a \texttt{RF-22}: Stock inicial diferenciado por local, ajuste por Kardex, descuento automático tras venta y consulta de stock por tienda.
+    \item \texttt{RF-23} a \texttt{RF-25}: Alertas visuales de stock bajo, umbral mínimo parametrizable y notificación de quiebre crítico al Admin.
+    \item \texttt{RF-26} a \texttt{RF-34}: Mantenimiento de catálogos maestros cerrados de Categorías, Marcas, Tallas y Colores (con código HEX).
+    \item \texttt{RF-35} a \texttt{RF-39}: Búsqueda en tiempo real (< 1s) y filtros por categoría, talla, marca y precio.
+    \item \texttt{RF-74}, \texttt{RF-75}, \texttt{RF-77}: Validación de catálogos cerrados, filtros combinados AND y sugerencia de reposición entre locales.
+\end{itemize}
+
+\subsection{Módulo 3: Registro y Gestión de Ventas POS (17 RFs)}
+Operación de cobro en mostrador, emisión de tickets y contingencia:
+\begin{itemize}
+    \item \texttt{RF-40} a \texttt{RF-44}: Inicio de venta, agregado de prendas, modificación de cantidades, retiro de ítems y cálculo automático de total/descuentos.
+    \item \texttt{RF-45} a \texttt{RF-47}: Selección de métodos de pago (Efectivo, tarjetas, Yape/Plin), cálculo de cambio y confirmación atómica transaccional.
+    \item \texttt{RF-48} a \texttt{RF-50}: Generación de ticket digital con correlativo unívoco, impresión térmica/PDF y despacho por WhatsApp.
+    \item \texttt{RF-51} a \texttt{RF-53}: Consulta de historial de ventas, detalle de tickets y anulación exclusiva por Administrador con restitución de stock.
+    \item \texttt{RF-54}, \texttt{RF-55}, \texttt{RF-76}: Operación offline con IndexedDB, sincronización automática en lote y formato de control interno sin SUNAT.
+\end{itemize}
+
+\subsection{Módulo 4: Reportes y Análisis Estratégico (11 RFs)}
+Analítica de negocio y toma de decisiones para la gerencia:
+\begin{itemize}
+    \item \texttt{RF-56} a \texttt{RF-58}: Reportes de ventas por intervalos de fechas, por local físico y por vendedor.
+    \item \texttt{RF-59} a \texttt{RF-62}: Ranking Top 10 prendas más vendidas, detección de prendas de baja rotación, consolidado de ingresos y filtros cruzados.
+    \item \texttt{RF-63} a \texttt{RF-66}: Exportación en PDF, exportación en Excel (.xlsx), panel gráfico interactivo y comparativa directa entre sucursales.
+\end{itemize}
+
+\subsection{Módulo 5: Catálogo Digital Web Público (6 RFs)}
+Vitrina digital responsiva para clientes finales:
+\begin{itemize}
+    \item \texttt{RF-67} a \texttt{RF-72}: Navegación pública sin registro, filtros web dinámicos, ficha técnica con fotos HD, disponibilidad física discriminada por local comercial, compartir en redes sociales y diseño Mobile-first responsivo.
+\end{itemize}
+
+\section{Requisitos No Funcionales (ISO/IEC 25010)}
+Se establecieron 14 Requisitos No Funcionales con métricas cuantitativas:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{c l p{4cm} p{6.5cm}}
+\toprule
+\textbf{Código} & \textbf{Característica ISO 25010} & \textbf{Atributo Evaluado} & \textbf{Criterio Métrico Verificable} \\
+\midrule
+\texttt{RNF-01} & Usabilidad & Facilidad de Uso en POS & Tiempo de capacitación de cajero $< 30$ minutos; interfaz intuitiva. \\
+\texttt{RNF-02} & Seguridad & Autenticación y Cifrado & Hash Bcrypt (cost 12), protección de sesiones con tokens seguros. \\
+\texttt{RNF-03} & Seguridad & Almacenamiento Seguro & Cero contraseñas en texto claro en logs, base de datos o respuestas API. \\
+\texttt{RNF-04} & Fiabilidad & Integridad de Datos & Transacciones ACID, borrado lógico en entidades con histórico y bitácora. \\
+\texttt{RNF-05} & Usabilidad & Eficiencia Operativa & Navegación fluida y alertas visuales claras de validación en $< 0.5$ s. \\
+\texttt{RNF-06} & Compatibilidad & Diseño Responsivo & Renderizado adaptativo sin desbordamientos en pantallas desde 360 px. \\
+\texttt{RNF-07} & Seguridad & Bloqueo Preventivo & Cierre preventivo de cuenta al tercer fallo consecutivo de contraseña. \\
+\texttt{RNF-08} & Rendimiento & Tiempo de Respuesta & Búsquedas en inventario y cálculos de total en $< 1.0$ segundo. \\
+\texttt{RNF-09} & Fiabilidad & Resiliencia Offline & Almacenamiento local de hasta 50 ventas sin conexión mediante IndexedDB. \\
+\texttt{RNF-10} & Cumplimiento & Delimitación Legal & Comprobantes tipificados como control interno desligados de SUNAT. \\
+\texttt{RNF-11} & Rendimiento & Sincronización Multilocal & Consolidación de stock entre tiendas en tiempo real ($< 2.0$ segundos). \\
+\texttt{RNF-12} & Mantenibilidad & Clean Architecture & Desacoplamiento de lógica en 4 capas sin dependencias externas en dominio. \\
+\texttt{RNF-13} & Portabilidad & Soporte Navegadores & Funcionamiento idéntico en últimas 2 versiones de Chrome, Edge, Firefox y Safari. \\
+\texttt{RNF-14} & Integración & Interoperabilidad & API RESTful con formato JSON estándar e integración de API WhatsApp. \\
+\bottomrule
+\end{tabularx}
+\caption{Catálogo oficial de Requisitos No Funcionales bajo estándar ISO/IEC 25010}
+\label{tab:rnfs_iso25010}
+\end{table}
+
+\section{Matriz de Trazabilidad Integral de 7 Columnas}
+Para garantizar la verificación bidireccional entre todas las etapas del ciclo de vida, se construyó la matriz de 7 columnas que relaciona:
+\begin{center}
+\textbf{Necesidad} $\longrightarrow$ \textbf{RF} $\longrightarrow$ \textbf{RNF} $\longrightarrow$ \textbf{Caso de Uso} $\longrightarrow$ \textbf{DFD} $\longrightarrow$ \textbf{Diseño (DS / BD)} $\longrightarrow$ \textbf{Caso de Prueba}
+\end{center}
+La cobertura alcanzada es del \textbf{100\% sobre los 77 requisitos funcionales}, sin identificarse ningún requisito huérfano ni pruebas desvinculadas de una necesidad legítima del negocio.

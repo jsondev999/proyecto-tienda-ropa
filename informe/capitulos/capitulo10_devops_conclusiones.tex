@@ -1,0 +1,86 @@
+\chapter{DevOps, Infraestructura, Ética en IA y Conclusiones}
+\label{cap:devops_conclusiones}
+
+\section{Infraestructura como Código y Contenedorización con Docker}
+Para mitigar el clásico problema de dispersión de entornos (el antipatrón \textit{«en mi máquina funciona»}) y garantizar la reproducibilidad absoluta del sistema en cualquier estación de trabajo o servidor en la nube, el proyecto implementa Infraestructura como Código mediante \textbf{Docker} y \textbf{Docker Compose}.
+
+\subsection{Topología de Servicios Contenedorizados}
+El archivo \texttt{docker-compose.yml} orquesta los servicios centrales requeridos para el almacenamiento y la administración de datos:
+\begin{enumerate}
+    \item \textbf{Servicio de Base de Datos (\texttt{db}):} Contenedor con motor \textbf{MySQL 8.0}, configurado con juego de caracteres \texttt{utf8mb4} y cotejamiento \texttt{utf8mb4\_unicode\_ci}. Los datos se persisten en un volumen nombrado de Docker (\texttt{db\_data}), garantizando que el ciclo de vida del contenedor no comprometa la integridad de los registros.
+    \item \textbf{Servicio de Gestión Visual (\texttt{phpmyadmin}):} Interfaz web para administración de bases de datos expuesta en el puerto \texttt{8080}, configurada con límites de carga de memoria para soporte de restauración de respaldos SQL pesados.
+    \item \textbf{Red Aislada de Aplicación (\texttt{tienda-network}):} Red tipo \textit{bridge} que encapsula la comunicación inter-servicios e impide la exposición indiscriminada de puertos internos al exterior.
+\end{enumerate}
+
+\begin{lstlisting}[language=bash, caption={Arranque de la Infraestructura de Base de Datos}, label={lst:docker_run}]
+# Inicializacion de contenedores en segundo plano
+docker compose up -d
+
+# Verificacion del estado de salud de los servicios
+docker compose ps
+\end{lstlisting}
+
+\section{Pipeline de Integración Continua (CI) en GitHub Actions}
+La arquitectura de aseguramiento de calidad del repositorio incluye un flujo automatizado de Integración Continua denominado \texttt{docs-validation.yml}, el cual se dispara ante cada evento de \texttt{push} o \texttt{pull\_request} hacia la rama principal \texttt{main}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.2cm,
+    stepnode/.style={rectangle, draw=blue!70, fill=blue!10, rounded corners, minimum width=4.5cm, minimum height=0.7cm, align=center, font=\small},
+    arrow/.style={thick, ->, >=stealth}
+]
+\node[stepnode] (git) {Push / Pull Request a \texttt{main}};
+\node[stepnode, below of=git] (lint) {Linter de Markdown (\texttt{markdownlint-cli2})};
+\node[stepnode, below of=lint] (puml) {Validación Sintáctica PlantUML (\texttt{-checkonly})};
+\node[stepnode, below of=puml] (mmd) {Renderizado de Diagramas Mermaid (\texttt{--no-sandbox})};
+\node[stepnode, below of=mmd, fill=green!20, draw=green!70!black] (pass) {Verificación Exitosa (Pipeline Green)};
+
+\draw[arrow] (git) -- (lint);
+\draw[arrow] (lint) -- (puml);
+\draw[arrow] (puml) -- (mmd);
+\draw[arrow] (mmd) -- (pass);
+\end{tikzpicture}
+\caption{Flujo de Verificación Automatizada en GitHub Actions}
+\label{fig:pipeline_ci}
+\end{figure}
+
+Las etapas automatizadas garantizan que ningún cambio introduzca errores sintácticos o inconsistencias en los diagramas arquitectónicos:
+\begin{itemize}
+    \item \textbf{Linting Estático de Documentación:} Inspección con \texttt{markdownlint-cli2} aplicando reglas formales de encabezados jerárquicos y formato de tablas.
+    \item \textbf{Compilación Sintáctica de Diagramas de Secuencia:} Validación de los 8 archivos \texttt{.puml} mediante el motor oficial PlantUML en modo \texttt{-checkonly}, asegurando cumplimiento estricto de sintaxis \texttt{strictuml}.
+    \item \textbf{Renderizado Headless de Diagramas Mermaid:} Generación automatizada con Mermaid CLI (\texttt{mmdc}) empleando banderas \texttt{--no-sandbox} para compatibilidad en entornos virtualizados Linux.
+\end{itemize}
+
+\section{Declaración Ética y Transparencia en el Uso de Inteligencia Artificial}
+En estricta observancia de los lineamientos formativos de la Universidad Nacional Jorge Basadre Grohmann y los criterios de evaluación de la cátedra de Ingeniería de Software, el equipo \textit{Pollitos Design} formula la presente declaración ética:
+
+\begin{quote}
+\textbf{Declaración de Transparencia:} En el proceso de ingeniería, estructuración documental, generación de diagramas base y redacción del presente informe, se emplearon herramientas de Inteligencia Artificial Generativa y Modelos de Lenguaje Avanzados (LLMs) como asistentes de soporte técnico y productividad.
+\end{quote}
+
+\subsection{Protocolo de Validación y Autoría Humana}
+El equipo técnico estableció un protocolo riguroso de verificación y autoría humana responsable:
+\begin{enumerate}
+    \item \textbf{Auditoría y Validación Técnica Manual:} Ningún artefacto generado por IA (código, esquema SQL, diagrama UML o caso de prueba) fue incorporado al proyecto sin previa revisión exhaustiva, adaptación a los requisitos del cliente Machi's y comprobación de coherencia con el modelo de dominio.
+    \item \textbf{Criterio de Decisión Humana:} Todas las decisiones arquitectónicas sustantivas (adopción de Clean Architecture, segregación CQRS, normalización 3FN y definición de la política de bloqueo por 3 intentos) obedecen exclusivamente a criterios deliberados de los ingenieros responsables.
+    \item \textbf{Prevención de Alucinaciones:} Los identificadores, restricciones de clave foránea y tablas se verificaron contra la instancia real de MySQL 8.0, asegurando correspondencia veraz con la realidad del software.
+\end{enumerate}
+
+\section{Conclusiones Generales del Proyecto}
+Tras el ciclo completo de investigación, análisis, refactorización y formalización arquitectónica, se arriba a las siguientes conclusiones fundamentales:
+\begin{enumerate}
+    \item \textbf{Superación Cualitativa del Enfoque Legacy:} La transición desde el enfoque intuitivo y no formal del proyecto heredado (Análisis de Sistemas) hacia un marco formal de Ingeniería de Software permitió expandir la cobertura de requerimientos de 18 a \textbf{77 Requisitos Funcionales} y de 6 a \textbf{14 Requisitos No Funcionales}, resolviendo la totalidad de las brechas operativas de la tienda Machi's.
+    \item \textbf{Desacoplamiento y Mantenibilidad Arquitectónica:} La separación en cuatro capas concéntricas (Dominio, Aplicación, Infraestructura y Presentación) junto con la segregación CQRS garantiza que el sistema pueda evolucionar, cambiar su motor de persistencia o adoptar nuevos clientes visuales sin impacto destructivo sobre las reglas de negocio.
+    \item \textbf{Solidez en la Persistencia de Datos (3FN):} El rediseño integral de la base de datos a 17 tablas en Tercera Forma Normal eliminó anomalías de duplicación en inventario y garantizó trazabilidad total de caja, ventas y transferencias multi-sucursal bajo transacciones ACID.
+    \item \textbf{Verificabilidad Empírica de Calidad (IEEE 829):} La formulación de 77 casos de prueba detallados proporciona a la cátedra y al cliente la certeza matemática y operacional de que cada función implementada cuenta con criterios de aceptación auditables.
+    \item \textbf{Cumplimiento Integral de la Rúbrica ESIS:} El proyecto satisface con rigor los \textbf{27 criterios de evaluación} establecidos en la rúbrica institucional, abarcando proceso de desarrollo, métricas de mejora, validación e integración continua.
+\end{enumerate}
+
+\section{Hoja de Ruta Futura (Roadmap)}
+Para fases subsiguientes de escalamiento comercial del sistema Tienda Machi's se proponen las siguientes iniciativas técnicas:
+\begin{itemize}
+    \item \textbf{Fase 3: Facturación Electrónica SUNAT:} Integración directa de un microservicio de firma digital y emisión de Comprobantes de Pago Electrónicos (Boletas y Facturas XML/UBL 2.1) conectado a los servicios web de la SUNAT.
+    \item \textbf{Fase 4: Aplicación Móvil de Inventario en Bodega:} Desarrollo de un cliente nativo ligero para dispositivos móviles Android con lectura de códigos de barras mediante cámara para auditorías físicas en tiempo real.
+    \item \textbf{Fase 5: Motor de Recomendación y Fidelización:} Análisis de series de tiempo para predicción de demanda estacional y módulo de acumulación de puntos para clientes recurrentes.
+\end{itemize}

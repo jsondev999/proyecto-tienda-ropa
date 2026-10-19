@@ -1,0 +1,86 @@
+\chapter{Marco Metodológico, SWEBOK v4 y Gobierno del Equipo}
+
+\section{Selección y Justificación del Ciclo de Vida: Enfoque Híbrido RUP + Scrum}
+Para el desarrollo de \textbf{SYSELL Web v2.0}, se adoptó una estrategia metodológica híbrida que combina la disciplina formal y arquitectónica del \textbf{Proceso Unificado Racional (RUP)} con la adaptabilidad, cadencia de entrega y enfoque centrado en valor de \textbf{Scrum}.
+
+\begin{figure}[H]
+\centering
+\begin{center}
+\fbox{
+\begin{minipage}{0.9\textwidth}
+\centering
+\vspace{0.2cm}
+\textbf{Fase RUP: INICIO} $\longrightarrow$ \textbf{Sprint 0} (Días 1--3): Visión, alcance, viabilidad y entorno.\\
+\textbf{Fase RUP: ELABORACIÓN} $\longrightarrow$ \textbf{Sprint 1} (Días 4--10): Arquitectura base, seguridad RBAC y catálogos.\\
+\textbf{Fase RUP: CONSTRUCCIÓN I} $\longrightarrow$ \textbf{Sprint 2} (Días 11--17): Caja, inventario multilocal y Kardex.\\
+\textbf{Fase RUP: CONSTRUCCIÓN II} $\longrightarrow$ \textbf{Sprint 3} (Días 18--24): Terminal POS, pagos mixtos y tickets.\\
+\textbf{Fase RUP: TRANSICIÓN} $\longrightarrow$ \textbf{Sprint 4} (Días 25--28): Reportería, catálogo web y despliegue.
+\vspace{0.2cm}
+\end{minipage}
+}
+\end{center}
+\caption{Sincronización de Fases RUP con la Cadencia Ágil de Sprints en SYSELL}
+\label{fig:rup_scrum_sync}
+\end{figure}
+
+\subsection{Justificación Técnica del Modelo Híbrido}
+\begin{itemize}
+    \item \textbf{Por qué RUP:} Un sistema transaccional de venta e inventario con múltiples puntos de venta físicos requiere un diseño arquitectónico robusto desde las etapas tempranas. RUP proporciona el marco riguroso para mitigar riesgos técnicos en la fase de Elaboración, definir el modelo de datos en 3FN y establecer la arquitectura base antes de la construcción masiva.
+    \item \textbf{Por qué Scrum:} Permite iterar en incrementos de software potencialmente desplegables cada quincena, validar los requerimientos de la tienda \textit{Machi's} mediante revisiones continuas con el Product Owner y adaptar las prioridades según el aprendizaje de cada ciclo.
+\end{itemize}
+
+\section{Mapeo Formal a las Áreas de Conocimiento de SWEBOK v4}
+La ejecución del proyecto se alinea de forma explícita con el cuerpo de conocimiento estándar de la ingeniería de software (\textit{Guide to the Software Engineering Body of Knowledge}, SWEBOK v4.0):
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l p{7cm} p{5.5cm}}
+\toprule
+\textbf{Área de SWEBOK v4} & \textbf{Actividad / Práctica Implementada en SYSELL} & \textbf{Artefacto de Evidencia} \\
+\midrule
+\textbf{1. Software Requirements} & Elicitación formal de 10 necesidades del negocio, descomposición en 77 RFs estructurados y 14 RNFs ISO 25010 con matriz de trazabilidad integral. & \texttt{docs/requisitos\_funcionales.md}, \texttt{docs/matriz\_de\_trazabilidad.md} \\
+\addlinespace
+\textbf{2. Software Design} & Modelado en 4 capas concéntricas (Clean Architecture), separación Command/Query (CQRS), 15 casos de uso UML, DFDs niveles 0--2 y 8 diagramas de secuencia. & \texttt{docs/estandares\_arquitectura/}, \texttt{docs/diagramas\_secuencia/} \\
+\addlinespace
+\textbf{3. Software Construction} & Desarrollo desacoplado en PHP 8.2 (Laravel) y React 18 (TypeScript), tipado estricto, persistencia relacional MySQL 8.0 y scripts SQL reproducibles. & \texttt{database/schema.sql}, \texttt{database/seeds.sql} \\
+\addlinespace
+\textbf{4. Software Testing} & Diseño y ejecución de 77 casos de prueba formales bajo estándar IEEE 829 / ISTQB, cubriendo escenarios positivos, negativos y de límites. & \texttt{docs/casos\_de\_prueba.md} \\
+\addlinespace
+\textbf{5. Software Eng. Management} & Estimación en Story Points con Planning Poker (escala Fibonacci), Product Backlog de 94 SP y gestión de capacidad en 4 Sprints quincenales. & \texttt{docs/product\_backlog/}, \texttt{docs/sprints/} \\
+\addlinespace
+\textbf{6. Software Eng. Process} & Institucionalización del Working Agreement, gobernanza de equipo, aplicación rigurosa de DoR/DoD y automatización continua en CI/CD. & \texttt{docs/acuerdos/}, \texttt{.github/workflows/} \\
+\bottomrule
+\end{tabularx}
+\caption{Mapeo de actividades del proyecto a las áreas de conocimiento de SWEBOK v4}
+\label{tab:swebok_mapping}
+\end{table}
+
+\section{Acuerdos de Trabajo del Equipo (Working Agreement) y Roles}
+El equipo de desarrollo \textbf{Pollitos Design} formalizó su gobernanza mediante un acuerdo de trabajo formal que define las responsabilidades operacionales de cada integrante:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l l p{8.5cm}}
+\toprule
+\textbf{Integrante} & \textbf{Rol Principal} & \textbf{Responsabilidades Clave} \\
+\midrule
+\textbf{Johan Mamani} & Product Owner / PM & Gestión y priorización del Product Backlog, validación de criterios de aceptación con el cliente comercial, facilitación de ceremonias. \\
+\addlinespace
+\textbf{Aron Cachicatari} & Tech Lead / Arquitecto & Diseño de Clean Architecture y CQRS, gobernanza del modelo de base de datos MySQL, revisión de Pull Requests y diseño de diagramas técnicos. \\
+\addlinespace
+\textbf{Luis Condori} & UI/UX / Analista & Diseño de interfaces reactivas responsivas (Mobile-first), prototipado, especificación formal de casos de uso y balanceo de diagramas DFD. \\
+\addlinespace
+\textbf{Giorgini Disalvatore} & QA Lead / Scrum Master & Diseño de los 77 casos de prueba IEEE 829, verificación del cumplimiento de DoR y DoD, aseguramiento de la trazabilidad y métricas de calidad. \\
+\bottomrule
+\end{tabularx}
+\caption{Roles y responsabilidades del equipo Pollitos Design}
+\label{tab:roles_equipo}
+\end{table}
+
+\subsection{Criterios de Calidad: Definition of Ready (DoR) y Definition of Done (DoD)}
+\begin{itemize}
+    \item \textbf{Definition of Ready (DoR):} Ninguna Historia de Usuario ingresa al Sprint Planning si no cuenta con: (1) Formato estándar \textit{Como/Quiero/Para}; (2) Criterios de aceptación en sintaxis Gherkin (\textit{Dado/Cuando/Entonces}); (3) Estimación consensuada en Planning Poker; (4) Mockup de interfaz validado; (5) Trazabilidad explícita a un requisito funcional formal (\texttt{RF-XX}).
+    \item \textbf{Definition of Done (DoD):} Ninguna historia se considera terminada si no satisface: (1) Código integrado en la rama principal sin advertencias críticas; (2) Cumplimiento de las 4 capas de Clean Architecture; (3) Pruebas unitarias con cobertura mínima del 80\%; (4) Aprobación de Pull Request por el Tech Lead; (5) Despliegue verificado en contenedor Docker.
+\end{itemize}

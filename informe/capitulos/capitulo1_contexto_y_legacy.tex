@@ -1,0 +1,79 @@
+\chapter{Contexto, Diagnóstico del Sistema Heredado y Objetivos}
+
+\section{Información del Cliente Comercial y Problemática}
+El presente proyecto de ingeniería de software responde a las necesidades operativas y comerciales de la tienda de indumentaria masculina \textbf{Machi's}, ubicada en la ciudad de Tacna, Perú. La empresa cuenta actualmente con dos establecimientos comerciales físicos en zonas de alto tránsito de la ciudad:
+\begin{enumerate}
+    \item \textbf{Local Principal:} Ubicado en la Av. San Martín N$^\circ$ 450.
+    \item \textbf{Sucursal Mall:} Ubicada en la Av. Bolognesi N$^\circ$ 820.
+\end{enumerate}
+
+\subsection{Diagnóstico del Negocio}
+A pesar de su posicionamiento en el mercado local de ropa masculina, el negocio operaba con serias limitaciones de gestión:
+\begin{itemize}
+    \item \textbf{Desconexión de inventarios:} No existía un canal centralizado en tiempo real para consultar existencias entre ambas tiendas, provocando pérdidas de ventas cuando un cliente solicitaba una talla disponible en la otra sucursal.
+    \item \textbf{Inconsistencia en registros de prendas:} El uso de registros manuales y planillas de cálculo sin listas cerradas permitía el ingreso arbitrario de tallas (ej. ``M'', ``m'', ``Mediano'') y colores (ej. ``Azul'', ``Marino'', ``Blue''), corrompiendo la base de datos y distorsionando los balances de existencias.
+    \item \textbf{Ausencia de presencia digital:} Los clientes finales carecían de un catálogo web para consultar prendas, precios y disponibilidad en tienda antes de acercarse al establecimiento físico.
+    \item \textbf{Emisión desarticulada de comprobantes:} No existía emisión digital de tickets de control interno, dificultando el arqueo de caja al cierre de jornada.
+\end{itemize}
+
+\section{Diagnóstico Crítico del Sistema Heredado (Análisis de Sistemas v1.0)}
+En el curso previo de \textit{Análisis de Sistemas} (documentado en el informe \textit{Trabajo Final II}), se realizó un primer acercamiento empírico al proyecto. La evaluación crítica de dicho antecedente reveló deficiencias estructurales que hacían inviable su paso directo a producción:
+
+\begin{enumerate}
+    \item \textbf{Atomización extrema y confusión de niveles de abstracción:} En el informe previo, cada caja de texto o campo de formulario de interfaz gráfica fue tipificado erróneamente como un ``Requisito Funcional'' independiente (ej. \textit{RF-08: Pedir nombre de usuario}, \textit{RF-09: Pedir contraseña}, \textit{RF-10: Color de prenda}, \textit{RF-11: Talla de prenda}). Esto infló artificialmente un catálogo de 72 requerimientos superficiales carentes de lógica transaccional, reglas de negocio y restricciones de integridad.
+    \item \textbf{Vulnerabilidad crítica por ausencia de catálogos maestros cerrados:} El sistema permitía la escritura libre de atributos clave. En una tienda de ropa comercial, la introducción de texto abierto en tallas y colores imposibilita el control de stock por SKU y quiebra los filtros de búsqueda.
+    \item \textbf{Confusión regulatoria y riesgo fiscal (SUNAT):} El análisis heredado hacía mención de ``facturación y boletas electrónicas'', generando la falsa presunción de integración con servidores tributarios (SUNAT/OSE), lo cual resultaba sobredimensionado y legalmente riesgoso para un negocio minorista que requería exclusivamente \textbf{tickets digitales de control interno}.
+    \item \textbf{Omisión de procesos transaccionales indispensables:} El sistema previo omitió el control de turnos de caja (apertura, arqueo ciego y cierre), el soporte de pagos mixtos (Efectivo + billeteras digitales Yape/Plin), el control de mermas en Kardex y la anulación supervisada de ventas.
+    \item \textbf{Criterios de aceptación no verificables:} Criterios como \textit{``Se acepta cuando funcione sin errores''} violaban las buenas prácticas de calidad de software y testing formal.
+    \item \textbf{Monopolio de roles y error en la EDT (WBS):} Los cinco paquetes de trabajo de programación estaban asignados a un único responsable con una codificación errónea (\texttt{1.3.1.X} en lugar de \texttt{1.3.3.X}), sin contemplar especialización de roles ni arquitectura de software.
+\end{enumerate}
+
+\section{Matriz de Transformación Integral: Análisis de Sistemas $\rightarrow$ v2.0}
+Para superar las debilidades del proyecto heredado y elevar la solución a los estándares profesionales de ingeniería de software, se ejecutó una refundación metodológica integral estructurada en once dimensiones técnicas:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l p{5.5cm} p{5.5cm} c}
+\toprule
+\textbf{Capa de Ingeniería} & \textbf{Análisis de Sistemas (v1.0)} & \textbf{Ingeniería de Software (v2.0)} & \textbf{Criterio Rúbrica} \\
+\midrule
+\textbf{Requisitos} & 72 requisitos empíricos atomizados por campos de pantalla. & \textbf{77 Requisitos Funcionales Oficiales} (ISO 29148) estructurados con criterios verificables. & Crit. 6, 7, 12 \\
+\addlinespace
+\textbf{Calidad / RNF} & Requisitos no funcionales genéricos sin métricas. & \textbf{14 Requisitos No Funcionales (RNF)} categorizados bajo norma \textbf{ISO/IEC 25010}. & Crit. 6, 15 \\
+\addlinespace
+\textbf{Trazabilidad} & Inexistente; requisitos huérfanos sin correspondencia. & \textbf{Matriz Integral de 7 columnas} con cobertura bidireccional al 100\%. & Crit. 8, 14, 16 \\
+\addlinespace
+\textbf{Procesos (DFD)} & DFDs conceptuales desconectados de almacenes. & \textbf{DFD Niveles 0, 1 y 2 balanceados} con almacenes normalizados \texttt{D1} a \texttt{D5}. & Crit. 11 \\
+\addlinespace
+\textbf{Casos de Uso} & Inexistente (cero diagramas formales UML). & \textbf{15 Casos de Uso UML 2.5} con especificaciones textuales y flujos alternos. & Crit. 11, 12 \\
+\addlinespace
+\textbf{Diseño Dinámico} & Cero diagramas de interacción. & \textbf{8 Diagramas de Secuencia PlantUML} (\texttt{strictuml}) con transacciones ACID. & Crit. 11, 16 \\
+\addlinespace
+\textbf{Arquitectura} & Estructura monolítica no documentada. & \textbf{Clean Architecture (4 capas) + CQRS} y autenticación híbrida Laravel Sanctum. & Crit. 2, 3, 4 \\
+\addlinespace
+\textbf{Base de Datos} & Diseño empírico informal de tablas aisladas. & \textbf{17 Tablas relacionales en 3FN} con scripts \texttt{schema.sql} y \texttt{seeds.sql}. & Crit. 11, 18 \\
+\addlinespace
+\textbf{Testing / QA} & ``Se acepta si funciona sin errores'' (subjetivo). & \textbf{77 Casos de Prueba IEEE 829 / ISTQB} con validación positiva, negativa y límites. & Crit. 10, 15 \\
+\addlinespace
+\textbf{Gestión Ágil} & EDT en cascada rígida con errores jerárquicos. & \textbf{Híbrido RUP + Scrum:} Product Backlog (18 HUs, 94 SP) en 4 Sprints con DoR/DoD. & Crit. 4, 5, 9, 10 \\
+\addlinespace
+\textbf{DevOps / CI} & Despliegue manual no documentado. & \textbf{Docker Compose} y \textbf{CI en GitHub Actions} con validación continua. & Crit. 18, 20 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz comparativa de evolución capa por capa: Análisis de Sistemas vs. v2.0}
+\label{tab:matriz_transformacion}
+\end{table}
+
+\section{Objetivos del Proyecto}
+
+\subsection{Objetivo General}
+Diseñar, modelar, especificar e implementar un sistema web integral de gestión comercial, control de inventario multilocal, terminal punto de venta (POS) y vitrina digital pública responsiva (\textbf{SYSELL Web v2.0}) para la tienda comercial de indumentaria masculina \textit{Machi's}, satisfaciendo los más rigurosos estándares de arquitectura limpia, trazabilidad y aseguramiento de la calidad de software.
+
+\subsection{Objetivos Específicos}
+\begin{enumerate}
+    \item Implementar la gestión de existencias centralizada con control de inventario independiente para los dos locales comerciales, alertas de stock mínimo y registro auditable de movimientos en Kardex.
+    \item Desarrollar una terminal de punto de venta rápida (POS) con soporte para pagos multitendencia mixtos (Efectivo, tarjetas y billeteras digitales Yape/Plin), cálculo de cambio y emisión de tickets digitales con trazabilidad interna desligada de SUNAT.
+    \item Construir una plataforma de vitrina virtual pública responsiva que permita a los clientes finales consultar en tiempo real las prendas en stock, precios, fotografías en alta definición y disponibilidad física discriminada por sucursal.
+    \item Garantizar la integridad y consistencia del software mediante una arquitectura desacoplada en 4 capas concéntricas (Clean Architecture) con patrón CQRS, respaldada por una cobertura del 100\% de pruebas funcionales basadas en el estándar IEEE 829.
+\end{enumerate}
