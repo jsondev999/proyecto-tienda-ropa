@@ -6,31 +6,43 @@ Para garantizar la mantenibilidad, escalabilidad y la independencia de framework
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.92, every node/.style={transform shape},
-    cPres/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=6pt, line width=1.2pt, minimum width=12.8cm, minimum height=5.2cm},
-    cInfra/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=5pt, line width=1.2pt, minimum width=10.6cm, minimum height=3.9cm},
-    cApp/.style={rectangle, draw=cyan!80!black, fill=cyan!10, rounded corners=4pt, line width=1.2pt, minimum width=8.4cm, minimum height=2.7cm},
-    cDom/.style={rectangle, draw=green!70!black, fill=green!15, rounded corners=3pt, line width=1.2pt, minimum width=6.2cm, minimum height=1.6cm, align=center}
+    scale=0.82, every node/.style={transform shape},
+    cPres/.style={rectangle, draw=blue!80!black, fill=blue!8, rounded corners=6pt,
+                  line width=1.2pt, minimum width=11.0cm, minimum height=4.8cm},
+    cInfra/.style={rectangle, draw=purple!80!black, fill=purple!8, rounded corners=5pt,
+                   line width=1.2pt, minimum width=9.0cm, minimum height=3.5cm},
+    cApp/.style={rectangle, draw=cyan!80!black, fill=cyan!8, rounded corners=4pt,
+                 line width=1.2pt, minimum width=7.0cm, minimum height=2.4cm},
+    cDom/.style={rectangle, draw=green!70!black, fill=green!15, rounded corners=3pt,
+                 line width=1.2pt, minimum width=5.4cm, minimum height=1.5cm, align=center}
 ]
 
 % Capa 4: Presentacion
 \node[cPres] (pres) at (0, 0) {};
-\node[anchor=north, font=\bfseries\small, text=blue!80!black] at (0, 2.5) {Capa de Presentación (Controladores REST Laravel, React 18 SPA, Web Mobile)};
+\node[anchor=north, font=\bfseries\small, text=blue!80!black, text width=10cm, align=center] at (0, 2.3)
+    {Capa de Presentación (REST Laravel, React 18 SPA, Web Mobile)};
 
 % Capa 3: Infraestructura
 \node[cInfra] (infra) at (0, -0.3) {};
-\node[anchor=north, font=\bfseries\small, text=purple!80!black] at (0, 1.6) {Capa de Infraestructura (MySQL 8.0, Sanctum Auth, Repositorios Eloquent, PDF/Excel)};
+\node[anchor=north, font=\bfseries\small, text=purple!80!black, text width=8.5cm, align=center] at (0, 1.4)
+    {Infraestructura (MySQL 8.0, Sanctum Auth, Eloquent, PDF/Excel)};
 
 % Capa 2: Aplicacion
 \node[cApp] (app) at (0, -0.6) {};
-\node[anchor=north, font=\bfseries\small, text=cyan!80!black] at (0, 0.7) {Capa de Aplicación (Commands, Queries, Application Services, Interfaces)};
+\node[anchor=north, font=\bfseries\small, text=cyan!80!black, text width=6.8cm, align=center] at (0, 0.6)
+    {Aplicación (Commands, Queries, App Services)};
 
 % Capa 1: Dominio
-\node[cDom] (dom) at (0, -0.9) {\textbf{Capa de Dominio (Núcleo Puro)}\\\scriptsize Entidades (Prenda, Variante, Venta, Usuario), Value Objects (SKU, Moneda)\\\scriptsize Reglas Invariantes de Negocio (Sin dependencias externas)};
+\node[cDom] (dom) at (0, -0.9)
+    {\textbf{Capa de Dominio (Núcleo Puro)}\\
+     \scriptsize Entidades, Value Objects (SKU, Moneda)\\
+     \scriptsize Reglas Invariantes (Sin dependencias)};
 
-% Regla de Dependencia
-\draw[-{Stealth[length=2.5mm]}, line width=1.8pt, red!80!black] (-5.8, -2.1) -- (-5.8, 2.1)
-    node[midway, left=2pt, rotate=90, font=\scriptsize\bfseries, text=red!80!black] {Regla de Dependencia (Hacia el Dominio)};
+% Regla de Dependencia — flecha confinada dentro del borde exterior
+\draw[-{Stealth[length=2.5mm]}, line width=1.8pt, red!80!black]
+    (-5.2, -2.1) -- (-5.2, 2.1)
+    node[pos=0.5, left=3pt, rotate=90, font=\tiny\bfseries, text=red!80!black]
+    {Dependencia $\rightarrow$ Dominio};
 
 \end{tikzpicture}
 \caption{Diagrama de Cuatro Capas Concéntricas de Clean Architecture en SYSELL Web}
@@ -51,27 +63,42 @@ Para optimizar el rendimiento y clarificar las intenciones transaccionales, se a
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.88, every node/.style={transform shape},
-    boxC/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=3pt, thick, align=center, minimum width=4.0cm, minimum height=1.1cm, font=\small},
-    boxQ/.style={rectangle, draw=blue!70!black, fill=blue!10, rounded corners=3pt, thick, align=center, minimum width=4.0cm, minimum height=1.1cm, font=\small},
-    dbNode/.style={cylinder, shape border rotate=90, draw=purple!80!black, fill=purple!15, aspect=0.3, minimum width=2.4cm, minimum height=2.4cm, align=center, font=\small\bfseries},
+    scale=0.82, every node/.style={transform shape},
+    boxC/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=3pt,
+                 thick, align=center, minimum width=4.0cm, minimum height=1.0cm, font=\small},
+    boxQ/.style={rectangle, draw=blue!70!black, fill=blue!10, rounded corners=3pt,
+                 thick, align=center, minimum width=4.0cm, minimum height=1.0cm, font=\small},
+    dbNode/.style={cylinder, shape border rotate=90, draw=purple!80!black, fill=purple!15,
+                   aspect=0.3, minimum width=2.2cm, minimum height=2.2cm,
+                   align=center, font=\small\bfseries},
     flow/.style={thick, -{Stealth[length=2.2mm]}}
 ]
 
-\node[rectangle, draw=gray!70, fill=gray!10, rounded corners=3pt, minimum width=2.8cm, minimum height=3.0cm, align=center] (client) at (-5.2, 0) {\textbf{Cliente Web / POS}\\\scriptsize (Peticiones HTTP)};
+% Nodo cliente
+\node[rectangle, draw=gray!70, fill=gray!10, rounded corners=3pt,
+      minimum width=2.6cm, minimum height=3.0cm, align=center]
+    (client) at (-4.6, 0) {\textbf{Cliente Web / POS}\\[3pt]\scriptsize (HTTP)};
 
-\node[boxC] (cmd) at (0, 1.4) {\textbf{Command Bus (Escritura)}\\\scriptsize Transacciones ACID (Venta, Ajuste)};
-\node[boxQ] (qry) at (0, -1.4) {\textbf{Query Bus (Lectura)}\\\scriptsize Consultas Directas / Vistas};
+% Buses
+\node[boxC] (cmd) at (0,  1.4) {\textbf{Command Bus (Escritura)}\\\scriptsize ACID (Venta, Ajuste)};
+\node[boxQ] (qry) at (0, -1.4) {\textbf{Query Bus (Lectura)}\\\scriptsize Consultas / Vistas};
 
-\node[dbNode] (db) at (5.2, 0) {Base de Datos\\MySQL 8.0\\(3FN)};
+% Base de datos
+\node[dbNode] (db) at (4.6, 0) {Base de Datos\\MySQL 8.0\\(3FN)};
 
-% Flujos de Comandos
-\draw[flow, red!80!black] (client.north) |- node[pos=0.72, above=2pt, font=\scriptsize\bfseries] {POST / PUT (Comandos)} (cmd.west);
-\draw[flow, red!80!black] (cmd.east) -| node[pos=0.28, above=2pt, font=\scriptsize\bfseries] {Mutaciones ACID} (db.north);
+% === Flujos COMANDOS ===
+\draw[flow, red!80!black]
+    (client.north east) -- ++(0, 0.55) -| (cmd.north)
+    node[pos=0.25, above=2pt, font=\scriptsize\bfseries] {POST / PUT (Comandos)};
+\draw[flow, red!80!black]
+    (cmd.east) -- node[above=3pt, font=\scriptsize\bfseries] {Mutaciones ACID} (db.north west);
 
-% Flujos de Consultas
-\draw[flow, blue!80!black] (client.south) |- node[pos=0.72, below=2pt, font=\scriptsize\bfseries] {GET (Catálogo, Reportes)} (qry.west);
-\draw[flow, blue!80!black] (db.south) -| node[pos=0.28, below=2pt, font=\scriptsize\bfseries] {Proyecciones Optimizadas} (qry.east);
+% === Flujos CONSULTAS ===
+\draw[flow, blue!80!black]
+    (client.south east) -- ++(0, -0.55) -| (qry.south)
+    node[pos=0.25, below=2pt, font=\scriptsize\bfseries] {GET (Catálogo, Reportes)};
+\draw[flow, blue!80!black]
+    (db.south west) -- node[below=3pt, font=\scriptsize\bfseries] {Proyecciones Optimizadas} (qry.east);
 
 \end{tikzpicture}
 \caption{Segregación Operativa de Comandos y Consultas con el Patrón CQRS}

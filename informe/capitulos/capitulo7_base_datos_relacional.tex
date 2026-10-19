@@ -11,52 +11,56 @@ El modelo de base de datos de \textbf{SYSELL Web v2.0} fue diseñado bajo el mot
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.82, every node/.style={transform shape},
-    cluster/.style={rectangle, rounded corners=5pt, line width=1pt, align=center,
-                    minimum width=3.6cm, minimum height=2.0cm, draw, fill},
-    tn/.style={font=\scriptsize, align=left, inner sep=2pt},
+    scale=0.72, every node/.style={transform shape},
+    cluster/.style={rectangle, rounded corners=5pt, line width=1pt, align=center, draw, fill},
+    tn/.style={font=\scriptsize, align=center},
     fk/.style={thick, -{Stealth[length=2mm]}}
 ]
 
 % Cluster Seguridad
-\node[cluster, draw=red!70!black, fill=red!5] (cSeg) at (-4.2, 2.2) {};
-\node[font=\bfseries\scriptsize, text=red!80!black] at (-4.2, 3.0) {Seg. y Locales};
-\node[tn] at (-4.2, 2.4) {\textbf{locales}(id, nombre)};
-\node[tn] at (-4.2, 1.9) {\textbf{usuarios}(id, local\_id$^{FK}$, rol)};
+\node[cluster, draw=red!70!black, fill=red!5,
+      minimum width=4.8cm, minimum height=2.0cm] (cSeg) at (-4.0, 2.2) {};
+\node[font=\bfseries\scriptsize, text=red!80!black] at (-4.0, 3.15) {Seg. y Locales};
+\node[tn, text width=4.2cm] at (-4.0, 2.45) {\textbf{locales}(id, nombre)};
+\node[tn, text width=4.2cm] at (-4.0, 1.95) {\textbf{usuarios}(id, local\_id$^{FK}$, rol)};
 
 % Cluster Catalogos
-\node[cluster, draw=cyan!70!black, fill=cyan!5] (cCat) at (4.2, 2.2) {};
-\node[font=\bfseries\scriptsize, text=cyan!80!black] at (4.2, 3.0) {Catálogos Maestros};
-\node[tn] at (4.2, 2.4) {\textbf{categorias}, \textbf{marcas}};
-\node[tn] at (4.2, 1.9) {\textbf{tallas}, \textbf{colores}(hex)};
+\node[cluster, draw=cyan!70!black, fill=cyan!5,
+      minimum width=4.8cm, minimum height=2.0cm] (cCat) at (4.0, 2.2) {};
+\node[font=\bfseries\scriptsize, text=cyan!80!black] at (4.0, 3.15) {Catálogos Maestros};
+\node[tn, text width=4.2cm] at (4.0, 2.45) {\textbf{categorias}, \textbf{marcas}};
+\node[tn, text width=4.2cm] at (4.0, 1.95) {\textbf{tallas}, \textbf{colores}(hex)};
 
-% Cluster Inventario (ancho)
+% Cluster Inventario - 3 columnas bien separadas
 \node[cluster, draw=green!70!black, fill=green!5,
-      minimum width=12.0cm, minimum height=2.2cm] (cInv) at (0, -0.3) {};
+      minimum width=11.8cm, minimum height=2.4cm] (cInv) at (0, -0.3) {};
 \node[font=\bfseries\scriptsize, text=green!80!black] at (0, 0.8) {Núcleo: Productos e Inventario};
-\node[tn] at (-4.0, -0.2) {\textbf{productos}(id, cat\_id$^{FK}$, precio)};
-\node[tn] at (0, -0.2) {\textbf{variantes\_producto}(id, prod/talla/color$^{FK}$, SKU)};
-\node[tn] at (4.0, -0.2) {\textbf{inventario}(id, local\_id$^{FK}$, var\_id$^{FK}$, stock)};
+\node[tn, text width=3.5cm] at (-4.0, -0.3)
+    {\textbf{productos}\\(id, cat$^{FK}$, precio)};
+\node[tn, text width=3.6cm] at (0, -0.3)
+    {\textbf{variantes\_prod.}\\(id, SKU, talla/color$^{FK}$)};
+\node[tn, text width=3.5cm] at (4.0, -0.3)
+    {\textbf{inventario}\\(id, local$^{FK}$, stock)};
 
 % Cluster Ventas
 \node[cluster, draw=orange!70!black, fill=orange!5,
-      minimum width=5.4cm] (cVentas) at (-3.0, -3.0) {};
-\node[font=\bfseries\scriptsize, text=orange!80!black] at (-3.0, -2.1) {Ventas y Facturación};
-\node[tn] at (-3.0, -2.7) {\textbf{ventas}(id, ticket, local\_id$^{FK}$)};
-\node[tn] at (-3.0, -3.2) {\textbf{detalle\_ventas}, \textbf{pagos\_venta}};
+      minimum width=5.4cm, minimum height=2.0cm] (cVentas) at (-3.0, -3.2) {};
+\node[font=\bfseries\scriptsize, text=orange!80!black] at (-3.0, -2.2) {Ventas y Facturación};
+\node[tn, text width=5.0cm] at (-3.0, -2.8) {\textbf{ventas}(id, ticket, local\_id$^{FK}$)};
+\node[tn, text width=5.0cm] at (-3.0, -3.35) {\textbf{detalle\_ventas}, \textbf{pagos\_venta}};
 
 % Cluster Auditoria
 \node[cluster, draw=purple!70!black, fill=purple!5,
-      minimum width=4.8cm] (cAud) at (3.0, -3.0) {};
-\node[font=\bfseries\scriptsize, text=purple!80!black] at (3.0, -2.1) {Auditoría y Kardex};
-\node[tn] at (3.0, -2.7) {\textbf{ajustes\_inventario}(id, motivo)};
-\node[tn] at (3.0, -3.2) {\textbf{auditoria}(id, user\_id$^{FK}$, JSON)};
+      minimum width=5.2cm, minimum height=2.0cm] (cAud) at (3.0, -3.2) {};
+\node[font=\bfseries\scriptsize, text=purple!80!black] at (3.0, -2.2) {Auditoría y Kardex};
+\node[tn, text width=4.8cm] at (3.0, -2.8) {\textbf{ajustes\_inventario}(id, motivo)};
+\node[tn, text width=4.8cm] at (3.0, -3.35) {\textbf{auditoria}(id, user\_id$^{FK}$, JSON)};
 
 % Relaciones FK entre clusters
-\draw[fk, red!70!black]  (cSeg.south) -- (-4.2, 0.8)  node[above right, font=\tiny] {};
-\draw[fk, cyan!70!black] (cCat.south) --  (4.2, 0.8);
-\draw[fk, green!70!black] (-1.5, -1.3) -- (cVentas.north);
-\draw[fk, green!70!black]  (1.5, -1.3) -- (cAud.north);
+\draw[fk, red!70!black]  (cSeg.south) -- (-4.0, 0.74);
+\draw[fk, cyan!70!black] (cCat.south) --  (4.0, 0.74);
+\draw[fk, green!70!black] (-2.0, -1.4) -- (cVentas.north);
+\draw[fk, green!70!black]  (2.0, -1.4) -- (cAud.north);
 
 \end{tikzpicture}
 \caption{Diagrama de Clusters Relacionales e Integridad Referencial (MySQL 8.0 en 3FN)}

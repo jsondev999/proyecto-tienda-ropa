@@ -133,30 +133,30 @@ Descompone el sistema en cinco procesos macro interconectados con los cinco alma
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.84, every node/.style={transform shape},
-    proceso/.style={circle, draw=primaryblue!80!black, fill=primaryblue!10, thick, align=center, minimum size=2.0cm, text width=1.8cm, font=\scriptsize\bfseries},
-    almacen/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=2pt, thick, align=center, minimum width=2.2cm, text width=2.1cm, minimum height=0.65cm, font=\scriptsize},
-    entidad/.style={rectangle, draw=darkblue, fill=blue!10, rounded corners=2pt, thick, align=center, minimum width=2.8cm, minimum height=0.8cm, font=\scriptsize\bfseries},
+    scale=0.80, every node/.style={transform shape},
+    proceso/.style={circle, draw=primaryblue!80!black, fill=primaryblue!10, thick, align=center, minimum size=2.0cm, text width=1.7cm, font=\scriptsize\bfseries},
+    almacen/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=2pt, thick, align=center, minimum width=2.0cm, text width=1.9cm, minimum height=0.65cm, font=\scriptsize},
+    entidad/.style={rectangle, draw=darkblue, fill=blue!10, rounded corners=2pt, thick, align=center, minimum width=2.6cm, minimum height=0.8cm, font=\scriptsize\bfseries},
     flow/.style={thick, -{Stealth[length=2mm]}, primaryblue}
 ]
 % Fila 1: Entidades Externas
-\node[entidad, fill=red!10, draw=red!70!black] (eAdmin) at (-4.2, 3.0) {Administrador};
+\node[entidad, fill=red!10, draw=red!70!black] (eAdmin) at (-3.8, 3.0) {Administrador};
 \node[entidad, fill=green!10, draw=green!70!black] (eVend) at (0, 3.0) {Vendedor};
-\node[entidad, fill=orange!10, draw=orange!70!black] (eCli) at (4.2, 3.0) {Cliente Web};
+\node[entidad, fill=orange!10, draw=orange!70!black] (eCli) at (3.8, 3.0) {Cliente Web};
 
 % Fila 2: Procesos Principales (todos del mismo tamaño)
-\node[proceso] (p1) at (-4.8, 1.0) {1.0\\Autenticación\\y Usuarios};
-\node[proceso] (p2) at (-2.4, 1.0) {2.0\\Gestión de\\Inventario};
+\node[proceso] (p1) at (-4.2, 1.0) {1.0\\Autent.\\y Usuarios};
+\node[proceso] (p2) at (-2.1, 1.0) {2.0\\Gestión\\Inventario};
 \node[proceso] (p3) at (0.0, 1.0) {3.0\\Ventas POS\\y Tickets};
-\node[proceso] (p4) at (2.4, 1.0) {4.0\\Reportes y\\Analítica};
-\node[proceso] (p5) at (4.8, 1.0) {5.0\\Catálogo\\Web};
+\node[proceso] (p4) at (2.1, 1.0) {4.0\\Reportes\\Analítica};
+\node[proceso] (p5) at (4.2, 1.0) {5.0\\Catálogo\\Web};
 
 % Fila 3: Almacenes de Datos (todos del mismo tamaño)
-\node[almacen] (d1) at (-4.8, -1.3) {D1: Usuarios};
-\node[almacen] (d2) at (-2.4, -1.3) {D2: Catálogos};
+\node[almacen] (d1) at (-4.2, -1.3) {D1: Usuarios};
+\node[almacen] (d2) at (-2.1, -1.3) {D2: Catálogos};
 \node[almacen] (d3) at (0.0, -1.3) {D3: Inventario};
-\node[almacen] (d4) at (2.4, -1.3) {D4: Ventas};
-\node[almacen] (d5) at (4.8, -1.3) {D5: Auditoría};
+\node[almacen] (d4) at (2.1, -1.3) {D4: Ventas};
+\node[almacen] (d5) at (4.2, -1.3) {D5: Auditoría};
 
 % Conexiones Entidades -> Procesos (sin cruces desordenados)
 \draw[flow] (eAdmin.south -| p1.north) -- (p1.north);
@@ -187,22 +187,22 @@ Desglosa la lógica transaccional de caja en cinco subprocesos atómicos:
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.88, every node/.style={transform shape},
+    scale=0.80, every node/.style={transform shape},
     subproc/.style={circle, draw=primaryblue!80!black, fill=primaryblue!10, thick, align=center, minimum size=1.85cm, text width=1.7cm, font=\scriptsize\bfseries},
-    store/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=2pt, thick, align=center, minimum width=2.4cm, text width=2.2cm, minimum height=0.65cm, font=\scriptsize},
+    store/.style={rectangle, draw=purple!80!black, fill=purple!10, rounded corners=2pt, thick, align=center, minimum width=2.2cm, text width=2.0cm, minimum height=0.65cm, font=\scriptsize},
     flow/.style={thick, -{Stealth[length=2mm]}, primaryblue}
 ]
 % Subprocesos en fila horizontal uniforme
 \node[subproc] (p31) at (0, 0) {3.1\\Validar Stock\\y Prenda};
-\node[subproc] (p32) at (2.8, 0) {3.2\\Calcular\\Totales};
-\node[subproc] (p33) at (5.6, 0) {3.3\\Registrar\\Cobro};
-\node[subproc] (p34) at (8.4, 0) {3.4\\Actualizar\\Inventario};
-\node[subproc] (p35) at (11.2, 0) {3.5\\Emitir\\Ticket};
+\node[subproc] (p32) at (2.4, 0) {3.2\\Calcular\\Totales};
+\node[subproc] (p33) at (4.8, 0) {3.3\\Registrar\\Cobro};
+\node[subproc] (p34) at (7.2, 0) {3.4\\Actualizar\\Inventario};
+\node[subproc] (p35) at (9.6, 0) {3.5\\Emitir\\Ticket};
 
 % Almacenes alineados en la fila inferior
 \node[store] (d3) at (0, -1.8) {D3: Inventario};
-\node[store] (d5) at (8.4, -1.8) {D5: Kardex};
-\node[store] (d4) at (11.2, -1.8) {D4: Ventas};
+\node[store] (d5) at (7.2, -1.8) {D5: Kardex};
+\node[store] (d4) at (9.6, -1.8) {D4: Ventas};
 
 % Flujo secuencial
 \draw[flow] (p31) -- (p32);
@@ -215,7 +215,7 @@ Desglosa la lógica transaccional de caja en cinco subprocesos atómicos:
 \draw[flow] (p34) -- (d5);
 \draw[flow] (p35) -- (d4);
 % Conexión p34 -> d3 ruteada limpiamente por abajo sin cruzar nodos
-\draw[flow] (p34.south) -- (8.4, -2.5) -- node[midway, above=1pt, font=\tiny\bfseries] {Resta Existencias} (0, -2.5) -- (d3.south);
+\draw[flow] (p34.south) -- (7.2, -2.5) -- node[midway, above=1pt, font=\tiny\bfseries] {Resta Existencias} (0, -2.5) -- (d3.south);
 
 \end{tikzpicture}
 \caption{Diagrama de Flujo de Datos: Nivel 2 (Descomposición del Proceso de Ventas 3.0)}

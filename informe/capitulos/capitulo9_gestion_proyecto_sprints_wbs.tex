@@ -52,21 +52,21 @@ El ciclo de desarrollo se estructuró en cuatro iteraciones de dos semanas de du
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.9, every node/.style={transform shape},
+    scale=0.85, every node/.style={transform shape},
     barSprint/.style={rectangle, rounded corners=3pt, thick, align=center, font=\small\bfseries, minimum height=1.1cm},
     flowLine/.style={thick, -{Stealth[length=2.5mm]}, primaryblue}
 ]
 
-\node[barSprint, fill=blue!15, draw=blue!80!black, minimum width=3.0cm] (sp1) at (0, 0) {Sprint 1\\24 SP\\\scriptsize Fundaciones \& Auth};
-\node[barSprint, fill=cyan!15, draw=cyan!80!black, minimum width=3.2cm] (sp2) at (3.8, 0) {Sprint 2\\26 SP\\\scriptsize Inventario \& Kardex};
-\node[barSprint, fill=orange!15, draw=orange!80!black, minimum width=3.0cm] (sp3) at (7.6, 0) {Sprint 3\\24 SP\\\scriptsize POS \& Facturación};
-\node[barSprint, fill=green!15, draw=green!80!black, minimum width=2.8cm] (sp4) at (11.2, 0) {Sprint 4\\20 SP\\\scriptsize Analítica \& Deploy};
+\node[barSprint, fill=blue!15, draw=blue!80!black, minimum width=2.8cm] (sp1) at (0, 0) {Sprint 1\\24 SP\\\scriptsize Fundaciones \& Auth};
+\node[barSprint, fill=cyan!15, draw=cyan!80!black, minimum width=2.8cm] (sp2) at (3.2, 0) {Sprint 2\\26 SP\\\scriptsize Inventario \& Kardex};
+\node[barSprint, fill=orange!15, draw=orange!80!black, minimum width=2.8cm] (sp3) at (6.4, 0) {Sprint 3\\24 SP\\\scriptsize POS \& Facturación};
+\node[barSprint, fill=green!15, draw=green!80!black, minimum width=2.8cm] (sp4) at (9.6, 0) {Sprint 4\\20 SP\\\scriptsize Analítica \& Deploy};
 
 \draw[flowLine] (sp1) -- (sp2);
 \draw[flowLine] (sp2) -- (sp3);
 \draw[flowLine] (sp3) -- (sp4);
 
-\node[rectangle, draw=primaryblue, fill=white, rounded corners=2pt, font=\scriptsize\bfseries, text=primaryblue] at (5.6, -1.2) {Total Acumulado: 94 Story Points en 4 Iteraciones (100\% Completado)};
+\node[rectangle, draw=primaryblue, fill=white, rounded corners=2pt, font=\scriptsize\bfseries, text=primaryblue, text width=9cm, align=center] at (4.8, -1.2) {Total Acumulado: 94 Story Points en 4 Iteraciones (100\% Completado)};
 
 \end{tikzpicture}
 \caption{Cadencia y Distribución de Esfuerzo en Story Points a lo Largo de los 4 Sprints}
