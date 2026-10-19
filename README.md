@@ -1,4 +1,9 @@
-# Sistema de Gestión — Tienda de Ropa para Varón (Versión 2.0)
+# Sistema de Gestión — Tienda de Ropa para Varón (SYSELL Web v2.0)
+
+> **Denominación Formal:** **SYSELL Web**  
+> **Denominación Comercial:** **Sistema de Gestión para Tienda de Ropa para Varón (v2.0)** para la tienda comercial de indumentaria masculina *Machi's*.  
+> **Equipo de Ingeniería:** Pollitos Design — Escuela Profesional de Ingeniería en Informática y Sistemas (ESIS), UNJBG  
+> **Metodología:** Enfoque Híbrido RUP + Scrum (Clean Architecture + CQRS)
 
 Sistema integral de gestión de ventas, control de inventario y catálogo digital diseñado para una tienda de ropa masculina con dos locales físicos.
 
@@ -109,9 +114,12 @@ El sistema se estructura en **5 módulos principales**:
 ---
 
 ## 📂 Estructura del Repositorio
-
+ 
 ```text
 tienda-ropa/
+├── .github/
+│   └── workflows/
+│       └── docs-validation.yml          # Flujo CI: Validación de markdown, links rotos y diagramas
 ├── docs/
 │   ├── acuerdos/                        # Working Agreement y gobernanza del equipo (Scrum + RUP)
 │   ├── analisis_edt/                    # Diagnóstico crítico y propuesta optimizada de la WBS
@@ -125,21 +133,24 @@ tienda-ropa/
 │   │   ├── dfd_nivel_2_proceso_ventas.mmd # DFD Nivel 2 (Subprocesos 3.1 a 3.5)
 │   │   └── documentacion_dfd.md         # Guía completa con diagramas y diccionario D1-D5
 │   ├── diagramas_secuencia/
-│   │   ├── codigo_puml/                 # Fuentes PlantUML (DS-01 a DS-05)
-│   │   └── imagenes_png/                # Diagramas renderizados (.png)
+│   │   ├── codigo_puml/                 # Fuentes PlantUML (DS-01 a DS-08)
+│   │   ├── imagenes_png/                # Diagramas renderizados (.png)
+│   │   └── README.md                    # Catálogo técnico de los 8 diagramas de secuencia
 │   ├── estandares_arquitectura/         # Guía técnica Clean Architecture + CQRS + OWASP
 │   ├── historias_de_usuario/            # 18 HUs en 7 Épicas (EP-01 a EP-07) y matriz de tasks
 │   ├── legacy_v1.0/                     # Archivo histórico y antecedentes del proyecto
 │   ├── product_backlog/                 # Product Backlog priorizado (DoR y DoD)
 │   ├── sprints/                         # Planificación de 4 Sprints (28 días calendario)
 │   ├── casos_de_prueba.md               # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
-│   ├── diagrama_entidad_relacion.mmd    # Modelo ER Mermaid (15 tablas)
-│   ├── documentacion_tecnica_bd.md      # Diccionario técnico MySQL 8.0
+│   ├── diagrama_entidad_relacion.mmd    # Modelo ER Mermaid (17 tablas: incluye auditoría e imágenes)
+│   ├── documentacion_tecnica_bd.md      # Diccionario técnico MySQL 8.0 (17 tablas)
 │   ├── matriz_de_trazabilidad.md        # Matriz integral de 7 columnas (N ➔ RF ➔ RNF ➔ CU ➔ DFD ➔ DS ➔ CP)
 │   ├── necesidades_del_negocio.md       # Especificación formal de necesidades (N-01 a N-10)
-│   ├── requisitos_funcionales.md        # Especificación funcional v2.0
-│   └── requisitos_no_funcionales.md     # Criterios de calidad y rendimiento v2.0
+│   ├── requisitos_funcionales.md        # 77 Requisitos Funcionales Oficiales v2.1
+│   └── requisitos_no_funcionales.md     # 14 Criterios de calidad RNF-01 a RNF-14 v2.1
 ├── .gitignore                           # Exclusión de temporales y archivos del SO
+├── .markdownlint.json                   # Configuración del linter de documentación
+├── .mlc-config.json                     # Reglas de validación para chequeo de links
 ├── INFORME_ANALISIS_Y_MEJORAS.md        # Auditoría de coherencia y plan de acción
 └── README.md                            # Guía general del proyecto (v2.0)
 ```

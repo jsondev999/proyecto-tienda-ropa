@@ -1,0 +1,108 @@
+name: Docs Validation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/**'
+      - '*.md'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'docs/**'
+      - '*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── Trabajo 1: Validar Markdown con markdownlint ───────────────────────────
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
+
+      - name: Run markdownlint on docs/
+        run: markdownlint-cli2 "docs/**/*.md" "*.md"
+
+  # ─── Trabajo 2: Verificar que todos los archivos .md listados en README existen ──
+  doc-links-check:
+    name: Document Links Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+
+      - name: Check links in README.md
+        run: markdown-link-check README.md --config .mlc-config.json || true
+
+      - name: Check links in docs/ markdown files
+        run: |
+          find docs -name "*.md" | xargs -I {} markdown-link-check {} --config .mlc-config.json || true
+
+  # ─── Trabajo 3: Validar sintaxis de diagramas PlantUML ─────────────────────
+  puml-syntax-check:
+    name: PlantUML Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Java (required by PlantUML)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Download PlantUML jar
+        run: |
+          curl -L -o /tmp/plantuml.jar \
+            "https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar"
+
+      - name: Validate all .puml files
+        run: |
+          EXIT_CODE=0
+          for f in docs/diagramas_secuencia/codigo_puml/*.puml; do
+            echo "Validating: $f"
+            java -jar /tmp/plantuml.jar -syntax "$f" || EXIT_CODE=1
+          done
+          exit $EXIT_CODE
+
+  # ─── Trabajo 4: Validar sintaxis del diagrama ERD Mermaid ───────────────────
+  mermaid-syntax-check:
+    name: Mermaid ERD Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Validate ERD diagram syntax
+        run: |
+          mmdc -i docs/diagrama_entidad_relacion.mmd -o /tmp/erd_output.svg --quiet
+          echo "✅ Mermaid ERD diagram is valid."

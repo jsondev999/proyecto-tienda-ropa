@@ -1,0 +1,101 @@
+@startuml ds_07_catalogo_digital_publico
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Cliente (Público)" as Cliente
+participant "Navegador / PWA\nCatálogoView" as UI
+participant "Backend Controller\nCatalogoController" as Controller
+participant "Application Service\nCatalogoQueryHandler" as Service
+database "Database (MySQL)\nproductos / inventario" as DB
+
+' ─── Carga inicial del catálogo ───
+Cliente -> UI : Accede a la URL del catálogo\n(sin iniciar sesión)
+activate UI
+UI -> Controller : GET /api/catalogo\n(sin token de autenticación)
+activate Controller
+note over Controller : Endpoint público — sin middleware Auth\n(RF-67)
+Controller -> Service : execute(ListCatalogoQuery)
+activate Service
+Service -> DB : SELECT p.id, p.nombre, p.descripcion, p.precio_venta,\n  c.nombre AS categoria, m.nombre AS marca,\n  GROUP_CONCAT(DISTINCT t.nombre) AS tallas,\n  GROUP_CONCAT(DISTINCT col.nombre) AS colores,\n  SUM(inv.cantidad) AS stock_total\nFROM productos p\nJOIN categorias c ON p.categoria_id = c.id\nJOIN marcas m ON p.marca_id = m.id\nJOIN variantes_producto vp ON vp.producto_id = p.id\nJOIN tallas t ON vp.talla_id = t.id\nJOIN colores col ON vp.color_id = col.id\nJOIN inventario inv ON inv.variante_id = vp.id\nWHERE p.activo = 1 AND inv.cantidad > 0\nGROUP BY p.id
+activate DB
+DB --> Service : Lista de prendas con stock disponible
+deactivate DB
+Service --> Controller : CatalogoDto[]
+deactivate Service
+Controller --> UI : HTTP 200 OK\nJSON: { data: [...prendas] }
+deactivate Controller
+UI --> Cliente : Grilla de productos con thumbnails\n(RF-67, RF-68)
+
+' ─── Filtros combinados ───
+group Aplicar Filtros (RF-68, RF-75, RF-77)
+    Cliente -> UI : Selecciona filtros: categoría "Polos",\ntalla "M", color "Azul", tienda "Local 1"
+    UI -> Controller : GET /api/catalogo\n?categoria_id=3&talla_id=2&color_id=5&local_id=1
+    activate Controller
+    Controller -> Service : execute(ListCatalogoQuery{filtros})
+    activate Service
+    Service -> DB : SELECT ... WHERE p.activo = 1\nAND c.id = 3\nAND t.id = 2\nAND col.id = 5\nAND inv.local_id = 1\nAND inv.cantidad > 0
+    activate DB
+    DB --> Service : Prendas filtradas
+    deactivate DB
+    Service --> Controller : CatalogoDto[] (filtrado)
+    deactivate Service
+    Controller --> UI : HTTP 200 OK\nJSON: { data: [...prendas_filtradas] }
+    deactivate Controller
+    UI --> Cliente : Resultados actualizados dinámicamente (SPA)
+end
+
+' ─── Ver ficha de prenda ───
+group Ver Ficha de Prenda (RF-69, RF-70)
+    Cliente -> UI : Selecciona una prenda del catálogo
+    UI -> Controller : GET /api/catalogo/{producto_id}
+    activate Controller
+    Controller -> Service : execute(GetPrendaDetalleQuery)
+    activate Service
+    Service -> DB : SELECT p.*, c.nombre, m.nombre,\n  vp.id, t.nombre, col.nombre, col.codigo_hex,\n  inv.local_id, l.nombre AS local_nombre,\n  inv.cantidad AS stock_por_local\nFROM productos p\nJOIN variantes_producto vp ON vp.producto_id = p.id\nJOIN inventario inv ON inv.variante_id = vp.id\nJOIN locales l ON l.id = inv.local_id\nWHERE p.id = ? AND p.activo = 1
+    activate DB
+    DB --> Service : Ficha completa con disponibilidad por local
+    deactivate DB
+    Service --> Controller : PrendaDetalleDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK\nJSON: { producto, variantes: [{talla, color, stock_local1, stock_local2}] }
+    deactivate Controller
+    UI --> Cliente : Ficha detallada:\n- Galería HD (lazy loading)\n- Tallas / Colores disponibles\n- Stock por Local 1 y Local 2\n- Etiqueta "Agotado" si stock = 0
+    note over UI : RF-70: Stock diferenciado por local\nRF-69: Fotos HD con lazy loading
+end
+
+' ─── Búsqueda predictiva ───
+group Búsqueda Predictiva (RF-77)
+    Cliente -> UI : Escribe "polo azu" en buscador
+    UI -> Controller : GET /api/catalogo/buscar?q=polo+azu
+    activate Controller
+    Controller -> Service : execute(BuscarPrendaQuery{"polo azu"})
+    activate Service
+    Service -> DB : SELECT p.id, p.nombre, p.precio_venta\nFROM productos p\nWHERE p.activo = 1\nAND MATCH(p.nombre, p.descripcion) AGAINST('polo azu' IN BOOLEAN MODE)\nLIMIT 8
+    activate DB
+    DB --> Service : Sugerencias de prendas (máx. 8)
+    deactivate DB
+    Service --> Controller : BusquedaSugerenciasDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK\nJSON: { sugerencias: [...] }
+    deactivate Controller
+    UI --> Cliente : Dropdown con sugerencias predictivas\n(mín. 3 caracteres para activar)
+end
+
+deactivate UI
+
+@enduml

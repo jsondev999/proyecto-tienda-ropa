@@ -1,0 +1,108 @@
+@startuml ds_08_anulacion_venta
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Administrador" as Admin
+participant "Frontend (React)\nHistorialVentasView" as UI
+participant "Backend Controller\nVentaController" as Controller
+participant "Application Service\nAnularVentaCommandHandler" as Service
+participant "Domain Service\nInventarioService" as InventarioSvc
+database "Database (MySQL)\nventas / inventario" as DB
+
+' ─── Flujo Principal: Anular venta ───
+Admin -> UI : Navega al historial de ventas
+activate UI
+UI -> Controller : GET /api/admin/ventas?estado=CONFIRMADA
+activate Controller
+Controller --> UI : HTTP 200 OK — Lista de ventas activas
+deactivate Controller
+
+Admin -> UI : Busca y selecciona la venta a anular\n(ej: ticket #TK-2024-0089)
+UI -> Controller : GET /api/admin/ventas/{venta_id}
+activate Controller
+Controller --> UI : HTTP 200 OK — Detalle de venta con ítems
+deactivate Controller
+UI --> Admin : Muestra detalle completo de la venta
+
+Admin -> UI : Hace clic en "Anular Venta"\ne ingresa motivo: "Prenda defectuosa"
+UI --> Admin : Diálogo de confirmación:\n"¿Confirma la anulación? Esta acción revertirá\nel stock de todos los ítems de la venta."
+Admin -> UI : Confirma la anulación
+
+UI -> Controller : PATCH /api/admin/ventas/{venta_id}/anular\nJSON: { motivo: "Prenda defectuosa" }\nHeader: Authorization: Bearer <admin_token>
+activate Controller
+
+' ─── Middleware de autorización ───
+note over Controller : Middleware CheckRole('ADMINISTRADOR')\ndevuelve HTTP 403 si el rol es VENDEDOR\n(RF-53, RF-08)
+
+Controller -> Service : execute(AnularVentaCommand{venta_id, motivo, admin_id})
+activate Service
+
+' ─── Validaciones previas ───
+Service -> DB : SELECT id, estado, local_id\nFROM ventas WHERE id = ?
+activate DB
+DB --> Service : { id, estado: "CONFIRMADA", local_id: 1 }
+deactivate DB
+
+alt Venta ya anulada
+    Service --> Controller : throw VentaYaAnuladaException
+    Controller --> UI : HTTP 409 Conflict\nJSON: { error: "La venta ya fue anulada previamente" }
+    UI --> Admin : Mensaje de error — no se puede anular dos veces
+else Venta válida para anular
+    Service -> DB : SELECT dv.variante_id, dv.cantidad\nFROM detalle_ventas dv\nWHERE dv.venta_id = ?
+    activate DB
+    DB --> Service : Lista de ítems a revertir
+    deactivate DB
+
+    ' ─── Transacción ACID ───
+    note over Service : BEGIN TRANSACTION (ACID)\nTodos los pasos siguientes son atómicos.
+
+    Service -> InventarioSvc : revertirStock(ítems[], local_id)
+    activate InventarioSvc
+    loop Para cada ítem en detalle_ventas
+        InventarioSvc -> DB : UPDATE inventario\nSET cantidad = cantidad + dv.cantidad\nWHERE variante_id = ? AND local_id = ?
+        activate DB
+        DB --> InventarioSvc : OK
+        deactivate DB
+    end
+    InventarioSvc --> Service : Stock revertido correctamente
+    deactivate InventarioSvc
+
+    Service -> DB : UPDATE ventas\nSET estado = 'ANULADA',\n    motivo_anulacion = ?,\n    anulada_por_usuario_id = ?,\n    anulada_en = NOW()\nWHERE id = ?
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+
+    Service -> DB : INSERT INTO auditoria\n(usuario_id, accion, entidad, entidad_id, detalle, created_at)\nVALUES (admin_id, 'ANULAR_VENTA', 'ventas', venta_id, json_detalle, NOW())
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+
+    note over Service : COMMIT TRANSACTION
+
+    Service --> Controller : VentaAnuladaDto{venta_id, estado, motivo}
+    deactivate Service
+
+    Controller --> UI : HTTP 200 OK\nJSON: { venta_id, estado: "ANULADA", motivo, anulada_en }
+    deactivate Controller
+
+    UI --> Admin : Confirmación visual:\n"Venta #TK-2024-0089 anulada correctamente.\nStock de [N] ítems revertido al inventario de Local 1."
+end
+
+deactivate UI
+
+@enduml

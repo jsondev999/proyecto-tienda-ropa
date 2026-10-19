@@ -21,7 +21,7 @@
 
 ---
 
-### NF-01 — Copias de seguridad automáticas
+### RNF-01 — Copias de seguridad automáticas
 
 **Descripción:** El sistema deberá realizar copias de seguridad automáticas de forma mensual, programando un backup completo de toda la información al final de cada mes.  
 **Prioridad:** Media
@@ -33,7 +33,7 @@
 
 ---
 
-### NF-02 — Control de acceso basado en roles
+### RNF-02 — Control de acceso basado en roles
 
 **Descripción:** El sistema deberá implementar niveles de acceso diferenciados según el rol del usuario (administrador vs. empleado), restringiendo las operaciones sensibles solo al administrador.  
 **Prioridad:** Alta
@@ -45,7 +45,7 @@
 
 ---
 
-### NF-03 — Encriptación de contraseñas
+### RNF-03 — Encriptación de contraseñas
 
 **Descripción:** Las contraseñas de los usuarios deberán almacenarse de forma encriptada en la base de datos, nunca en texto plano.  
 **Prioridad:** Alta
@@ -57,7 +57,7 @@
 
 ---
 
-### NF-04 — Trazabilidad de operaciones
+### RNF-04 — Trazabilidad de operaciones
 
 **Descripción:** Toda operación crítica del sistema (ventas, ajustes de inventario, transferencias, modificaciones de productos) deberá quedar registrada con el usuario, fecha y hora que la realizó.  
 **Prioridad:** Media
@@ -75,7 +75,7 @@
 
 ---
 
-### NF-05 — Interfaz intuitiva y fácil de usar
+### RNF-05 — Interfaz intuitiva y fácil de usar
 
 **Descripción:** El sistema deberá contar con una interfaz de usuario intuitiva y fácil de usar, que no requiera capacitación técnica extensa para el personal del negocio.  
 **Prioridad:** Alta
@@ -87,7 +87,7 @@
 
 ---
 
-### NF-06 — Diseño adaptable para móvil
+### RNF-06 — Diseño adaptable para móvil
 
 **Descripción:** El sistema deberá estar optimizado para su uso en dispositivos móviles, adaptando su interfaz a distintos tamaños de pantalla.  
 **Prioridad:** Alta
@@ -99,7 +99,7 @@
 
 ---
 
-### NF-07 — Mensajes de retroalimentación claros
+### RNF-07 — Mensajes de retroalimentación claros
 
 **Descripción:** El sistema deberá proporcionar mensajes de retroalimentación inmediata ante cualquier acción del usuario, tanto en caso de éxito como de error.  
 **Prioridad:** Media
@@ -117,7 +117,7 @@
 
 ---
 
-### NF-08 — Estabilidad del sistema
+### RNF-08 — Estabilidad del sistema
 
 **Descripción:** El sistema deberá priorizar la estabilidad, manteniéndose operativo de forma continua sin caídas inesperadas durante el horario comercial.  
 **Prioridad:** Alta
@@ -129,7 +129,7 @@
 
 ---
 
-### NF-09 — Funcionamiento sin conexión a internet
+### RNF-09 — Funcionamiento sin conexión a internet
 
 **Descripción:** El sistema deberá operar de forma local sin requerir conexión a internet para las funcionalidades principales (registro de ventas e inventario).  
 **Prioridad:** Alta
@@ -141,7 +141,7 @@
 
 ---
 
-### NF-10 — Sincronización automática con la nube
+### RNF-10 — Sincronización automática con la nube
 
 **Descripción:** El sistema deberá sincronizar los datos locales con la nube de forma automática al recuperarse la conexión a internet, sin pérdida de información.  
 **Prioridad:** Alta
@@ -153,7 +153,7 @@
 
 ---
 
-### NF-11 — Tiempo de respuesta aceptable
+### RNF-11 — Tiempo de respuesta aceptable
 
 **Descripción:** El sistema deberá responder a las acciones del usuario en un tiempo razonable que no afecte la operación del negocio.  
 **Prioridad:** Media
@@ -171,7 +171,7 @@
 
 ---
 
-### NF-12 — Soporte para múltiples tiendas
+### RNF-12 — Soporte para múltiples tiendas
 
 **Descripción:** El sistema deberá estar diseñado para soportar la gestión de más de dos locales en el futuro, sin necesidad de rediseño estructural.  
 **Prioridad:** Media
@@ -182,7 +182,7 @@
 
 ---
 
-### NF-13 — Escalabilidad del catálogo de productos
+### RNF-13 — Escalabilidad del catálogo de productos
 
 **Descripción:** El sistema deberá permitir registrar un número creciente de productos en el inventario sin degradación del rendimiento.  
 **Prioridad:** Media
@@ -193,7 +193,7 @@
 
 ---
 
-### NF-14 — Extensibilidad de integraciones externas
+### RNF-14 — Extensibilidad de integraciones externas
 
 **Descripción:** El sistema deberá estar diseñado para facilitar la integración con nuevas plataformas de venta online o medios de pago en el futuro.  
 **Prioridad:** Baja

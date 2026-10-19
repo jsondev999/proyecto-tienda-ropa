@@ -1,0 +1,12 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https?://"
+    }
+  ],
+  "replacementPatterns": [],
+  "timeout": "20s",
+  "aliveStatusCodes": [200, 201, 206, 301, 302, 403],
+  "retryOn429": true,
+  "retryCount": 2
+}

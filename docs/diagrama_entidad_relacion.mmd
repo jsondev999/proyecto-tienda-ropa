@@ -24,6 +24,9 @@ erDiagram
     variantes_producto ||--o{ ajustes_inventario : "modifica cantidad de"
     usuarios ||--o{ ajustes_inventario : "autorizado por"
     usuarios ||--o{ reportes_configuracion : "configura y programa"
+    usuarios ||--o{ auditoria : "genera evento en"
+    productos ||--o{ imagenes_producto : "tiene galeria de"
+
 
     locales {
         BIGINT_UNSIGNED id PK
@@ -180,4 +183,24 @@ erDiagram
         VARCHAR_120 correo_destino
         TIMESTAMP created_at
         TIMESTAMP updated_at
+    }
+
+    auditoria {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED usuario_id FK
+        VARCHAR_60 accion
+        VARCHAR_60 entidad
+        BIGINT_UNSIGNED entidad_id
+        JSON detalle_json
+        VARCHAR_45 ip_origen
+        TIMESTAMP created_at
+    }
+
+    imagenes_producto {
+        BIGINT_UNSIGNED id PK
+        BIGINT_UNSIGNED producto_id FK
+        VARCHAR_512 url
+        TINYINT_UNSIGNED orden
+        TINYINT_1 activo
+        TIMESTAMP created_at
     }

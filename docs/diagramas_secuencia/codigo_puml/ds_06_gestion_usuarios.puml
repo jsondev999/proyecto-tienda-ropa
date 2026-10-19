@@ -1,0 +1,144 @@
+@startuml ds_06_gestion_usuarios
+autonumber
+skinparam style strictuml
+skinparam roundcorner 8
+skinparam shadowing false
+skinparam monochrome false
+
+skinparam sequence {
+    ArrowColor #2B2D42
+    ActorBorderColor #2B2D42
+    LifeLineBorderColor #2B2D42
+    LifeLineBackgroundColor #EDF2F4
+    ParticipantBorderColor #2B2D42
+    ParticipantBackgroundColor #F8F9FA
+    ParticipantFontColor #2B2D42
+    GroupBorderColor #4A4E69
+    GroupBackgroundColor #F2F4F8
+}
+
+actor "Administrador" as Admin
+participant "Frontend (React)\nGestionUsuariosView" as UI
+participant "Backend Controller\nUserController" as Controller
+participant "Application Service\nUserCommandHandler" as Service
+participant "Domain Entity\nUsuario" as Domain
+database "Database (MySQL)\nTabla: usuarios" as DB
+
+' ─── Flujo principal: Crear nuevo usuario ───
+Admin -> UI : Navega a Gestión de Usuarios
+activate UI
+UI -> Controller : GET /api/admin/users\n(Listar usuarios con paginación)
+activate Controller
+Controller -> Service : execute(ListUsersQuery)
+activate Service
+Service -> DB : SELECT id, nombre, username, rol, local_id, activo, bloqueado, created_at\nFROM usuarios ORDER BY created_at DESC
+activate DB
+DB --> Service : Lista de usuarios
+deactivate DB
+Service --> Controller : UsersListDto
+deactivate Service
+Controller --> UI : HTTP 200 OK\nJSON: { data: [...usuarios], meta: {total, page} }
+deactivate Controller
+UI --> Admin : Tabla paginada de usuarios
+
+group Crear Nuevo Usuario (RF-10)
+    Admin -> UI : Completa formulario: nombre, username, contraseña,\nrol (ADMINISTRADOR/VENDEDOR), local_id
+    UI -> Controller : POST /api/admin/users\nJSON: { nombre, username, password, rol, local_id }
+    activate Controller
+    Controller -> Service : execute(CreateUserCommand)
+    activate Service
+    Service -> DB : SELECT COUNT(*) FROM usuarios WHERE username = ?
+    activate DB
+    DB --> Service : 0 (no existe)
+    deactivate DB
+    Service -> Domain : new Usuario(nombre, username, hash(password), rol, local_id)
+    activate Domain
+    Domain --> Service : Usuario válido
+    deactivate Domain
+    Service -> DB : INSERT INTO usuarios\n(nombre, username, password_hash, rol, local_id, activo, bloqueado)\nVALUES (?, ?, bcrypt(?), ?, ?, 1, 0)
+    activate DB
+    DB --> Service : id del nuevo usuario
+    deactivate DB
+    Service --> Controller : UserCreatedDto
+    deactivate Service
+    Controller --> UI : HTTP 201 Created\nJSON: { id, username, rol, local_id, activo }
+    deactivate Controller
+    UI --> Admin : Notificación de éxito — usuario creado
+end
+
+group Modificar Usuario (RF-12)
+    Admin -> UI : Selecciona usuario y edita: nombre, rol o local
+    UI -> Controller : PUT /api/admin/users/{id}\nJSON: { nombre?, rol?, local_id? }
+    activate Controller
+    Controller -> Service : execute(UpdateUserCommand)
+    activate Service
+    Service -> DB : UPDATE usuarios SET nombre = ?, rol = ?, local_id = ?,\nupdated_at = NOW() WHERE id = ?
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service -> DB : INSERT INTO auditoria (usuario_id, accion, detalle, created_at)\nVALUES (adminId, 'UPDATE_USER', json_detalle, NOW())
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service --> Controller : UserUpdatedDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK\nJSON: { id, nombre, rol, local_id }
+    deactivate Controller
+    UI --> Admin : Confirmación de cambios guardados
+end
+
+group Desactivar Usuario (RF-13)
+    Admin -> UI : Selecciona usuario y confirma desactivación
+    UI -> Controller : PATCH /api/admin/users/{id}/deactivate
+    activate Controller
+    Controller -> Service : execute(DeactivateUserCommand)
+    activate Service
+    Service -> DB : UPDATE usuarios SET activo = 0,\nupdated_at = NOW() WHERE id = ?
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service --> Controller : UserDeactivatedDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK
+    deactivate Controller
+    UI --> Admin : Usuario desactivado (no puede iniciar sesión)
+end
+
+group Desbloquear Cuenta (RF-14)
+    Admin -> UI : Selecciona cuenta bloqueada y confirma desbloqueo
+    UI -> Controller : PATCH /api/admin/users/{id}/unlock
+    activate Controller
+    Controller -> Service : execute(UnlockUserCommand)
+    activate Service
+    Service -> DB : UPDATE usuarios SET bloqueado = 0,\nintentos_fallidos = 0, updated_at = NOW() WHERE id = ?
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    Service --> Controller : UserUnlockedDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK
+    deactivate Controller
+    UI --> Admin : Cuenta desbloqueada — el usuario puede iniciar sesión
+end
+
+group Resetear Contraseña (RF-73)
+    Admin -> UI : Ingresa nueva contraseña para el usuario seleccionado
+    UI -> Controller : PATCH /api/admin/users/{id}/reset-password\nJSON: { new_password }
+    activate Controller
+    Controller -> Service : execute(ResetPasswordCommand)
+    activate Service
+    Service -> DB : UPDATE usuarios SET password_hash = bcrypt(new_password),\nupdated_at = NOW() WHERE id = ?
+    activate DB
+    DB --> Service : OK
+    deactivate DB
+    note over Service : Invalidar tokens de sesión activos\nde este usuario (Laravel Sanctum)
+    Service --> Controller : PasswordResetDto
+    deactivate Service
+    Controller --> UI : HTTP 200 OK
+    deactivate Controller
+    UI --> Admin : Contraseña restablecida con éxito
+end
+
+deactivate UI
+
+@enduml

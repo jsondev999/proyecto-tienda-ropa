@@ -398,7 +398,7 @@ La API solo acepta solicitudes del **dominio del cliente web autorizado** (lista
 
 | Control | Lineamiento |
 |---------|-------------|
-| **Autenticación** | Login obligatorio (R-02). Sesión con Laravel Sanctum en modo SPA con cookie HttpOnly, Secure y SameSite. Expiración por inactividad de **8 horas** y revocación al cerrar sesión. |
+| **Autenticación** | Login obligatorio. Estrategia dual mediante **Laravel Sanctum**: (1) **Modo SPA Web:** Cookie HttpOnly, Secure y SameSite con protección CSRF para la aplicación React en navegador. (2) **Modo API / POS:** Bearer Token (Personal Access Token) en cabecera `Authorization` para terminales POS locales, operaciones de sincronización offline (CU-10) y llamadas directas a la API REST. Expiración por inactividad de **8 horas**, bloqueo automático tras **3 intentos fallidos consecutivos** (RF-06, CP-06) y revocación inmediata al cerrar sesión. |
 | **Autorización por rol** | Roles Administrador y Vendedor validados con **middleware y policies** en cada endpoint. Ocultar botones en la interfaz **no sustituye** la validación del servidor. |
 | **Contraseñas** | Hash con **bcrypt o Argon2**, mínimo 8 caracteres; nunca en respuestas ni logs; límite de intentos de login. |
 | **Transporte** | **HTTPS/TLS obligatorio** y encabezado HSTS. |

@@ -1,9 +1,9 @@
 # Documentación Técnica de Base de Datos (MySQL)
 
 **Proyecto:** Sistema de Gestión — Tienda de Ropa para Varón  
-**Versión:** 2.0  
+**Versión:** 2.1 (Revisión de Auditoría — Tablas `auditoria` e `imagenes_producto` añadidas)  
 **Motor de Base de Datos:** MySQL 8.0 (InnoDB)  
-**Fecha:** 13/10/2026  
+**Fecha:** 18/10/2026  
 
 ---
 
@@ -29,6 +29,8 @@ A continuación se listan las entidades del sistema agrupadas por su responsabil
 13. **`metodos_pago` (Catálogo Maestro):** Listado de opciones de pago habilitadas en caja (Efectivo, Yape, Plin, Tarjeta Débito/Crédito, Transferencia).
 14. **`ajustes_inventario` (Auditoría de Stock):** Registra variaciones manuales de stock efectuadas exclusivamente por el Administrador (ingresos de mercadería, mermas o correcciones de conteo físico).
 15. **`reportes_configuracion` (Preferencias de Reportes):** Almacena configuraciones de filtros guardadas por el Administrador para consultas y envíos programados.
+16. **`auditoria` (Bitácora de Operaciones Críticas):** *(Agregada en v2.1)* Registra todas las operaciones sensibles del sistema (crear/editar/anular) con el usuario, acción, entidad afectada y detalle en JSON. Garantiza trazabilidad completa (RNF-04).
+17. **`imagenes_producto` (Galería de Fotos por Prenda):** *(Agregada en v2.1)* Almacena las URLs de las imágenes de cada producto subidas al almacenamiento de archivos (Cloud Storage / S3), permitiendo múltiples fotos por prenda con un orden de visualización.
 
 ---
 
@@ -479,3 +481,36 @@ erDiagram
         TIMESTAMP updated_at
     }
 ```
+
+---
+
+### 2.16 Tabla: `auditoria` *(Agregada en v2.1)*
+Bitácora centralizada de operaciones críticas para trazabilidad completa del sistema (RNF-04, RF-08, RF-12, RF-13, RF-53).
+
+| Nombre del Atributo | Tipo de Dato | Claves | Nulabilidad | Descripción y Propósito |
+|---|---|---|---|---|
+| `id` | `BIGINT UNSIGNED AUTO_INCREMENT` | PK | NOT NULL | Identificador único del registro de auditoría. |
+| `usuario_id` | `BIGINT UNSIGNED` | FK | NOT NULL | Usuario autenticado que realizó la acción. |
+| `accion` | `VARCHAR(60)` | - | NOT NULL | Nombre de la operación realizada (ej. `CREATE_USER`, `ANULAR_VENTA`, `UPDATE_PRODUCTO`). |
+| `entidad` | `VARCHAR(60)` | - | NOT NULL | Tabla o entidad de dominio afectada (ej. `usuarios`, `ventas`, `productos`). |
+| `entidad_id` | `BIGINT UNSIGNED` | - | NULL | ID del registro específico afectado (NULL si la acción no aplica a un registro concreto). |
+| `detalle_json` | `JSON` | - | NULL | Snapshot con los valores anteriores y nuevos en formato JSON para auditoría de cambios. |
+| `ip_origen` | `VARCHAR(45)` | - | NULL | Dirección IP del cliente desde donde se originó la solicitud. |
+| `created_at` | `TIMESTAMP` | - | NOT NULL | Fecha y hora exacta en que se registró la acción. |
+
+> **Restricciones de integridad:** Los registros de `auditoria` son de solo inserción; no se permite UPDATE ni DELETE sobre esta tabla (enforced a nivel de aplicación y permisos de BD).
+
+---
+
+### 2.17 Tabla: `imagenes_producto` *(Agregada en v2.1)*
+Galería de imágenes asociadas a cada prenda base (RF-15, RF-16, RF-69).
+
+| Nombre del Atributo | Tipo de Dato | Claves | Nulabilidad | Descripción y Propósito |
+|---|---|---|---|---|
+| `id` | `BIGINT UNSIGNED AUTO_INCREMENT` | PK | NOT NULL | Identificador único de la imagen. |
+| `producto_id` | `BIGINT UNSIGNED` | FK | NOT NULL | Prenda base a la que pertenece la imagen. |
+| `url` | `VARCHAR(512)` | - | NOT NULL | URL pública de la imagen en el servicio de almacenamiento (Cloud Storage / S3 / Cloudinary). |
+| `orden` | `TINYINT UNSIGNED` | - | NOT NULL | Posición en la galería (0 = imagen principal). |
+| `activo` | `TINYINT(1)` | - | NOT NULL | Indica si la imagen está activa y visible. Default `1`. |
+| `created_at` | `TIMESTAMP` | - | NOT NULL | Fecha y hora de carga de la imagen. |
+
