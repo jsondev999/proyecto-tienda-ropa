@@ -7,42 +7,52 @@ Para garantizar la mantenibilidad, escalabilidad y la independencia de framework
 \centering
 \begin{tikzpicture}[
     scale=0.82, every node/.style={transform shape},
-    cPres/.style={rectangle, draw=blue!80!black, fill=blue!8, rounded corners=6pt,
-                  line width=1.2pt, minimum width=11.0cm, minimum height=4.8cm},
-    cInfra/.style={rectangle, draw=purple!80!black, fill=purple!8, rounded corners=5pt,
-                   line width=1.2pt, minimum width=9.0cm, minimum height=3.5cm},
-    cApp/.style={rectangle, draw=cyan!80!black, fill=cyan!8, rounded corners=4pt,
-                 line width=1.2pt, minimum width=7.0cm, minimum height=2.4cm},
-    cDom/.style={rectangle, draw=green!70!black, fill=green!15, rounded corners=3pt,
-                 line width=1.2pt, minimum width=5.4cm, minimum height=1.5cm, align=center}
+    cPres/.style={rectangle, draw=blue!80!black, fill=blue!6, rounded corners=8pt,
+                  line width=1.4pt, minimum width=13.4cm, minimum height=7.8cm},
+    cInfra/.style={rectangle, draw=purple!80!black, fill=purple!6, rounded corners=7pt,
+                   line width=1.3pt, minimum width=11.2cm, minimum height=5.6cm},
+    cApp/.style={rectangle, draw=cyan!80!black, fill=cyan!6, rounded corners=6pt,
+                 line width=1.3pt, minimum width=9.2cm, minimum height=3.7cm},
+    cDom/.style={rectangle, draw=green!70!black, fill=green!15, rounded corners=5pt,
+                 line width=1.4pt, minimum width=7.4cm, minimum height=1.9cm, align=center}
 ]
 
-% Capa 4: Presentacion
+% Capa 4: Presentacion (Top: +3.9, Bottom: -3.9)
 \node[cPres] (pres) at (0, 0) {};
-\node[anchor=north, font=\bfseries\small, text=blue!80!black, text width=10cm, align=center] at (0, 2.3)
-    {Capa de Presentación (REST Laravel, React 18 SPA, Web Mobile)};
+\node[font=\bfseries\normalsize, text=blue!85!black] at (0, 3.35)
+    {Capa de Presentación (Interfaz y API Externa)};
+\node[font=\footnotesize, text=blue!80!black] at (0, 2.85)
+    {REST API Laravel 11, React 18 SPA, Web Responsiva Mobile-First};
 
-% Capa 3: Infraestructura
-\node[cInfra] (infra) at (0, -0.3) {};
-\node[anchor=north, font=\bfseries\small, text=purple!80!black, text width=8.5cm, align=center] at (0, 1.4)
-    {Infraestructura (MySQL 8.0, Sanctum Auth, Eloquent, PDF/Excel)};
+% Capa 3: Infraestructura (Top: +2.2, Bottom: -3.4)
+\node[cInfra] (infra) at (0, -0.6) {};
+\node[font=\bfseries\small, text=purple!85!black] at (0, 1.75)
+    {Capa de Infraestructura (Adaptadores y Persistencia)};
+\node[font=\footnotesize, text=purple!80!black] at (0, 1.30)
+    {MySQL 8.0, Eloquent ORM, Sanctum Auth, Exportación PDF / Excel};
 
-% Capa 2: Aplicacion
-\node[cApp] (app) at (0, -0.6) {};
-\node[anchor=north, font=\bfseries\small, text=cyan!80!black, text width=6.8cm, align=center] at (0, 0.6)
-    {Aplicación (Commands, Queries, App Services)};
+% Capa 2: Aplicacion (Top: +0.7, Bottom: -3.0)
+\node[cApp] (app) at (0, -1.15) {};
+\node[font=\bfseries\small, text=cyan!85!black] at (0, 0.25)
+    {Capa de Aplicación (Casos de Uso del Negocio)};
+\node[font=\footnotesize, text=cyan!80!black] at (0, -0.20)
+    {Commands, Queries, DTOs, Mapeadores e Interfaces Repositorio};
 
-% Capa 1: Dominio
-\node[cDom] (dom) at (0, -0.9)
-    {\textbf{Capa de Dominio (Núcleo Puro)}\\
-     \scriptsize Entidades, Value Objects (SKU, Moneda)\\
-     \scriptsize Reglas Invariantes (Sin dependencias)};
+% Capa 1: Dominio (Top: -0.75, Bottom: -2.65)
+\node[cDom] (dom) at (0, -1.7)
+    {\textbf{\normalsize Capa de Dominio (Núcleo Puro)}\\[3pt]
+     \footnotesize Entidades de Negocio, Value Objects (SKU, Moneda)\\[1pt]
+     \footnotesize Reglas Invariantes de Prenda y Stock (Sin dependencias)};
 
-% Regla de Dependencia — flecha confinada dentro del borde exterior
-\draw[-{Stealth[length=2.5mm]}, line width=1.8pt, red!80!black]
-    (-5.2, -2.1) -- (-5.2, 2.1)
-    node[pos=0.5, left=3pt, rotate=90, font=\tiny\bfseries, text=red!80!black]
-    {Dependencia $\rightarrow$ Dominio};
+% Regla de Dependencia en el corredor izquierdo de la Capa de Presentación
+\draw[-{Stealth[length=3mm]}, line width=1.8pt, red!85!black] (-6.0, 2.5) -- (-6.0, 0.9);
+\node[font=\tiny\bfseries, text=red!85!black, align=center, fill=blue!6, inner sep=2pt]
+    at (-6.0, 0) {Regla de\\Dependencia\\$\downarrow$\\[1pt]\scriptsize Hacia el\\Núcleo};
+\draw[-{Stealth[length=3mm]}, line width=1.8pt, red!85!black] (-6.0, -0.9) -- (-6.0, -2.5);
+
+% Nota de pie de arquitectura
+\node[font=\scriptsize\bfseries, text=red!85!black]
+    at (0, -3.55) {Las dependencias del código apuntan estrictamente hacia el Núcleo de Dominio};
 
 \end{tikzpicture}
 \caption{Diagrama de Cuatro Capas Concéntricas de Clean Architecture en SYSELL Web}
@@ -63,42 +73,42 @@ Para optimizar el rendimiento y clarificar las intenciones transaccionales, se a
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.82, every node/.style={transform shape},
-    boxC/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=3pt,
-                 thick, align=center, minimum width=4.0cm, minimum height=1.0cm, font=\small},
-    boxQ/.style={rectangle, draw=blue!70!black, fill=blue!10, rounded corners=3pt,
-                 thick, align=center, minimum width=4.0cm, minimum height=1.0cm, font=\small},
+    scale=0.84, every node/.style={transform shape},
+    boxC/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=4pt,
+                 thick, align=center, minimum width=4.4cm, minimum height=1.1cm, font=\small},
+    boxQ/.style={rectangle, draw=blue!70!black, fill=blue!10, rounded corners=4pt,
+                 thick, align=center, minimum width=4.4cm, minimum height=1.1cm, font=\small},
     dbNode/.style={cylinder, shape border rotate=90, draw=purple!80!black, fill=purple!15,
-                   aspect=0.3, minimum width=2.2cm, minimum height=2.2cm,
+                   aspect=0.28, minimum width=2.4cm, minimum height=2.4cm,
                    align=center, font=\small\bfseries},
-    flow/.style={thick, -{Stealth[length=2.2mm]}}
+    flow/.style={thick, -{Stealth[length=2.4mm]}}
 ]
 
 % Nodo cliente
-\node[rectangle, draw=gray!70, fill=gray!10, rounded corners=3pt,
-      minimum width=2.6cm, minimum height=3.0cm, align=center]
-    (client) at (-4.6, 0) {\textbf{Cliente Web / POS}\\[3pt]\scriptsize (HTTP)};
+\node[rectangle, draw=gray!70, fill=gray!10, rounded corners=4pt,
+      minimum width=2.8cm, minimum height=3.2cm, align=center]
+    (client) at (-5.0, 0) {\textbf{Cliente Web / POS}\\[4pt]\scriptsize Frontend React 18\\\scriptsize Peticiones HTTP};
 
 % Buses
-\node[boxC] (cmd) at (0,  1.4) {\textbf{Command Bus (Escritura)}\\\scriptsize ACID (Venta, Ajuste)};
-\node[boxQ] (qry) at (0, -1.4) {\textbf{Query Bus (Lectura)}\\\scriptsize Consultas / Vistas};
+\node[boxC] (cmd) at (0,  1.5) {\textbf{Command Bus (Escritura)}\\[2pt]\scriptsize Transacciones ACID (Venta, Kardex)};
+\node[boxQ] (qry) at (0, -1.5) {\textbf{Query Bus (Lectura)}\\[2pt]\scriptsize Consultas Directas y Catálogo};
 
 % Base de datos
-\node[dbNode] (db) at (4.6, 0) {Base de Datos\\MySQL 8.0\\(3FN)};
+\node[dbNode] (db) at (5.0, 0) {Base de Datos\\MySQL 8.0\\(3FN - InnoDB)};
 
 % === Flujos COMANDOS ===
 \draw[flow, red!80!black]
-    (client.north east) -- ++(0, 0.55) -| (cmd.north)
+    (client.north east) -- ++(0.3, 0.5) -| (cmd.north)
     node[pos=0.25, above=2pt, font=\scriptsize\bfseries] {POST / PUT (Comandos)};
 \draw[flow, red!80!black]
     (cmd.east) -- node[above=3pt, font=\scriptsize\bfseries] {Mutaciones ACID} (db.north west);
 
 % === Flujos CONSULTAS ===
 \draw[flow, blue!80!black]
-    (client.south east) -- ++(0, -0.55) -| (qry.south)
+    (client.south east) -- ++(0.3, -0.5) -| (qry.south)
     node[pos=0.25, below=2pt, font=\scriptsize\bfseries] {GET (Catálogo, Reportes)};
 \draw[flow, blue!80!black]
-    (db.south west) -- node[below=3pt, font=\scriptsize\bfseries] {Proyecciones Optimizadas} (qry.east);
+    (db.south west) -- node[below=3pt, font=\scriptsize\bfseries] {Lectura Optimizada} (qry.east);
 
 \end{tikzpicture}
 \caption{Segregación Operativa de Comandos y Consultas con el Patrón CQRS}

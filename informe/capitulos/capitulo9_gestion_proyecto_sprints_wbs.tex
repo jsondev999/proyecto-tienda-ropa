@@ -9,17 +9,26 @@ El desarrollo del proyecto se gestionó bajo el marco de trabajo ágil Scrum, ar
 \small
 \caption{Resumen de Épicas y Distribución de Historias de Usuario}
 \label{tab:epicas_backlog}
-\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright}p{4.2cm}|>{\centering}p{2cm}|>{\centering}p{2.4cm}|Y|}
-\hline
-\textbf{Épica} & \textbf{Cant. HU} & \textbf{Puntos (SP)} & \textbf{Objetivo de Negocio} \\ \hline
-EP-01: Autenticación y Seguridad & 3 HU & 13 SP & Control de acceso y gobierno RBAC. \\ \hline
-EP-02: Catálogo e Inventario Multi-Tienda & 4 HU & 22 SP & Control de prendas, tallas, colores y stock físico. \\ \hline
-EP-03: Logística y Traslados Internos & 2 HU & 13 SP & Transferencias atómicas entre sucursales. \\ \hline
-EP-04: Punto de Venta (POS) y Caja & 4 HU & 21 SP & Apertura/cierre de caja, facturación y cobros. \\ \hline
-EP-05: Analítica y Reportes Gerenciales & 2 HU & 11 SP & Métricas financieras, rotación y alertas. \\ \hline
-EP-06: Catálogo Web de Exhibición & 2 HU & 8 SP & Vitrina digital para clientes finales sin pasarela. \\ \hline
-EP-07: Infraestructura y DevOps & 1 HU & 6 SP & Contenedores Docker y automatización CI. \\ \hline
-\textbf{TOTAL GENERAL} & \textbf{18 HU} & \textbf{94 SP} & \textbf{Alcance Completo v2.0} \\ \hline
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright}p{4.8cm} >{\centering}p{2.2cm} >{\centering}p{2.6cm} Y}
+\toprule
+\textbf{Épica} & \textbf{Cant. HU} & \textbf{Puntos (SP)} & \textbf{Objetivo de Negocio} \\
+\midrule
+EP-01: Autenticación y Seguridad & 3 HU & 13 SP & Control de acceso y gobierno RBAC. \\
+\addlinespace
+EP-02: Catálogo e Inventario Multi-Tienda & 4 HU & 22 SP & Control de prendas, tallas, colores y stock físico. \\
+\addlinespace
+EP-03: Logística y Traslados Internos & 2 HU & 13 SP & Transferencias atómicas entre sucursales. \\
+\addlinespace
+EP-04: Punto de Venta (POS) y Caja & 4 HU & 21 SP & Apertura/cierre de caja, facturación y cobros. \\
+\addlinespace
+EP-05: Analítica y Reportes Gerenciales & 2 HU & 11 SP & Métricas financieras, rotación y alertas. \\
+\addlinespace
+EP-06: Catálogo Web de Exhibición & 2 HU & 8 SP & Vitrina digital para clientes finales sin pasarela. \\
+\addlinespace
+EP-07: Infraestructura y DevOps & 1 HU & 6 SP & Contenedores Docker y automatización CI. \\
+\midrule
+\textbf{TOTAL GENERAL} & \textbf{18 HU} & \textbf{94 SP} & \textbf{Alcance Completo v2.0} \\
+\bottomrule
 \end{tabularx}
 \end{table}
 
@@ -52,21 +61,26 @@ El ciclo de desarrollo se estructuró en cuatro iteraciones de dos semanas de du
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.85, every node/.style={transform shape},
-    barSprint/.style={rectangle, rounded corners=3pt, thick, align=center, font=\small\bfseries, minimum height=1.1cm},
+    scale=0.88, every node/.style={transform shape},
+    barSprint/.style={rectangle, rounded corners=4pt, thick, align=center, font=\small\bfseries, minimum height=1.2cm},
     flowLine/.style={thick, -{Stealth[length=2.5mm]}, primaryblue}
 ]
 
-\node[barSprint, fill=blue!15, draw=blue!80!black, minimum width=2.8cm] (sp1) at (0, 0) {Sprint 1\\24 SP\\\scriptsize Fundaciones \& Auth};
-\node[barSprint, fill=cyan!15, draw=cyan!80!black, minimum width=2.8cm] (sp2) at (3.2, 0) {Sprint 2\\26 SP\\\scriptsize Inventario \& Kardex};
-\node[barSprint, fill=orange!15, draw=orange!80!black, minimum width=2.8cm] (sp3) at (6.4, 0) {Sprint 3\\24 SP\\\scriptsize POS \& Facturación};
-\node[barSprint, fill=green!15, draw=green!80!black, minimum width=2.8cm] (sp4) at (9.6, 0) {Sprint 4\\20 SP\\\scriptsize Analítica \& Deploy};
+\node[barSprint, fill=blue!15, draw=blue!80!black, minimum width=2.9cm] (sp1) at (-4.8, 0)
+    {Sprint 1\\24 SP\\[2pt]\scriptsize Fundaciones \& Auth};
+\node[barSprint, fill=cyan!15, draw=cyan!80!black, minimum width=2.9cm] (sp2) at (-1.6, 0)
+    {Sprint 2\\26 SP\\[2pt]\scriptsize Inventario \& Kardex};
+\node[barSprint, fill=orange!15, draw=orange!80!black, minimum width=2.9cm] (sp3) at ( 1.6, 0)
+    {Sprint 3\\24 SP\\[2pt]\scriptsize POS \& Facturación};
+\node[barSprint, fill=green!15, draw=green!80!black, minimum width=2.9cm] (sp4) at ( 4.8, 0)
+    {Sprint 4\\20 SP\\[2pt]\scriptsize Analítica \& Deploy};
 
 \draw[flowLine] (sp1) -- (sp2);
 \draw[flowLine] (sp2) -- (sp3);
 \draw[flowLine] (sp3) -- (sp4);
 
-\node[rectangle, draw=primaryblue, fill=white, rounded corners=2pt, font=\scriptsize\bfseries, text=primaryblue, text width=9cm, align=center] at (4.8, -1.2) {Total Acumulado: 94 Story Points en 4 Iteraciones (100\% Completado)};
+\node[rectangle, draw=primaryblue!80!black, fill=primaryblue!5, rounded corners=4pt, font=\scriptsize\bfseries, text=primaryblue, text width=10.5cm, align=center, inner sep=5pt] at (0, -1.35)
+    {Total Acumulado: 94 Story Points en 4 Iteraciones (100\% Completado)};
 
 \end{tikzpicture}
 \caption{Cadencia y Distribución de Esfuerzo en Story Points a lo Largo de los 4 Sprints}
@@ -134,14 +148,20 @@ Uno de los hallazgos críticos del diagnóstico de ingeniería de software sobre
 \small
 \caption{Matriz de Comparación: EDT Legacy vs. EDT Optimizada v2.0}
 \label{tab:comparacion_edt}
-\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright}p{3.5cm}|>{\raggedright}p{4.8cm}|Y|}
-\hline
-\textbf{Dimensión de Análisis} & \textbf{EDT Legacy v1.0 (Análisis)} & \textbf{EDT Optimizada v2.0 (Ingeniería)} \\ \hline
-Enfoque Metodológico & 5 fases secuenciales en cascada clásica sin ciclos de retroalimentación. & Orientada a entregables de valor con 4 iteraciones incrementales (Sprints). \\ \hline
-Integridad de Codificación & Inconsistencia sintáctica: salto arbitrario de \texttt{1.3.1} a \texttt{1.3.1.1} como actividad sin paquete. & Codificación jerárquica estricta según el estándar del Project Management Institute (PMI). \\ \hline
-Alineación Arquitectónica & Tareas genéricas («programar módulo») sin separación de responsabilidades. & Tareas estructuradas por capas de Clean Architecture: Dominio, Aplicación, Infraestructura y UI. \\ \hline
-Calidad y Validación & Ausencia de aseguramiento formal; no contemplaba casos de prueba IEEE 829. & Paquete específico de SQA con 77 casos de prueba y validación estática en CI/CD. \\ \hline
-Despliegue y DevOps & Se limitaba a «instalación en servidor local». & Contenedores Docker Compose, linters de documentación y pipeline GitHub Actions. \\ \hline
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright}p{3.8cm} >{\raggedright}p{4.8cm} Y}
+\toprule
+\textbf{Dimensión de Análisis} & \textbf{EDT Legacy v1.0 (Análisis)} & \textbf{EDT Optimizada v2.0 (Ingeniería)} \\
+\midrule
+Enfoque Metodológico & 5 fases secuenciales en cascada clásica sin ciclos de retroalimentación. & Orientada a entregables de valor con 4 iteraciones incrementales (Sprints). \\
+\addlinespace
+Integridad de Codificación & Inconsistencia sintáctica: salto arbitrario de \texttt{1.3.1} a \texttt{1.3.1.1} como actividad sin paquete. & Codificación jerárquica estricta según el estándar del Project Management Institute (PMI). \\
+\addlinespace
+Alineación Arquitectónica & Tareas genéricas («programar módulo») sin separación de responsabilidades. & Tareas estructuradas por capas de Clean Architecture: Dominio, Aplicación, Infraestructura y UI. \\
+\addlinespace
+Calidad y Validación & Ausencia de aseguramiento formal; no contemplaba casos de prueba IEEE 829. & Paquete específico de SQA con 77 casos de prueba y validación estática en CI/CD. \\
+\addlinespace
+Despliegue y DevOps & Se limitaba a «instalación en servidor local». & Contenedores Docker Compose, linters de documentación y pipeline GitHub Actions. \\
+\bottomrule
 \end{tabularx}
 \end{table}
 

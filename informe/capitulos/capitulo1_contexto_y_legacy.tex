@@ -38,28 +38,32 @@ En el curso previo de \textit{Análisis de Sistemas} (documentado en el informe 
     boxModern/.style={rectangle, draw=blue!80!black, fill=blue!10, rounded corners=4pt,
                       thick, align=center, text width=5.4cm, minimum height=1.05cm,
                       inner sep=5pt, font=\small},
-    headTitleLegacy/.style={font=\bfseries\small, align=center, text width=5.4cm, text=red!85!black},
-    headTitleModern/.style={font=\bfseries\small, align=center, text width=5.4cm, text=blue!85!black}
+    headTitleLegacy/.style={font=\bfseries\small, align=center, text width=6.0cm, text=red!85!black},
+    headTitleModern/.style={font=\bfseries\small, align=center, text width=6.0cm, text=blue!85!black}
 ]
 % Lado Legacy (Columna Izquierda)
-\node[boxLegacy] (l1) at (-3.8, 2.0) {UI Monolítica\\(Vistas acopladas directamente a DB)};
+\node[boxLegacy] (l1) at (-3.9, 2.0)
+    {UI Monolítica\\[2pt]\footnotesize (Vistas acopladas a Base de Datos)};
 \node[headTitleLegacy, above=0.35cm of l1] (tLegacy)
-    {Sistema Heredado (Legacy v1.0)\\[2pt]\footnotesize Enfoque Empírico / Acoplado};
-\node[boxLegacy, below=0.32cm of l1] (l2) {Lógica Dispersa\\(Sin capas arquitectónicas ni CQRS)};
-\node[boxLegacy, below=0.32cm of l2] (l3) {DB de 5 Tablas\\(Desnormalizada, con campos abiertos)};
-\node[boxLegacy, below=0.32cm of l3] (l4) {Testing Subjetivo\\(Sin especificación formal de pruebas)};
+    {\textbf{Sistema Heredado (Legacy v1.0)}\\[2pt]\footnotesize Enfoque Empírico y Acoplado};
+\node[boxLegacy, below=0.32cm of l1] (l2)
+    {Lógica Dispersa\\[2pt]\footnotesize (Sin capas arquitectónicas ni CQRS)};
+\node[boxLegacy, below=0.32cm of l2] (l3)
+    {Base de Datos de 5 Tablas\\[2pt]\footnotesize (Desnormalizada y campos abiertos)};
+\node[boxLegacy, below=0.32cm of l3] (l4)
+    {Testing Subjetivo\\[2pt]\footnotesize (Sin especificación formal)};
 
 % Lado Moderno (Columna Derecha)
-\node[boxModern, fill=green!15, draw=green!70!black] (m1) at (3.8, 2.0)
-    {Capa de Presentación\\(React 18 SPA + Web Mobile-First)};
+\node[boxModern, fill=green!15, draw=green!70!black] (m1) at (3.9, 2.0)
+    {Capa de Presentación\\[2pt]\footnotesize (React 18 SPA + Web Mobile-First)};
 \node[headTitleModern, above=0.35cm of m1] (tModern)
-    {Solución Profesional (SYSELL v2.0)\\[2pt]\footnotesize Clean Architecture + Estándares SWEBOK};
+    {\textbf{Solución SYSELL Web (v2.0)}\\[2pt]\footnotesize Clean Architecture + Estándar SWEBOK};
 \node[boxModern, fill=cyan!15, draw=cyan!70!black, below=0.32cm of m1] (m2)
-    {Capa Aplicación y Dominio\\(Patrón CQRS + Seguridad RBAC)};
+    {Capa Aplicación y Dominio\\[2pt]\footnotesize (Patrón CQRS + Seguridad RBAC)};
 \node[boxModern, fill=orange!15, draw=orange!70!black, below=0.32cm of m2] (m3)
-    {Base de Datos MySQL 8.0 en 3FN\\(17 Tablas con Integridad Referencial)};
+    {MySQL 8.0 en 3FN\\[2pt]\footnotesize (17 Tablas con Integridad Referencial)};
 \node[boxModern, fill=purple!15, draw=purple!70!black, below=0.32cm of m3] (m4)
-    {SQA Integral IEEE 829\\(77 Casos de Prueba + CI/CD Docker)};
+    {Aseguramiento de Calidad SQA\\[2pt]\footnotesize (77 Casos de Prueba + CI/CD Docker)};
 
 % Flecha Central de Transformacion
 \draw[-{Stealth[length=4mm]}, line width=2.2pt, primaryblue]

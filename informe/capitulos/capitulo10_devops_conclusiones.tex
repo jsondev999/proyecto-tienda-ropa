@@ -26,15 +26,15 @@ La arquitectura de aseguramiento de calidad del repositorio incluye un flujo aut
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    node distance=1.2cm,
-    stepnode/.style={rectangle, draw=blue!70, fill=blue!10, rounded corners, minimum width=4.5cm, minimum height=0.7cm, align=center, font=\small},
-    arrow/.style={thick, -{Stealth}}
+    scale=0.92, every node/.style={transform shape},
+    stepnode/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=1pt, minimum width=7.0cm, minimum height=0.85cm, align=center, font=\small, inner sep=5pt},
+    arrow/.style={thick, -{Stealth[length=2.5mm]}, primaryblue}
 ]
-\node[stepnode] (git) {Push / Pull Request a \texttt{main}};
-\node[stepnode, below of=git] (lint) {Linter de Markdown (\texttt{markdownlint-cli2})};
-\node[stepnode, below of=lint] (puml) {Validación Sintáctica PlantUML (\texttt{-checkonly})};
-\node[stepnode, below of=puml] (mmd) {Renderizado de Diagramas Mermaid (\texttt{--no-sandbox})};
-\node[stepnode, below of=mmd, fill=green!20, draw=green!70!black] (pass) {Verificación Exitosa (Pipeline Green)};
+\node[stepnode] (git) {\textbf{Trigger:} Push / Pull Request a rama \texttt{main}};
+\node[stepnode, below=0.45cm of git] (lint) {Linter de Documentación (\texttt{markdownlint-cli2})};
+\node[stepnode, below=0.45cm of lint] (puml) {Validación Sintáctica PlantUML (\texttt{-checkonly})};
+\node[stepnode, below=0.45cm of puml] (mmd) {Renderizado Headless de Diagramas Mermaid (\texttt{--no-sandbox})};
+\node[stepnode, below=0.45cm of mmd, fill=green!15, draw=green!70!black] (pass) {\textbf{Resultado:} Verificación Exitosa (Pipeline Green 100\%)};
 
 \draw[arrow] (git) -- (lint);
 \draw[arrow] (lint) -- (puml);

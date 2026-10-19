@@ -37,24 +37,26 @@ N-10 & Vitrina Digital Pública & Ofrecer a clientes web una galería responsiva
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.9, every node/.style={transform shape},
-    flowNode/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=1pt, align=center, minimum width=4cm, minimum height=0.8cm, font=\small},
+    scale=0.92, every node/.style={transform shape},
+    flowNode/.style={rectangle, draw=primaryblue!80!black, fill=primaryblue!10, rounded corners=4pt, line width=1.1pt, align=center, minimum width=4.6cm, minimum height=1.05cm, font=\small, inner sep=4pt},
     arrowNode/.style={thick, -{Stealth[length=2.5mm]}, primaryblue}
 ]
-\node[flowNode, fill=orange!15, draw=orange!70!black] (nn) at (0, 3) {\textbf{10 Necesidades de Negocio}\\\scriptsize (N-01 a N-10)};
-\node[flowNode, fill=cyan!15, draw=cyan!70!black] (rf) at (7, 3) {\textbf{77 Requisitos Funcionales}\\\scriptsize (RF-01 a RF-77, 5 Módulos)};
-\node[flowNode, fill=purple!15, draw=purple!70!black] (cu) at (0, 1.2) {\textbf{15 Casos de Uso \& DFD}\\\scriptsize (CU-01 a CU-15, DFD Niveles 0-2)};
-\node[flowNode, fill=blue!15, draw=blue!70!black] (ds) at (7, 1.2) {\textbf{8 Diagramas Secuencia \& BD}\\\scriptsize (DS-01 a DS-08, 17 Tablas 3FN)};
-\node[flowNode, fill=green!15, draw=green!70!black] (hu) at (0, -0.6) {\textbf{18 Historias de Usuario}\\\scriptsize (94 Story Points en 4 Sprints)};
-\node[flowNode, fill=red!15, draw=red!70!black] (cp) at (7, -0.6) {\textbf{77 Casos de Prueba}\\\scriptsize (CP-01 a CP-77, IEEE 829)};
+% Columna Izquierda (x = -3.7) y Columna Derecha (x = 3.7)
+\node[flowNode, fill=orange!15, draw=orange!70!black] (nn) at (-3.7,  2.5) {\textbf{10 Necesidades de Negocio}\\[2pt]\scriptsize (N-01 a N-10, Elicitación)};
+\node[flowNode, fill=cyan!15, draw=cyan!70!black]     (rf) at ( 3.7,  2.5) {\textbf{77 Requisitos Funcionales}\\[2pt]\scriptsize (RF-01 a RF-77, 5 Módulos)};
+\node[flowNode, fill=purple!15, draw=purple!70!black] (cu) at (-3.7,  0.8) {\textbf{15 Casos de Uso y DFD}\\[2pt]\scriptsize (CU-01 a CU-15, DFD Niveles 0--2)};
+\node[flowNode, fill=blue!15, draw=blue!70!black]     (ds) at ( 3.7,  0.8) {\textbf{8 Diagramas Secuencia y BD}\\[2pt]\scriptsize (DS-01 a DS-08, 17 Tablas 3FN)};
+\node[flowNode, fill=green!15, draw=green!70!black]   (hu) at (-3.7, -0.9) {\textbf{18 Historias de Usuario}\\[2pt]\scriptsize (94 Story Points en 4 Sprints)};
+\node[flowNode, fill=red!15, draw=red!70!black]       (cp) at ( 3.7, -0.9) {\textbf{77 Casos de Prueba}\\[2pt]\scriptsize (CP-01 a CP-77, Estándar IEEE 829)};
 
-\draw[arrowNode] (nn) -- node[midway, above, font=\scriptsize\bfseries] {Elicitación} (rf);
-\draw[arrowNode] (rf) -- node[midway, right, font=\scriptsize\bfseries] {Modelado} (ds);
-\draw[arrowNode] (nn) -- node[midway, left, font=\scriptsize\bfseries] {Derivación} (cu);
-\draw[arrowNode] (cu) -- node[midway, above, font=\scriptsize\bfseries] {Interacción} (ds);
-\draw[arrowNode] (cu) -- node[midway, left, font=\scriptsize\bfseries] {Desglose} (hu);
-\draw[arrowNode] (hu) -- node[midway, above, font=\scriptsize\bfseries] {Verificación} (cp);
-\draw[arrowNode] (ds) -- node[midway, right, font=\scriptsize\bfseries] {Validación} (cp);
+% Flechas de Trazabilidad
+\draw[arrowNode] (nn) -- node[midway, above=2pt, font=\scriptsize\bfseries] {Elicitación} (rf);
+\draw[arrowNode] (rf) -- node[midway, right=2pt, font=\scriptsize\bfseries] {Modelado} (ds);
+\draw[arrowNode] (nn) -- node[midway, left=2pt, font=\scriptsize\bfseries] {Derivación} (cu);
+\draw[arrowNode] (cu) -- node[midway, above=2pt, font=\scriptsize\bfseries] {Interacción} (ds);
+\draw[arrowNode] (cu) -- node[midway, left=2pt, font=\scriptsize\bfseries] {Desglose} (hu);
+\draw[arrowNode] (hu) -- node[midway, above=2pt, font=\scriptsize\bfseries] {Verificación} (cp);
+\draw[arrowNode] (ds) -- node[midway, right=2pt, font=\scriptsize\bfseries] {Validación} (cp);
 
 \end{tikzpicture}
 \caption{Cadena de Trazabilidad Bidireccional de Extremo a Extremo en SYSELL Web}

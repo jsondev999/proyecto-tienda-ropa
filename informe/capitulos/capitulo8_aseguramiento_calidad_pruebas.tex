@@ -12,18 +12,24 @@ A diferencia del proyecto heredado (Legacy v1.0), el cual carecía por completo 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    scale=0.9, every node/.style={transform shape},
-    pyrLevel/.style={trapezium, trapezium left angle=70, trapezium right angle=70, draw=primaryblue!80!black, line width=1pt, align=center, font=\small}
+    scale=0.85, every node/.style={transform shape},
+    pyrLevel/.style={trapezium, trapezium left angle=72, trapezium right angle=72, draw=primaryblue!80!black, line width=1.1pt, align=center, font=\small}
 ]
 
 % Nivel 3: Pruebas E2E y Aceptacion
-\node[pyrLevel, fill=red!15, draw=red!70!black, minimum width=4.5cm, minimum height=1.0cm] at (0, 2.4) {\textbf{Nivel E2E y Aceptación}\\\scriptsize 77 Casos de Prueba Formales (CP-01 a CP-77) y Validación UI};
+\node[pyrLevel, fill=red!15, draw=red!70!black, minimum width=5.6cm, minimum height=1.2cm] at (0, 2.7)
+    {\textbf{Nivel E2E y Aceptación}\\[2pt]
+     \scriptsize 77 Casos de Prueba Formales (CP-01 a CP-77) y Validación de UI};
 
 % Nivel 2: Pruebas de Integracion
-\node[pyrLevel, fill=orange!15, draw=orange!70!black, minimum width=8.5cm, minimum height=1.0cm] at (0, 1.2) {\textbf{Nivel de Integración y Servicios}\\\scriptsize Transacciones ACID, Descuento atómico, Bloqueo de 3 intentos, Middlewares RBAC};
+\node[pyrLevel, fill=orange!15, draw=orange!70!black, minimum width=9.6cm, minimum height=1.2cm] at (0, 1.35)
+    {\textbf{Nivel de Integración y Servicios}\\[2pt]
+     \scriptsize Transacciones ACID, Descuento Atómico, Bloqueo de 3 Intentos, Middlewares RBAC};
 
 % Nivel 1: Pruebas Unitarias
-\node[pyrLevel, fill=green!15, draw=green!70!black, minimum width=12.5cm, minimum height=1.0cm] at (0, 0.0) {\textbf{Nivel Unitario (Lógica Pura de Dominio)}\\\scriptsize Validación de SKU, Catálogos Maestros Cerrados, Cálculo de Totales y Vuelto};
+\node[pyrLevel, fill=green!15, draw=green!70!black, minimum width=13.6cm, minimum height=1.2cm] at (0, 0.0)
+    {\textbf{Nivel Unitario (Lógica Pura de Dominio)}\\[2pt]
+     \scriptsize Validación de SKU, Catálogos Maestros Cerrados, Cálculo de Totales y Vuelto};
 
 \end{tikzpicture}
 \caption{Pirámide de Pruebas y Aseguramiento de Calidad en SYSELL Web (IEEE 829 / ISTQB)}
@@ -48,15 +54,22 @@ Los 77 casos de prueba se distribuyen equitativamente en los 5 módulos arquitec
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright}p{4.2cm}|>{\centering}p{4cm}|>{\centering}p{3.5cm}|Z|}
-\hline
-\textbf{Módulo del Sistema} & \textbf{Requisitos Trazados} & \textbf{Rango Casos de Prueba} & \textbf{Total} \\ \hline
-M1: Autenticación y Seguridad & RF-01 al RF-14, RF-73 & CP-01 al CP-14, CP-73 & 15 CP \\ \hline
-M2: Gestión de Inventario & RF-15 al RF-39, RF-74, RF-75, RF-77 & CP-15 al CP-39, CP-74, CP-75, CP-77 & 28 CP \\ \hline
-M3: Registro de Ventas (POS) & RF-40 al RF-55, RF-76 & CP-40 al CP-55, CP-76 & 17 CP \\ \hline
-M4: Reportes y Análisis Gerencial & RF-56 al RF-66 & CP-56 al CP-66 & 11 CP \\ \hline
-M5: Catálogo Digital Web & RF-67 al RF-72 & CP-67 al CP-72 & 6 CP \\ \hline
-\textbf{TOTAL GENERAL} & \textbf{RF-01 al RF-77} & \textbf{CP-01 al CP-77} & \textbf{77 CP} \\ \hline
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright}p{4.2cm} >{\centering}p{4.2cm} >{\centering}p{3.4cm} Z}
+\toprule
+\textbf{Módulo del Sistema} & \textbf{Requisitos Trazados} & \textbf{Rango Casos de Prueba} & \textbf{Total} \\
+\midrule
+M1: Autenticación y Seguridad & RF-01 al RF-14, RF-73 & CP-01 al CP-14, CP-73 & 15 CP \\
+\addlinespace
+M2: Gestión de Inventario & RF-15 al RF-39, RF-74, RF-75, RF-77 & CP-15 al CP-39, CP-74--77 & 28 CP \\
+\addlinespace
+M3: Registro de Ventas (POS) & RF-40 al RF-55, RF-76 & CP-40 al CP-55, CP-76 & 17 CP \\
+\addlinespace
+M4: Reportes y Análisis Gerencial & RF-56 al RF-66 & CP-56 al CP-66 & 11 CP \\
+\addlinespace
+M5: Catálogo Digital Web & RF-67 al RF-72 & CP-67 al CP-72 & 6 CP \\
+\midrule
+\textbf{TOTAL GENERAL} & \textbf{RF-01 al RF-77} & \textbf{CP-01 al CP-77} & \textbf{77 CP} \\
+\bottomrule
 \end{tabularx}
 \caption{Distribución de Casos de Prueba por Módulo del Sistema}
 \label{tab:distribucion_cp}
@@ -69,14 +82,20 @@ A continuación, se documenta una selección representativa de casos de prueba q
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{|>{\ttfamily\centering}p{1.4cm}|>{\raggedright\bfseries}p{3.4cm}|>{\raggedright}p{2.2cm}|Y|}
-\hline
-\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
-CP-01 & RF-01: Solicitar usuario & Validación UI & Formulario de Login. Se deja campo usuario vacío e ingresa clave. \textit{Resultado:} Formulario bloquea submit y alerta campo obligatorio. \\ \hline
-CP-04 & RF-04: Validar credenciales & Backend API & Petición POST a \texttt{/api/auth/login}. \textit{Resultado:} Backend compara hash bcrypt contra BD y genera token Sanctum válido si coincide. \\ \hline
-CP-06 & RF-06: Bloqueo por 3 intentos & Seguridad & 3 accesos consecutivos con password errónea. \textit{Resultado:} El 3er intento conmuta estado a \texttt{bloqueado} e incrementa \texttt{intentos\_fallidos = 3}. \\ \hline
-CP-08 & RF-08: Restricción RBAC & Seguridad RBAC & Vendedor autenticado intenta acceder a \texttt{/api/reportes/gerenciales}. \textit{Resultado:} Middleware responde HTTP 403 Forbidden. \\ \hline
-CP-14 & RF-14: Desbloqueo de cuenta & Seguridad & Administrador selecciona colaborador bloqueado y ejecuta desbloqueo. \textit{Resultado:} Estado cambia a \texttt{activo} y contador se restablece a 0. \\ \hline
+\begin{tabularx}{\textwidth}{>{\ttfamily\centering}p{1.4cm} >{\raggedright\bfseries}p{3.4cm} >{\raggedright}p{2.3cm} Y}
+\toprule
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\
+\midrule
+CP-01 & RF-01: Solicitar usuario & Validación UI & Formulario de Login. Se deja campo usuario vacío e ingresa clave. \textit{Resultado:} Formulario bloquea submit y alerta campo obligatorio. \\
+\addlinespace
+CP-04 & RF-04: Validar credenciales & Backend API & Petición POST a \texttt{/api/auth/login}. \textit{Resultado:} Backend compara hash bcrypt contra BD y genera token Sanctum válido si coincide. \\
+\addlinespace
+CP-06 & RF-06: Bloqueo por 3 intentos & Seguridad & 3 accesos consecutivos con password errónea. \textit{Resultado:} El 3er intento conmuta estado a \texttt{bloqueado} e incrementa \texttt{intentos\_fallidos = 3}. \\
+\addlinespace
+CP-08 & RF-08: Restricción RBAC & Seguridad RBAC & Vendedor autenticado intenta acceder a \texttt{/api/reportes/gerenciales}. \textit{Resultado:} Middleware responde HTTP 403 Forbidden. \\
+\addlinespace
+CP-14 & RF-14: Desbloqueo de cuenta & Seguridad & Administrador selecciona colaborador bloqueado y ejecuta desbloqueo. \textit{Resultado:} Estado cambia a \texttt{activo} y contador se restablece a 0. \\
+\bottomrule
 \end{tabularx}
 \caption{Casos de Prueba Clave --- Módulo de Autenticación y Seguridad}
 \label{tab:cp_modulo1}
@@ -86,14 +105,20 @@ CP-14 & RF-14: Desbloqueo de cuenta & Seguridad & Administrador selecciona colab
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{|>{\ttfamily\centering}p{1.4cm}|>{\raggedright\bfseries}p{3.4cm}|>{\raggedright}p{2.2cm}|Y|}
-\hline
-\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
-CP-15 & RF-15: Registrar prenda & Funcional & Envío de datos de prenda, categoría y tallas iniciales. \textit{Resultado:} Prenda creada con código correlativo en BD. \\ \hline
-CP-23 & RF-23: Alerta de stock mínimo & Lógica Negocio & El stock disponible de una talla desciende por debajo de 3 unidades. \textit{Resultado:} Se emite flag \texttt{bajo\_stock = true} en dashboard. \\ \hline
-CP-33 & RF-33: Traslado entre locales & Transaccional & Solicitud de traslado de 5 unidades de Local A a Local B. \textit{Resultado:} Descuento en origen, incremento en destino bajo transacción ACID única. \\ \hline
-CP-35 & RF-35: Rechazo sobregiro & Límite / Negativa & Intento de traslado de 10 unidades cuando el stock físico es de 4 unidades. \textit{Resultado:} Rechazo inmediato con código HTTP 422 y rollback. \\ \hline
-CP-77 & RF-77: Desglose por variante & Integridad & Consulta de SKU por variantes múltiples. \textit{Resultado:} La matriz cartesiana talla/color/local cuadra exactamente con el total. \\ \hline
+\begin{tabularx}{\textwidth}{>{\ttfamily\centering}p{1.4cm} >{\raggedright\bfseries}p{3.4cm} >{\raggedright}p{2.3cm} Y}
+\toprule
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\
+\midrule
+CP-15 & RF-15: Registrar prenda & Funcional & Envío de datos de prenda, categoría y tallas iniciales. \textit{Resultado:} Prenda creada con código correlativo en BD. \\
+\addlinespace
+CP-23 & RF-23: Alerta de stock mínimo & Lógica Negocio & El stock disponible de una talla desciende por debajo de 3 unidades. \textit{Resultado:} Se emite flag \texttt{bajo\_stock = true} en dashboard. \\
+\addlinespace
+CP-33 & RF-33: Traslado entre locales & Transaccional & Solicitud de traslado de 5 unidades de Local A a Local B. \textit{Resultado:} Descuento en origen, incremento en destino bajo transacción ACID única. \\
+\addlinespace
+CP-35 & RF-35: Rechazo sobregiro & Límite / Negativa & Intento de traslado de 10 unidades cuando el stock físico es de 4 unidades. \textit{Resultado:} Rechazo inmediato con código HTTP 422 y rollback. \\
+\addlinespace
+CP-77 & RF-77: Desglose por variante & Integridad & Consulta de SKU por variantes múltiples. \textit{Resultado:} La matriz cartesiana talla/color/local cuadra exactamente con el total. \\
+\bottomrule
 \end{tabularx}
 \caption{Casos de Prueba Clave --- Módulo de Inventario}
 \label{tab:cp_modulo2}
@@ -103,14 +128,20 @@ CP-77 & RF-77: Desglose por variante & Integridad & Consulta de SKU por variante
 \begin{table}[H]
 \centering
 \small
-\begin{tabularx}{\textwidth}{|>{\ttfamily\centering}p{1.4cm}|>{\raggedright\bfseries}p{3.4cm}|>{\raggedright}p{2.2cm}|Y|}
-\hline
-\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\ \hline
-CP-40 & RF-40: Apertura de caja & Financiero & Cajero ingresa monto inicial de apertura. \textit{Resultado:} Registro de apertura persistido con timestamp y estado \texttt{abierta}. \\ \hline
-CP-44 & RF-44: Búsqueda de prenda & Rendimiento UI & Escaneo de código de barras o búsqueda de texto. \textit{Resultado:} Resultados desplegados en pantalla en menos de 300 ms. \\ \hline
-CP-49 & RF-49: Descuento atómico & Transaccional & Confirmación de venta con 2 ítems. \textit{Resultado:} Stock físico decrementado atómicamente; no se permiten carreras concurrentes. \\ \hline
-CP-53 & RF-53: Arqueo ciego & Auditoría & Cajero declara efectivo al cierre sin ver total del sistema. \textit{Resultado:} Sistema calcula sobrante/faltante y congela operaciones. \\ \hline
-CP-76 & RF-76: Multi-método de pago & Lógica Negocio & Pago dividido: S/. 100 en Efectivo y S/. 50 con billetera digital Yape. \textit{Resultado:} Ambas transacciones registradas cuadrando el total exacto. \\ \hline
+\begin{tabularx}{\textwidth}{>{\ttfamily\centering}p{1.4cm} >{\raggedright\bfseries}p{3.4cm} >{\raggedright}p{2.3cm} Y}
+\toprule
+\textbf{ID} & \textbf{RF / Propósito} & \textbf{Tipo} & \textbf{Procedimiento y Resultado Esperado} \\
+\midrule
+CP-40 & RF-40: Apertura de caja & Financiero & Cajero ingresa monto inicial de apertura. \textit{Resultado:} Registro de apertura persistido con timestamp y estado \texttt{abierta}. \\
+\addlinespace
+CP-44 & RF-44: Búsqueda de prenda & Rendimiento UI & Escaneo de código de barras o búsqueda de texto. \textit{Resultado:} Resultados desplegados en pantalla en menos de 300 ms. \\
+\addlinespace
+CP-49 & RF-49: Descuento atómico & Transaccional & Confirmación de venta con 2 ítems. \textit{Resultado:} Stock físico decrementado atómicamente; no se permiten carreras concurrentes. \\
+\addlinespace
+CP-53 & RF-53: Arqueo ciego & Auditoría & Cajero declara efectivo al cierre sin ver total del sistema. \textit{Resultado:} Sistema calcula sobrante/faltante y congela operaciones. \\
+\addlinespace
+CP-76 & RF-76: Multi-método de pago & Lógica Negocio & Pago dividido: S/. 100 en Efectivo y S/. 50 con billetera digital Yape. \textit{Resultado:} Ambas transacciones registradas cuadrando el total exacto. \\
+\bottomrule
 \end{tabularx}
 \caption{Casos de Prueba Clave --- Módulo POS y Facturación}
 \label{tab:cp_modulo3}
