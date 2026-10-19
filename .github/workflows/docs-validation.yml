@@ -82,8 +82,8 @@ jobs:
         run: |
           EXIT_CODE=0
           for f in docs/diagramas_secuencia/codigo_puml/*.puml; do
-            echo "Validating: $f"
-            java -jar /tmp/plantuml.jar -syntax "$f" || EXIT_CODE=1
+            echo "Validating syntax of: $f"
+            java -jar /tmp/plantuml.jar -checkonly "$f" || EXIT_CODE=1
           done
           exit $EXIT_CODE
 
@@ -105,5 +105,5 @@ jobs:
 
       - name: Validate ERD diagram syntax
         run: |
-          mmdc -i docs/diagrama_entidad_relacion.mmd -o /tmp/erd_output.svg --quiet
+          mmdc -p puppeteer-config.json -i docs/diagrama_entidad_relacion.mmd -o /tmp/erd_output.svg --quiet
           echo "✅ Mermaid ERD diagram is valid."
