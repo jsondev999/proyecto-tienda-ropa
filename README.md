@@ -72,6 +72,7 @@ El sistema se estructura en **5 módulos principales**:
 ## 📋 Documentación del Proyecto
 
 - 📊 [**Informe de Análisis y Mejoras (`INFORME_ANALISIS_Y_MEJORAS.md`)**](INFORME_ANALISIS_Y_MEJORAS.md) — Auditoría integral de coherencia, diagnóstico de trazabilidad y hoja de ruta de mejoras.
+- 📘 [**Bases y Formato del Informe Final — Rúbrica ESIS (`docs/guia_informe_final_rubrica_esis.md`)**](docs/guia_informe_final_rubrica_esis.md) — Estructura capitular de 10 capítulos, mapeo de los 27 criterios de la rúbrica oficial, SWEBOK v4 y roadmap para sustentación.
 - 📄 [Necesidades del Negocio (`docs/necesidades_del_negocio.md`)](docs/necesidades_del_negocio.md) — 10 necesidades de negocio/usuario y árboles de derivación hacia RFs y RNFs (Fase 1).
 - 📄 [Estándares de Arquitectura (`docs/estandares_arquitectura/`)](docs/estandares_arquitectura/estandares_arquitectura_desarrollo.md) — Lineamientos oficiales de Clean Architecture, CQRS, codificación y CI/CD.
 - 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados (Versión 2.0).
@@ -147,6 +148,7 @@ tienda-ropa/
 │   ├── casos_de_prueba.md               # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
 │   ├── diagrama_entidad_relacion.mmd    # Modelo ER Mermaid (17 tablas: incluye auditoría e imágenes)
 │   ├── documentacion_tecnica_bd.md      # Diccionario técnico MySQL 8.0 (17 tablas)
+│   ├── guia_informe_final_rubrica_esis.md # Guía y bases para el Informe Final según Rúbrica ESIS
 │   ├── matriz_de_trazabilidad.md        # Matriz integral de 7 columnas (N ➔ RF ➔ RNF ➔ CU ➔ DFD ➔ DS ➔ CP)
 │   ├── necesidades_del_negocio.md       # Especificación formal de necesidades (N-01 a N-10)
 │   ├── requisitos_funcionales.md        # 77 Requisitos Funcionales Oficiales v2.1
