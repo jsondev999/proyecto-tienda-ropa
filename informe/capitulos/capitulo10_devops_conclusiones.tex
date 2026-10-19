@@ -28,7 +28,7 @@ La arquitectura de aseguramiento de calidad del repositorio incluye un flujo aut
 \begin{tikzpicture}[
     node distance=1.2cm,
     stepnode/.style={rectangle, draw=blue!70, fill=blue!10, rounded corners, minimum width=4.5cm, minimum height=0.7cm, align=center, font=\small},
-    arrow/.style={thick, ->, >=stealth}
+    arrow/.style={thick, -{Stealth}}
 ]
 \node[stepnode] (git) {Push / Pull Request a \texttt{main}};
 \node[stepnode, below of=git] (lint) {Linter de Markdown (\texttt{markdownlint-cli2})};
