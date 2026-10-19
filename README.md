@@ -66,17 +66,25 @@ El sistema se estructura en **5 módulos principales**:
 
 ## 📋 Documentación del Proyecto
 
+- 📊 [**Informe de Análisis y Mejoras (`INFORME_ANALISIS_Y_MEJORAS.md`)**](INFORME_ANALISIS_Y_MEJORAS.md) — Auditoría integral de coherencia, diagnóstico de trazabilidad y hoja de ruta de mejoras.
 - 📄 [Necesidades del Negocio (`docs/necesidades_del_negocio.md`)](docs/necesidades_del_negocio.md) — 10 necesidades de negocio/usuario y árboles de derivación hacia RFs y RNFs (Fase 1).
 - 📄 [Estándares de Arquitectura (`docs/estandares_arquitectura/`)](docs/estandares_arquitectura/estandares_arquitectura_desarrollo.md) — Lineamientos oficiales de Clean Architecture, CQRS, codificación y CI/CD.
 - 📄 [Requisitos Funcionales (`docs/requisitos_funcionales.md`)](docs/requisitos_funcionales.md) — 77 requisitos detallados (Versión 2.0).
 - 📄 [Requisitos No Funcionales (`docs/requisitos_no_funcionales.md`)](docs/requisitos_no_funcionales.md) — 14 requisitos de calidad y rendimiento (Versión 2.0).
 - 📄 [Documentación Técnica de Base de Datos (`docs/documentacion_tecnica_bd.md`)](docs/documentacion_tecnica_bd.md) — Diccionario de datos y modelo transaccional MySQL.
+- 📊 [Diagrama Entidad-Relación (`docs/diagrama_entidad_relacion.mmd`)](docs/diagrama_entidad_relacion.mmd) — Modelo ER en Mermaid con 15 entidades y relaciones.
 - 🖼️ [Diagramas de Casos de Uso (`docs/diagramas_casos_de_uso/`)](docs/diagramas_casos_de_uso/) — Fuentes PlantUML y diagramas PNG organizados por módulo.
 - 📝 [Especificaciones de Casos de Uso (`docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md`)](docs/diagramas_casos_de_uso/especificaciones_casos_de_uso.md) — 15 fichas de casos de uso con flujos, precondiciones, postcondiciones y trazabilidad (CU-01 a CU-15).
 - 🔄 [Diagramas de Flujo de Datos DFD (`docs/diagramas_dfd/documentacion_dfd.md`)](docs/diagramas_dfd/documentacion_dfd.md) — DFD Nivel 0 (Contexto), Nivel 1 (Procesos) y Nivel 2 (Ventas) con código Mermaid y almacenes D1 a D5.
+- ⚡ [Diagramas de Secuencia (`docs/diagramas_secuencia/`)](docs/diagramas_secuencia/) — 5 flujos transaccionales clave en PlantUML y PNG (Autenticación, Producto/Variantes, POS, Kardex y Reportes).
 - 🧪 [Especificación de Casos de Prueba (`docs/casos_de_prueba.md`)](docs/casos_de_prueba.md) — 77 casos de prueba (CP-01 a CP-77) bajo estándar IEEE 829 para verificación funcional de criterios de aceptación.
 - 🎯 [Matriz de Trazabilidad Integral (`docs/matriz_de_trazabilidad.md`)](docs/matriz_de_trazabilidad.md) — Matriz oficial de 7 columnas relacionando Necesidad, RF, RNF, Caso de Uso, DFD, Diseño y Prueba para el 100% de requisitos.
-- 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Especificación original de la versión 1.0.
+- 📖 [Historias de Usuario y Matriz de Tasks (`docs/historias_de_usuario/`)](docs/historias_de_usuario/) — 18 HUs en 7 Épicas (EP-01 a EP-07) con criterios Gherkin y 94 tareas técnicas desglosadas.
+- 📋 [Product Backlog Priorizado (`docs/product_backlog/product_backlog.md`)](docs/product_backlog/product_backlog.md) — Backlog priorizado por valor y dependencias, filtros DoR y DoD.
+- ⏱️ [Planificación Maestra de Sprints (`docs/sprints/planificacion_sprints.md`)](docs/sprints/planificacion_sprints.md) — Planificación de 4 Sprints (94 SP, horizonte de 28 días).
+- 🏗️ [Análisis y Propuesta de EDT / WBS (`docs/analisis_edt/`)](docs/analisis_edt/) — Diagnóstico crítico de la EDT legacy y propuesta optimizada para la cuenta de control 1.3.3.
+- 🤝 [Acuerdo de Trabajo del Equipo (`docs/acuerdos/acuerdo_trabajo_equipo.md`)](docs/acuerdos/acuerdo_trabajo_equipo.md) — Working Agreement oficial bajo RUP + Scrum y Matriz RACI.
+- 📦 [Documentación Legada (`docs/legacy_v1.0/`)](docs/legacy_v1.0/) — Archivos y especificación histórica preliminar.
 
 ---
 
@@ -105,23 +113,33 @@ El sistema se estructura en **5 módulos principales**:
 ```text
 tienda-ropa/
 ├── docs/
+│   ├── acuerdos/                        # Working Agreement y gobernanza del equipo (Scrum + RUP)
+│   ├── analisis_edt/                    # Diagnóstico crítico y propuesta optimizada de la WBS
 │   ├── diagramas_casos_de_uso/
-│   │   ├── codigo_puml/                     # Código fuente PlantUML (.puml)
-│   │   ├── imagenes_png/                    # Diagramas renderizados (.png)
+│   │   ├── codigo_puml/                 # Fuentes PlantUML (.puml)
+│   │   ├── imagenes_png/                # Diagramas renderizados (.png)
 │   │   └── especificaciones_casos_de_uso.md # Fichas textuales de CU (CU-01 a CU-15)
 │   ├── diagramas_dfd/
-│   │   ├── dfd_nivel_0_contexto.mmd         # DFD Nivel 0 (Contexto en Mermaid)
-│   │   ├── dfd_nivel_1_general.mmd          # DFD Nivel 1 (Procesos principales 1.0 a 5.0)
-│   │   ├── dfd_nivel_2_proceso_ventas.mmd   # DFD Nivel 2 (Subprocesos 3.1 a 3.5)
-│   │   └── documentacion_dfd.md             # Guía completa con diagramas y diccionario D1-D5
-│   ├── legacy_v1.0/                  # Archivo histórico del proyecto anterior
-│   │   ├── README.md                 # Análisis comparativo v1.0 vs v2.0
-│   │   ├── requisitos_funcionales_v1.0.md
-│   │   └── requisitos_no_funcionales_v1.0.md
-│   ├── necesidades_del_negocio.md     # Especificación formal de necesidades (N-01 a N-10)
-│   ├── requisitos_funcionales.md      # Especificación funcional v2.0 (RF-01 a RF-77)
-│   ├── requisitos_no_funcionales.md   # Criterios de calidad v2.0
-│   ├── casos_de_prueba.md             # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
-│   └── matriz_de_trazabilidad.md      # Matriz integral de 7 columnas (N ➔ RF ➔ RNF ➔ CU ➔ DFD ➔ DS ➔ CP)
-└── README.md                          # Guía general del proyecto (v2.0)
+│   │   ├── dfd_nivel_0_contexto.mmd     # DFD Nivel 0 (Contexto en Mermaid)
+│   │   ├── dfd_nivel_1_general.mmd      # DFD Nivel 1 (Procesos principales 1.0 a 5.0)
+│   │   ├── dfd_nivel_2_proceso_ventas.mmd # DFD Nivel 2 (Subprocesos 3.1 a 3.5)
+│   │   └── documentacion_dfd.md         # Guía completa con diagramas y diccionario D1-D5
+│   ├── diagramas_secuencia/
+│   │   ├── codigo_puml/                 # Fuentes PlantUML (DS-01 a DS-05)
+│   │   └── imagenes_png/                # Diagramas renderizados (.png)
+│   ├── estandares_arquitectura/         # Guía técnica Clean Architecture + CQRS + OWASP
+│   ├── historias_de_usuario/            # 18 HUs en 7 Épicas (EP-01 a EP-07) y matriz de tasks
+│   ├── legacy_v1.0/                     # Archivo histórico y antecedentes del proyecto
+│   ├── product_backlog/                 # Product Backlog priorizado (DoR y DoD)
+│   ├── sprints/                         # Planificación de 4 Sprints (28 días calendario)
+│   ├── casos_de_prueba.md               # 77 Casos de Prueba (CP-01 a CP-77) IEEE 829
+│   ├── diagrama_entidad_relacion.mmd    # Modelo ER Mermaid (15 tablas)
+│   ├── documentacion_tecnica_bd.md      # Diccionario técnico MySQL 8.0
+│   ├── matriz_de_trazabilidad.md        # Matriz integral de 7 columnas (N ➔ RF ➔ RNF ➔ CU ➔ DFD ➔ DS ➔ CP)
+│   ├── necesidades_del_negocio.md       # Especificación formal de necesidades (N-01 a N-10)
+│   ├── requisitos_funcionales.md        # Especificación funcional v2.0
+│   └── requisitos_no_funcionales.md     # Criterios de calidad y rendimiento v2.0
+├── .gitignore                           # Exclusión de temporales y archivos del SO
+├── INFORME_ANALISIS_Y_MEJORAS.md        # Auditoría de coherencia y plan de acción
+└── README.md                            # Guía general del proyecto (v2.0)
 ```

@@ -11,7 +11,7 @@
 
 ## 1. Definición del Backlog y Criterios de Calidad
 
-El **Product Backlog** es el inventario ordenado y vivo de todo el trabajo que el equipo necesita realizar en SYSELL. Cada elemento del backlog (PBI) es una Historia de Usuario que cumple estrictamente con los filtros de calidad acordados en el [Working Agreement](file:///Users/aron/githubRepo/proyecto-tienda-ropa/docs/acuerdos/acuerdo_trabajo_equipo.md).
+El **Product Backlog** es el inventario ordenado y vivo de todo el trabajo que el equipo necesita realizar en SYSELL. Cada elemento del backlog (PBI) es una Historia de Usuario que cumple estrictamente con los filtros de calidad acordados en el [Working Agreement](../acuerdos/acuerdo_trabajo_equipo.md).
 
 ### 1.1. Filtro de Entrada: Definition of Ready (DoR)
 Para que una historia de usuario pueda ser seleccionada en un Sprint Planning, debe satisfacer:
