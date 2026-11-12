@@ -7,6 +7,15 @@
 
 Sistema integral de gestión de ventas, control de inventario y catálogo digital diseñado para una tienda de ropa masculina con dos locales físicos.
 
+## 👥 Equipo de Desarrollo — Pollitos Design
+
+| Integrante | Rol |
+|---|---|
+| Luis Fernando Condori Caljaro | 🔍 Analista |
+| Aron Rene Cachicatari Quito | 💻 Desarrollador (Developer) |
+| Giorgini Disalvatore Pacci Perez | 🧪 QA (Quality Assurance) |
+| Johan Anibal Mamani Catacora | 🛡️ Tech Lead (Integrador / Revisor de código) |
+
 ---
 
 ## 📌 Contexto del Proyecto y Transición a la Versión 2.0
