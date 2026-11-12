@@ -1,4 +1,4 @@
-\chapter{DevOps, Infraestructura, Ética en IA y Conclusiones}
+﻿\chapter{DevOps, Infraestructura, Ética en IA y Conclusiones}
 \label{cap:devops_conclusiones}
 
 \section{Infraestructura como Código y Contenedorización con Docker}
@@ -48,7 +48,7 @@ La arquitectura de aseguramiento de calidad del repositorio incluye un flujo aut
 Las etapas automatizadas garantizan que ningún cambio introduzca errores sintácticos o inconsistencias en los diagramas arquitectónicos:
 \begin{itemize}
     \item \textbf{Linting Estático de Documentación:} Inspección con \texttt{markdownlint-cli2} aplicando reglas formales de encabezados jerárquicos y formato de tablas.
-    \item \textbf{Compilación Sintáctica de Diagramas de Secuencia:} Validación de los 8 archivos \texttt{.puml} mediante el motor oficial PlantUML en modo \texttt{-checkonly}, asegurando cumplimiento estricto de sintaxis \texttt{strictuml}.
+    \item \textbf{Compilación Sintáctica de Diagramas de Secuencia:} Validación de los 5 archivos \texttt{.puml} mediante el motor oficial PlantUML en modo \texttt{-checkonly}, asegurando cumplimiento estricto de sintaxis \texttt{strictuml}.
     \item \textbf{Renderizado Headless de Diagramas Mermaid:} Generación automatizada con Mermaid CLI (\texttt{mmdc}) empleando banderas \texttt{--no-sandbox} para compatibilidad en entornos virtualizados Linux.
 \end{itemize}
 

@@ -1,4 +1,4 @@
-\chapter{Ingeniería de Requisitos (ISO/IEC/IEEE 29148) y Trazabilidad}
+﻿﻿\chapter{Ingeniería de Requisitos (ISO/IEC/IEEE 29148) y Trazabilidad}
 
 \section{Proceso de Transformación desde los Requisitos de Análisis de Sistemas}
 La transición de la versión preliminar heredada a la especificación profesional v2.0 resolvió la fractura metodológica existente mediante la aplicación del estándar internacional \textbf{ISO/IEC/IEEE 29148:2018}:
@@ -45,7 +45,7 @@ N-10 & Vitrina Digital Pública & Ofrecer a clientes web una galería responsiva
 \node[flowNode, fill=orange!15, draw=orange!70!black] (nn) at (-3.7,  2.5) {\textbf{10 Necesidades de Negocio}\\[2pt]\scriptsize (N-01 a N-10, Elicitación)};
 \node[flowNode, fill=cyan!15, draw=cyan!70!black]     (rf) at ( 3.7,  2.5) {\textbf{77 Requisitos Funcionales}\\[2pt]\scriptsize (RF-01 a RF-77, 5 Módulos)};
 \node[flowNode, fill=purple!15, draw=purple!70!black] (cu) at (-3.7,  0.8) {\textbf{15 Casos de Uso y DFD}\\[2pt]\scriptsize (CU-01 a CU-15, DFD Niveles 0--2)};
-\node[flowNode, fill=blue!15, draw=blue!70!black]     (ds) at ( 3.7,  0.8) {\textbf{8 Diagramas Secuencia y BD}\\[2pt]\scriptsize (DS-01 a DS-08, 17 Tablas 3FN)};
+\node[flowNode, fill=blue!15, draw=blue!70!black]     (ds) at ( 3.7,  0.8) {\textbf{5 Diagramas Secuencia y BD}\\[2pt]\scriptsize (DS-01 a DS-05, 17 Tablas 3FN)};
 \node[flowNode, fill=green!15, draw=green!70!black]   (hu) at (-3.7, -0.9) {\textbf{18 Historias de Usuario}\\[2pt]\scriptsize (94 Story Points en 4 Sprints)};
 \node[flowNode, fill=red!15, draw=red!70!black]       (cp) at ( 3.7, -0.9) {\textbf{77 Casos de Prueba}\\[2pt]\scriptsize (CP-01 a CP-77, Estándar IEEE 829)};
 
@@ -141,8 +141,150 @@ RNF-14 & Integración & Interoperabilidad & API RESTful con formato JSON estánd
 \end{table}
 
 \section{Matriz de Trazabilidad Integral de 7 Columnas}
-Para garantizar la verificación bidireccional entre todas las etapas del ciclo de vida, se construyó la matriz de 7 columnas que relaciona:
+Para garantizar la verificaci\'on bidireccional entre todas las etapas del ciclo de vida, se construy\'o la matriz de 7 columnas que relaciona:
 \begin{center}
-\textbf{Necesidad} $\longrightarrow$ \textbf{RF} $\longrightarrow$ \textbf{RNF} $\longrightarrow$ \textbf{Caso de Uso} $\longrightarrow$ \textbf{DFD} $\longrightarrow$ \textbf{Diseño (DS / BD)} $\longrightarrow$ \textbf{Caso de Prueba}
+\textbf{Necesidad} $\longrightarrow$ \textbf{RF} $\longrightarrow$ \textbf{RNF} $\longrightarrow$ \textbf{Caso de Uso} $\longrightarrow$ \textbf{DFD} $\longrightarrow$ \textbf{Dise\~no (DS / BD)} $\longrightarrow$ \textbf{Caso de Prueba}
 \end{center}
-La cobertura alcanzada es del \textbf{100\% sobre los 77 requisitos funcionales}, sin identificarse ningún requisito huérfano ni pruebas desvinculadas de una necesidad legítima del negocio.
+La cobertura alcanzada es del \textbf{100\% sobre los 77 requisitos funcionales}, sin identificarse ning\'un requisito hu\'erfano ni pruebas desvinculadas de una necesidad leg\'itima del negocio.
+
+\subsection{M\'odulo 1: Autenticaci\'on y Seguridad}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.2cm} Y >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{1.2cm}}
+\toprule
+\textbf{Nec.} & \textbf{Requisito Funcional} & \textbf{RNF} & \textbf{Caso de Uso} & \textbf{DFD} & \textbf{Dise\~no (DS / BD)} & \textbf{CP} \\
+\midrule
+N-01 & RF-01: Solicitar nombre de usuario & RNF-05 & CU-01 & P 1.0 & DS-01 / Tabla \texttt{usuarios} & CP-01 \\
+N-01 & RF-02: Solicitar contrase\~na & RNF-03, RNF-05 & CU-01 & P 1.0 & DS-01 / UI-Login & CP-02 \\
+N-01 & RF-03: Autenticar usuario & RNF-02, RNF-03 & CU-01 & P 1.0 & DS-01 / Tabla \texttt{usuarios} & CP-03 \\
+N-01 & RF-04: Validar credenciales & RNF-03 & CU-01 & P 1.0 & DS-01 / Endpoint \texttt{/api/auth/login} & CP-04 \\
+N-01 & RF-05: Denegar acceso err\'oneo & RNF-07 & CU-01 & P 1.0 & DS-01 / Middleware Auth & CP-05 \\
+N-01 & RF-06: Bloquear cuenta por intentos & RNF-02, RNF-04 & CU-01 & P 1.0 & DS-01 / Tabla \texttt{intentos\_login} & CP-06 \\
+N-01 & RF-07: Asignar roles (Admin/Vendedor) & RNF-02 & CU-02 & P 1.0 & DS-01 / Tabla \texttt{roles} & CP-07 \\
+N-01 & RF-08: Restringir funciones seg\'un rol & RNF-02, RNF-03 & CU-02 & P 1.0 & DS-01 / RBAC Gateways & CP-08 \\
+N-01 & RF-09: Cerrar sesi\'on de usuario & RNF-02 & CU-03 & P 1.0 & DS-01 / Endpoint \texttt{/api/auth/logout} & CP-09 \\
+N-02 & RF-10: Crear nuevo usuario & RNF-02, RNF-04 & CU-02 & P 1.0 & DS-01 / Tabla \texttt{usuarios} & CP-10 \\
+N-02 & RF-11: Listar usuarios registrados & RNF-02 & CU-02 & P 1.0 & Tabla \texttt{usuarios} / \texttt{locales} & CP-11 \\
+N-02 & RF-12: Modificar datos de usuario & RNF-04 & CU-02 & P 1.0 & Tabla \texttt{usuarios} & CP-12 \\
+N-02 & RF-13: Desactivar cuenta de usuario & RNF-02, RNF-04 & CU-02 & P 1.0 & Tabla \texttt{usuarios} (\texttt{activo=0}) & CP-13 \\
+N-02 & RF-14: Desbloquear cuenta de usuario & RNF-02 & CU-02 & P 1.0 & Tabla \texttt{intentos\_login} & CP-14 \\
+N-02 & RF-73: Resetear contrase\~na por Admin & RNF-02, RNF-03 & CU-02 & P 1.0 & DS-01 / Bcrypt Service & CP-73 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de Trazabilidad --- M\'odulo 1: Autenticaci\'on y Seguridad (15~RFs)}
+\label{tab:trazabilidad_modulo1}
+\end{table}
+
+\subsection{M\'odulo 2: Gesti\'on de Inventario}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.2cm} Y >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{1.2cm}}
+\toprule
+\textbf{Nec.} & \textbf{Requisito Funcional} & \textbf{RNF} & \textbf{Caso de Uso} & \textbf{DFD} & \textbf{Dise\~no (DS / BD)} & \textbf{CP} \\
+\midrule
+N-04 & RF-15: Registrar prenda & RNF-04, RNF-11 & CU-05 & P 2.0 & DS-02 / Tabla \texttt{productos} & CP-15 \\
+N-04 & RF-16: Modificar prenda & RNF-04 & CU-05 & P 2.0 & DS-02 / Tabla \texttt{productos} & CP-16 \\
+N-04 & RF-17: Eliminar prenda & RNF-04 & CU-05 & P 2.0 & Tabla \texttt{productos} (Soft Delete) & CP-17 \\
+N-04 & RF-18: Consultar prenda por SKU/nombre & RNF-08 & CU-04 & P 2.0 & DS-02 / \'{I}ndice SKU & CP-18 \\
+N-04 & RF-19: Registrar stock inicial por local & RNF-11 & CU-05 & P 2.0 & DS-02 / Tabla \texttt{inventario} & CP-19 \\
+N-04 & RF-20: Actualizar stock por ingreso/ajuste & RNF-04, RNF-11 & CU-06 & P 2.0 & DS-04 / Tabla \texttt{ajustes\_inventario} & CP-20 \\
+N-04 & RF-21: Descontar stock tras venta & RNF-08, RNF-11 & CU-08 & P 3.4 & DS-03 / Tabla \texttt{inventario} & CP-21 \\
+N-04 & RF-22: Consultar stock disponible por local & RNF-08, RNF-11 & CU-04 & P 2.0 & Tabla \texttt{inventario} / \texttt{locales} & CP-22 \\
+N-04 & RF-23: Emitir alertas de bajo stock & RNF-05 & CU-06 & P 2.0 & UI-Inventario (Etiqueta Alerta) & CP-23 \\
+N-04 & RF-24: Configurar umbral de stock m\'inimo & RNF-11 & CU-06 & P 2.0 & Tabla \texttt{inventario} (\texttt{stock\_minimo}) & CP-24 \\
+N-04 & RF-25: Notificar stock cr\'itico al Admin & RNF-07 & CU-06 & P 2.0 & Dashboard Alertas Admin & CP-25 \\
+N-03 & RF-26: Registrar categor\'ia & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{categorias} & CP-26 \\
+N-03 & RF-27: Modificar categor\'ia & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{categorias} & CP-27 \\
+N-03 & RF-28: Eliminar categor\'ia & RNF-04 & CU-07 & P 2.0 & Tabla \texttt{categorias} (FK Check) & CP-28 \\
+N-03 & RF-29: Registrar talla & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{tallas} & CP-29 \\
+N-03 & RF-30: Modificar talla & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{tallas} & CP-30 \\
+N-03 & RF-31: Registrar color & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{colores} (c\'odigo HEX) & CP-31 \\
+N-03 & RF-32: Modificar color & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{colores} & CP-32 \\
+N-03 & RF-33: Registrar marca & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{marcas} & CP-33 \\
+N-03 & RF-34: Modificar marca & RNF-14 & CU-07 & P 2.0 & Tabla \texttt{marcas} & CP-34 \\
+N-05 & RF-35: B\'usqueda en tiempo real & RNF-08 & CU-04 & P 2.0 & Full-Text Search / Query & CP-35 \\
+N-05 & RF-36: Filtrar por categor\'ia & RNF-05 & CU-04 & P 2.0 & Query Filtro \texttt{categoria\_id} & CP-36 \\
+N-05 & RF-37: Filtrar por talla & RNF-05 & CU-04 & P 2.0 & Query Filtro \texttt{talla\_id} & CP-37 \\
+N-05 & RF-38: Filtrar por marca & RNF-05 & CU-04 & P 2.0 & Query Filtro \texttt{marca\_id} & CP-38 \\
+N-05 & RF-39: Filtrar por rango de precio & RNF-08 & CU-04 & P 2.0 & Query \texttt{precio BETWEEN} & CP-39 \\
+N-03 & RF-74: Cat\'alogos maestros cerrados & RNF-04, RNF-14 & CU-07 & P 2.0 & DS-02 / D2 Cat\'alogos & CP-74 \\
+N-05 & RF-75: Filtros din\'amicos combinables & RNF-08 & CU-04 & P 2.0 & Query Builder Multicriterio & CP-75 \\
+N-04 & RF-77: Alertas reposici\'on por local & RNF-11 & CU-06 & P 2.0 & Servicio Alertas Multilocal & CP-77 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de Trazabilidad --- M\'odulo 2: Gesti\'on de Inventario (28~RFs)}
+\label{tab:trazabilidad_modulo2}
+\end{table}
+
+\subsection{M\'odulo 3: Registro y Gesti\'on de Ventas POS}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.2cm} Y >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{1.2cm}}
+\toprule
+\textbf{Nec.} & \textbf{Requisito Funcional} & \textbf{RNF} & \textbf{Caso de Uso} & \textbf{DFD} & \textbf{Dise\~no (DS / BD)} & \textbf{CP} \\
+\midrule
+N-06 & RF-40: Iniciar nueva venta & RNF-05 & CU-08 & P 3.0 & DS-03 / UI-POS & CP-40 \\
+N-06 & RF-41: Agregar prendas a la venta & RNF-08 & CU-08 & P 3.1 & DS-03 / Carrito en Memoria & CP-41 \\
+N-06 & RF-42: Modificar cantidad de prendas & RNF-08 & CU-08 & P 3.2 & DS-03 / Validador Stock & CP-42 \\
+N-06 & RF-43: Eliminar prenda de la venta & RNF-05 & CU-08 & P 3.2 & DS-03 / Controlador POS & CP-43 \\
+N-06 & RF-44: Calcular total y descuentos & RNF-08 & CU-08 & P 3.2 & DS-03 / Calculadora Montos & CP-44 \\
+N-06 & RF-45: Seleccionar medio de pago & RNF-05 & CU-08 & P 3.3 & DS-03 / Tabla \texttt{metodos\_pago} & CP-45 \\
+N-06 & RF-46: Registrar cobro y cambio & RNF-08 & CU-08 & P 3.3 & DS-03 / Tabla \texttt{pagos\_venta} & CP-46 \\
+N-06 & RF-47: Confirmar y registrar venta & RNF-08, RNF-10 & CU-08 & P 3.3 & DS-03 / Transacci\'on SQL ACID & CP-47 \\
+N-07 & RF-48: Generar ticket digital & RNF-01, RNF-10 & CU-09 & P 3.5 & DS-03 / Tabla \texttt{ventas} / D4 & CP-48 \\
+N-07 & RF-49: Imprimir ticket t\'ermico/PDF & RNF-05 & CU-09 & P 3.5 & Plantilla Ticket ESC/POS / PDF & CP-49 \\
+N-07 & RF-50: Enviar ticket por WhatsApp & RNF-14 & CU-09 & P 3.5 & API Gateway WhatsApp & CP-50 \\
+N-07 & RF-51: Consultar historial de ventas & RNF-04, RNF-08 & CU-11 & P 3.0 & Tabla \texttt{ventas} (\texttt{fecha, local}) & CP-51 \\
+N-07 & RF-52: Consultar detalle de venta & RNF-08 & CU-11 & P 3.0 & Tabla \texttt{detalle\_ventas} & CP-52 \\
+N-07 & RF-53: Anular venta (exclusivo Admin) & RNF-02, RNF-04 & CU-12 & P 3.0 & Transacci\'on Anulaci\'on / D5 & CP-53 \\
+N-08 & RF-54: Operar en modo offline & RNF-09, RNF-14 & CU-10 & P 3.0 & Service Worker / IndexedDB & CP-54 \\
+N-08 & RF-55: Sincronizar ventas offline & RNF-09, RNF-10 & CU-10 & P 3.0 & Sync Worker / Endpoint Lote & CP-55 \\
+N-07 & RF-76: Tickets internos sin SUNAT & RNF-10 & CU-09 & P 3.5 & DS-03 / Formato Comprobante & CP-76 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de Trazabilidad --- M\'odulo 3: Ventas POS (17~RFs)}
+\label{tab:trazabilidad_modulo3}
+\end{table}
+
+\subsection{M\'odulo 4: Reportes y An\'alisis Estrat\'egico}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.2cm} Y >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{1.2cm}}
+\toprule
+\textbf{Nec.} & \textbf{Requisito Funcional} & \textbf{RNF} & \textbf{Caso de Uso} & \textbf{DFD} & \textbf{Dise\~no (DS / BD)} & \textbf{CP} \\
+\midrule
+N-09 & RF-56: Reporte ventas por fechas & RNF-08 & CU-13 & P 4.0 & DS-05 / Query Hist\'orico & CP-56 \\
+N-09 & RF-57: Reporte ventas por local & RNF-08, RNF-11 & CU-13 & P 4.0 & DS-05 / Query \texttt{GROUP BY local\_id} & CP-57 \\
+N-09 & RF-58: Reporte ventas por empleado & RNF-04 & CU-13 & P 4.0 & DS-05 / Query \texttt{usuario\_id} & CP-58 \\
+N-09 & RF-59: Identificar prendas m\'as vendidas & RNF-08 & CU-14 & P 4.0 & Query \texttt{ORDER BY sum(cantidad) DESC} & CP-59 \\
+N-09 & RF-60: Identificar prendas baja rotaci\'on & RNF-08 & CU-14 & P 4.0 & Query Substracci\'on de Stock & CP-60 \\
+N-09 & RF-61: Reporte de ingresos totales & RNF-08 & CU-13 & P 4.0 & DS-05 / \texttt{sum(total)} & CP-61 \\
+N-09 & RF-62: Filtrar por categor\'ia y marca & RNF-08 & CU-13 & P 4.0 & DS-05 / Multijoin SQL & CP-62 \\
+N-09 & RF-63: Exportar reportes a PDF & RNF-05 & CU-14 & P 4.0 & Servicio DomPDF / Laravel & CP-63 \\
+N-09 & RF-64: Exportar reportes a Excel & RNF-05 & CU-14 & P 4.0 & Servicio PhpSpreadsheet & CP-64 \\
+N-09 & RF-65: Panel gr\'afico de control & RNF-05, RNF-08 & CU-13 & P 4.0 & Chart.js / Recharts UI & CP-65 \\
+N-09 & RF-66: Comparativo entre locales & RNF-11 & CU-13 & P 4.0 & Dashboard Comparativo L1 vs L2 & CP-66 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de Trazabilidad --- M\'odulo 4: Reportes y An\'alisis (11~RFs)}
+\label{tab:trazabilidad_modulo4}
+\end{table}
+
+\subsection{M\'odulo 5: Cat\'alogo Digital Web P\'ublico}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.2cm} Y >{\centering\arraybackslash}p{2.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{1.2cm}}
+\toprule
+\textbf{Nec.} & \textbf{Requisito Funcional} & \textbf{RNF} & \textbf{Caso de Uso} & \textbf{DFD} & \textbf{Dise\~no (DS / BD)} & \textbf{CP} \\
+\midrule
+N-10 & RF-67: Cat\'alogo p\'ublico sin login & RNF-05 & CU-15 & P 5.0 & Vista React P\'ublica & CP-67 \\
+N-10 & RF-68: Filtrar por categor\'ia, talla y color & RNF-05, RNF-08 & CU-15 & P 5.0 & Query Endpoint \texttt{/api/catalogo} & CP-68 \\
+N-10 & RF-69: Ficha de prenda con fotos HD & RNF-08 & CU-15 & P 5.0 & Modal Detalle / Cloud Storage & CP-69 \\
+N-10 & RF-70: Disponibilidad f\'isica por tienda & RNF-11 & CU-15 & P 5.0 & Consulta Stock \texttt{inventario} & CP-70 \\
+N-10 & RF-71: Compartir ficha de prenda & RNF-14 & CU-15 & P 5.0 & MetaTags OpenGraph / Social Share & CP-71 \\
+N-10 & RF-72: Aplicaci\'on web responsiva & RNF-06, RNF-13 & CU-15 & P 5.0 & Tailwind CSS Mobile-First & CP-72 \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de Trazabilidad --- M\'odulo 5: Cat\'alogo Digital Web (6~RFs)}
+\label{tab:trazabilidad_modulo5}
+\end{table}

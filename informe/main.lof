@@ -1,0 +1,36 @@
+\babel@toc {spanish}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Comparativa Estructural: De Enfoque Empírico Legacy a Ingeniería de Software v2.0}}{2}{figure.1.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Sincronización de Fases RUP con la Cadencia Ágil de Sprints en SYSELL Web}}{5}{figure.2.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Cadena de Trazabilidad Bidireccional de Extremo a Extremo en SYSELL Web}}{9}{figure.3.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama General de Casos de Uso del Sistema SYSELL Web (UML 2.5)}}{18}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Casos de Uso: Módulo 1 (Autenticación)}}{19}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Casos de Uso: Módulo 2 (Inventario)}}{19}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Casos de Uso: Módulo 3 (Ventas POS)}}{19}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Casos de Uso: Módulo 4 (Reportes)}}{19}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Casos de Uso: Módulo 5 (Catálogo Digital Público)}}{20}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Diagrama de Flujo de Datos: Nivel 0 (Diagrama de Contexto)}}{20}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Diagrama de Flujo de Datos: Nivel 1 (Procesos Principales y Almacenes D1--D5)}}{21}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Diagrama de Flujo de Datos: Nivel 2 (Descomposición del Proceso de Ventas 3.0)}}{21}{figure.4.9}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagrama de Secuencia DS-01: Autenticación JWT y Bloqueo al 3er Intento}}{23}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagrama de Secuencia DS-02: Registro de Prenda Base y Variantes por SKU}}{24}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagrama de Secuencia DS-03: Transacción Atómica de Venta en Terminal POS}}{25}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Diagrama de Secuencia DS-04: Ajuste de Inventario Físico y Movimiento de Kardex}}{25}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Diagrama de Secuencia DS-05: Generación y Exportación de Reportes de Ventas}}{26}{figure.5.5}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagrama de Cuatro Capas Concéntricas de Clean Architecture en SYSELL Web}}{27}{figure.6.1}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Segregación Operativa de Comandos y Consultas con el Patrón CQRS}}{28}{figure.6.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagrama de Clusters Relacionales e Integridad Referencial (MySQL 8.0 en 3FN)}}{30}{figure.7.1}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagrama Entidad-Relación Físico Completo del Sistema SYSELL (17 Tablas en MySQL 8.0, 3FN)}}{32}{figure.7.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Pirámide de Pruebas y Aseguramiento de Calidad en SYSELL Web (IEEE 829 / ISTQB)}}{34}{figure.8.1}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Cadencia y Distribución de Esfuerzo en Story Points a lo Largo de los 4 Sprints}}{39}{figure.9.1}%
+\contentsline {figure}{\numberline {9.2}{\ignorespaces Transición Estructural de la EDT del Proyecto}}{40}{figure.9.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Flujo de Verificación Automatizada en GitHub Actions}}{43}{figure.10.1}%

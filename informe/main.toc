@@ -1,0 +1,87 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\numberline {1}Contexto, Diagnóstico del Sistema Heredado y Objetivos}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Información del Cliente Comercial y Problemática}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Diagnóstico del Negocio}{1}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}Diagnóstico Crítico del Sistema Heredado (Análisis de Sistemas v1.0)}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Matriz de Transformación Integral: Análisis de Sistemas $\rightarrow $ v2.0}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Objetivos del Proyecto}{3}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Objetivo General}{3}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Objetivos Específicos}{4}{subsection.1.4.2}%
+\contentsline {chapter}{\numberline {2}Marco Metodológico, SWEBOK v4 y Gobierno del Equipo}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Selección y Justificación del Ciclo de Vida: Enfoque Híbrido RUP + Scrum}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Justificación Técnica del Modelo Híbrido}{5}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Mapeo Formal a las Áreas de Conocimiento de SWEBOK v4}{5}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Acuerdos de Trabajo del Equipo (Working Agreement) y Roles}{6}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Criterios de Calidad: Definition of Ready (DoR) y Definition of Done (DoD)}{7}{subsection.2.3.1}%
+\contentsline {chapter}{\numberline {3}Ingeniería de Requisitos (ISO/IEC/IEEE 29148) y Trazabilidad}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Proceso de Transformación desde los Requisitos de Análisis de Sistemas}{8}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Necesidades del Negocio y del Usuario}{8}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Catálogo Oficial de 77 Requisitos Funcionales (RF-01 a RF-77)}{9}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Módulo 1: Autenticación y Seguridad (15 RFs)}{9}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Módulo 2: Gestión de Inventario (28 RFs)}{10}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Módulo 3: Registro y Gestión de Ventas POS (17 RFs)}{10}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Módulo 4: Reportes y Análisis Estratégico (11 RFs)}{10}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Módulo 5: Catálogo Digital Web Público (6 RFs)}{10}{subsection.3.3.5}%
+\contentsline {section}{\numberline {3.4}Requisitos No Funcionales (ISO/IEC 25010)}{11}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Matriz de Trazabilidad Integral de 7 Columnas}{11}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}M\'odulo 1: Autenticaci\'on y Seguridad}{12}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}M\'odulo 2: Gesti\'on de Inventario}{13}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}M\'odulo 3: Registro y Gesti\'on de Ventas POS}{14}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}M\'odulo 4: Reportes y An\'alisis Estrat\'egico}{15}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}M\'odulo 5: Cat\'alogo Digital Web P\'ublico}{15}{subsection.3.5.5}%
+\contentsline {chapter}{\numberline {4}Modelado Funcional y Procesos del Negocio (UML y DFD)}{16}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Modelado de Casos de Uso del Sistema (UML 2.5)}{16}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Diagrama General de Casos de Uso}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Diagramas de Casos de Uso por Módulo Funcional}{18}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Diagramas de Flujo de Datos (DFD) Balanceados}{20}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}DFD Nivel 0: Diagrama de Contexto}{20}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}DFD Nivel 1: Procesos Principales del Sistema}{20}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}DFD Nivel 2: Descomposición del Proceso de Ventas (P 3.0)}{21}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Diccionario de Almacenes de Datos Normalizados (D1 a D5)}{21}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Diseño Dinámico e Interacción Técnica (PlantUML)}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Estándar de Modelado Dinámico en PlantUML}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Catálogo de los 5 Diagramas de Secuencia Técnicos}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Análisis de Flujos Transaccionales Críticos con Evidencia Gráfica}{23}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Autenticación y Bloqueo Preventivo (DS-01)}{23}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Registro de Prendas y Desglose de Variantes (DS-02)}{23}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Transacción Atómica de Venta POS (DS-03)}{24}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Ajuste Manual de Existencias en Kardex (DS-04)}{25}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Generación y Exportación de Reportes Gerenciales (DS-05)}{25}{subsection.5.3.5}%
+\contentsline {chapter}{\numberline {6}Arquitectura del Software (Clean Architecture + CQRS + OWASP)}{27}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Patrón Arquitectónico: Clean Architecture en 4 Capas}{27}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Descripción de Responsabilidades por Capa}{27}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Patrón CQRS (Command Query Responsibility Segregation)}{28}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Seguridad Web (OWASP Top 10) y Autenticación Híbrida}{28}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Estrategia Dual de Autenticación con Laravel Sanctum}{29}{subsection.6.3.1}%
+\contentsline {chapter}{\numberline {7}Modelo de Datos Relacional (MySQL 8.0 en 3FN) e Infraestructura}{30}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Diseño Conceptual y Normalización en Tercera Forma Normal (3FN)}{30}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Catálogo y Estructura de las 17 Tablas del Sistema}{30}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Reglas de Integridad Referencial y Restricciones Transaccionales}{31}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Diagrama Entidad-Relación (ERD) Físico Completo}{32}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Scripts SQL Ejecutables y Datos Semilla}{32}{section.7.5}%
+\contentsline {chapter}{\numberline {8}Aseguramiento de Calidad y Pruebas del Software}{34}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Estrategia de Calidad y Marco Normativo IEEE 829 / ISTQB}{34}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Estructura Estándar de los Casos de Prueba}{34}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Distribución Modular de los Casos de Prueba}{35}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Especificación de Casos de Prueba Críticos por Módulo}{35}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}Módulo 1: Autenticación y Control de Acceso (CP-01 a CP-14, CP-73)}{36}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}Módulo 2: Gestión de Inventario Multi-Tienda (CP-15 a CP-39, CP-74, CP-75, CP-77)}{36}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}Módulo 3: Punto de Venta y Transacciones POS (CP-40 a CP-55, CP-76)}{37}{subsection.8.4.3}%
+\contentsline {section}{\numberline {8.5}Pruebas de Seguridad y Resiliencia (OWASP)}{37}{section.8.5}%
+\contentsline {chapter}{\numberline {9}Gestión Ágil del Proyecto: Sprints, Backlog y EDT / WBS}{38}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Estructura del Product Backlog e Historias de Usuario}{38}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Criterios de Preparación (DoR) y Criterios de Finalización (DoD)}{38}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Definition of Ready (DoR - Criterio de Preparación)}{38}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Definition of Done (DoD - Criterio de Terminado)}{39}{subsection.9.2.2}%
+\contentsline {section}{\numberline {9.3}Planificación y Ejecución de los 4 Sprints}{39}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Sprint 1: Fundaciones, Seguridad y Modelo de Dominio (24 SP)}{39}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}Sprint 2: Gestión de Inventario Multi-Tienda y Traslados (26 SP)}{39}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Sprint 3: Punto de Venta (POS), Caja y Facturación (24 SP)}{40}{subsection.9.3.3}%
+\contentsline {subsection}{\numberline {9.3.4}Sprint 4: Analítica Gerencial, Catálogo Web y Despliegue CI/CD (20 SP)}{40}{subsection.9.3.4}%
+\contentsline {section}{\numberline {9.4}Análisis Comparativo y Optimización de la EDT / WBS}{40}{section.9.4}%
+\contentsline {chapter}{\numberline {10}DevOps, Infraestructura, Ética en IA y Conclusiones}{42}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Infraestructura como Código y Contenedorización con Docker}{42}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}Topología de Servicios Contenedorizados}{42}{subsection.10.1.1}%
+\contentsline {section}{\numberline {10.2}Pipeline de Integración Continua (CI) en GitHub Actions}{42}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Conclusiones Generales del Proyecto}{43}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Hoja de Ruta Futura (Roadmap)}{44}{section.10.4}%

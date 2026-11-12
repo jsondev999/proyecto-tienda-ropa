@@ -9,8 +9,8 @@ A diferencia de los diagramas conceptuales abstractos, los diagramas de secuenci
     \item \textbf{Capa de Dominio y Persistencia:} Entidades de negocio y Repositorios que interactúan con MySQL 8.0 bajo transacciones ACID.
 \end{enumerate}
 
-\section{Catálogo de los 8 Diagramas de Secuencia Técnicos}
-Se diseñaron 8 diagramas de secuencia que cubren la totalidad de los flujos críticos del sistema:
+\section{Catálogo de los 5 Diagramas de Secuencia Técnicos}
+Se diseñaron 5 diagramas de secuencia que cubren la totalidad de los flujos críticos del sistema:
 
 \begin{table}[H]
 \centering
@@ -28,12 +28,6 @@ DS-03 & Transacción de Venta POS & CU-08, CU-09 & Validación de stock, liquida
 DS-04 & Ajuste de Stock en Kardex & CU-06 & Asiento manual por el Administrador con justificación obligatoria y recálculo de saldo. \\
 \addlinespace
 DS-05 & Reporte y Exportación de Ventas & CU-13, CU-14 & Consultas agregadas con filtros multicriterio y compilación en PDF/Excel. \\
-\addlinespace
-DS-06 & Gestión y Desbloqueo de Usuarios & CU-02 & CRUD de colaboradores, cambio de local, reseteo de clave y reinicio de intentos a 0. \\
-\addlinespace
-DS-07 & Catálogo Digital Web Público & CU-15 & Consulta pública sin autenticación, filtros AND y stock referencial por tienda física. \\
-\addlinespace
-DS-08 & Anulación de Venta Comercial & CU-12 & Validación de clave de Admin, cambio de estado y restitución atómica de existencias. \\
 \bottomrule
 \end{tabularx}
 \caption{Suite de Diagramas de Secuencia Técnicos formalizados en SYSELL Web}
@@ -112,5 +106,4 @@ Las consultas analíticas leen vistas optimizadas agregando ventas por sucursal,
 \label{fig:ds_05}
 \end{figure}
 
-\subsection{Anulación Supervisada de Venta (DS-08)}
-La anulación es un privilegio exclusivo del Administrador (\texttt{RF-53}). Requiere reautenticación con contraseña y un motivo formal. El servicio verifica que la venta no esté previamente anulada, actualiza el estado a \texttt{'ANULADA'}, reincorpora las unidades vendidas al stock del local correspondiente e inserta un registro inmutable en la tabla \texttt{auditoria}.
+
